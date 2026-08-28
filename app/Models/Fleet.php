@@ -6,6 +6,7 @@ use Database\Factories\FleetFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'brand',
@@ -37,5 +38,13 @@ class Fleet extends Model
             'price' => 'integer',
             'seat_capacity' => 'integer',
         ];
+    }
+
+    /**
+     * Get the rentals for the fleet car.
+     */
+    public function rentals(): HasMany
+    {
+        return $this->hasMany(Rental::class);
     }
 }
