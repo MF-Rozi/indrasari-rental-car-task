@@ -55,6 +55,16 @@ test('fleet detail page loads with vehicle specs and live pricing calculator', f
     $response->assertSee('Pesan Mobil Ini Sekarang', false);
 });
 
+test('admin executive dashboard loads with revenue, utilization and live rentals monitor', function () {
+    $response = $this->get('/admin');
+
+    $response->assertStatus(200);
+    $response->assertSee('Pusat Kontrol Rental Indrasari', false);
+    $response->assertSee('Pendapatan Bulan Ini', false);
+    $response->assertSee('Monitoring Unit Sedang Disewa', false);
+    $response->assertSee('Antrean Verifikasi SIM A', false);
+});
+
 test('admin cars index loads with metric badges and vehicle table', function () {
     $response = $this->get('/admin/cars');
 

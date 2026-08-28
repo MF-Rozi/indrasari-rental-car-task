@@ -44,7 +44,7 @@
     <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0 transition-colors duration-300">
         <!-- Brand Header -->
         <div class="h-18 px-6 flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50">
-            <a href="{{ url('/') }}" class="flex items-center gap-3 group">
+            <a href="{{ url('/admin') }}" class="flex items-center gap-3 group">
                 <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
                     <span class="material-symbols-outlined text-xl">directions_car</span>
                 </div>
@@ -68,10 +68,19 @@
         <!-- Sidebar Menu Links -->
         <div class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
             <div class="px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
+                Ringkasan & Kontrol
+            </div>
+
+            <a href="{{ url('/admin') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin') || request()->is('admin/dashboard') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                <span>Dashboard Utama</span>
+            </a>
+
+            <div class="pt-3 px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
                 Manajemen Sistem
             </div>
 
-            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars*') && !request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
                 <span class="material-symbols-outlined text-[20px]">directions_car</span>
                 <span>Kelola Mobil (Armada)</span>
             </a>
@@ -131,7 +140,7 @@
         <header class="h-18 bg-white dark:bg-surface-dark border-b border-outline-variant/60 dark:border-outline-dark/60 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300">
             <div class="flex items-center gap-3">
                 <h1 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">
-                    @yield('header_title', 'Kelola Armada Mobil')
+                    @yield('header_title', 'Dashboard Operasional Pusat')
                 </h1>
             </div>
 
