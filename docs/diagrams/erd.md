@@ -95,5 +95,14 @@ Menyimpan data transaksi pemesanan (*booking*) dan pengembalian (*return*):
   - `pending_return`: Pengajuan pengembalian diajukan oleh customer, menunggu inspeksi admin.
   - `completed`: Pengembalian selesai dan transaksi lunas.
   - `cancelled`: Transaksi dibatalkan.
-- **Kalkulasi Biaya**:
-  - $\text{Total Biaya Selesai} = \text{total\_price} + \text{penalty\_price}$
+- **Aturan Kalkulasi Durasi & Biaya Selesai**:
+  1. **Durasi Hari Sewa (Inklusif)**:
+     $$\text{total\_days} = (\text{end\_date} - \text{start\_date}) + 1\text{ Hari}$$
+  2. **Biaya Pokok Sewa**:
+     $$\text{total\_price} = \text{daily\_rate} \times \text{total\_days}$$
+  3. **Hari Keterlambatan Pengembalian**:
+     $$\text{late\_days} = \max(0, \text{return\_date} - \text{end\_date})$$
+  4. **Denda Keterlambatan**:
+     $$\text{penalty\_price} = \text{late\_days} \times \text{penalty\_rate\_per\_day}$$
+  5. **Total Akhir Pelunasan (Grand Total)**:
+     $$\text{Grand Total} = \text{total\_price} + \text{penalty\_price} = (\text{daily\_rate} \times \text{total\_days}) + \text{penalty\_price}$$
