@@ -71,11 +71,11 @@
 - Pengguna mengajukan pengembalian mobil sewaan dengan memasukkan nomor plat kendaraan atau memilih dari daftar sewa aktif di dashboard/booking page.
 - Sistem memverifikasi bahwa nomor plat tersebut benar-benar sedang aktif disewa oleh pengguna yang bersangkutan.
 - Sistem menghitung durasi sewa hari kalender inklusif:
-  $$\text{Durasi Hari} = (\text{Tanggal Selesai} - \text{Tanggal Mulai}) + 1\text{ Hari}$$
+  `Durasi Hari = (Tanggal Selesai - Tanggal Mulai) + 1 Hari`
 - Sistem menghitung denda keterlambatan secara otomatis jika tanggal pengembalian melebihi tanggal selesai sewa:
-  $$\text{Denda} = \text{Hari Keterlambatan} \times \text{Tarif Denda per Hari}$$
+  `Denda = Hari Keterlambatan * Tarif Denda per Hari`
 - Sistem menghitung total biaya yang wajib dibayar saat serah terima pengembalian:
-  $$\text{Total Biaya} = (\text{Tarif Harian} \times \text{Durasi Hari}) + \text{Denda}$$
+  `Total Biaya = (Tarif Harian * Durasi Hari) + Denda`
 - Setelah pengguna mengonfirmasi pengajuan pengembalian, status transaksi berubah menjadi `PENDING_RETURN` hingga diverifikasi oleh Admin.
 
 ### Logout
