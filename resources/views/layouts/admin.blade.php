@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Admin Panel - Indrasari Rental Car')</title>
+    
+    <!-- Material Symbols Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Theme Script to Prevent FOUC -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+        }
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+    </script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
+</head>
+<body class="bg-background dark:bg-background-dark text-on-surface dark:text-on-surface-dark font-sans antialiased min-h-screen flex flex-col md:flex-row transition-colors duration-200">
+    
+    <!-- Admin Sidebar Navigation -->
+    <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0">
+        <!-- Brand Header -->
+        <div class="h-18 px-6 flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50">
+            <a href="{{ url('/') }}" class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+                    <span class="material-symbols-outlined text-xl">directions_car</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-base leading-tight tracking-tight text-on-surface dark:text-on-surface-dark">INDRASARI</span>
+                    <span class="text-[10px] font-semibold tracking-wider text-primary dark:text-inverse-primary uppercase">ADMIN OPERASIONAL</span>
+                </div>
+            </a>
+            <button type="button" onclick="toggleTheme()" class="md:hidden p-2 text-text-muted dark:text-text-muted-dark">
+                <span class="material-symbols-outlined text-xl dark:hidden">dark_mode</span>
+                <span class="material-symbols-outlined text-xl hidden dark:block">light_mode</span>
+            </button>
+        </div>
+
+        <!-- Sidebar Menu Links -->
+        <div class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+            <div class="px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
+                Manajemen Sistem
+            </div>
+
+            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->is('admin/cars*') ? 'bg-primary text-white shadow-sm shadow-primary/20' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+                <span class="material-symbols-outlined text-[20px]">directions_car</span>
+                <span>Kelola Mobil (Armada)</span>
+            </a>
+
+            <a href="{{ url('/admin/cars/create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+                <span class="material-symbols-outlined text-[20px]">add_circle</span>
+                <span>Tambah Mobil Baru</span>
+            </a>
+
+            <div class="pt-4 px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
+                Operasional Rental
+            </div>
+
+            <a href="{{ url('/fleet') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                <span class="material-symbols-outlined text-[20px]">grid_view</span>
+                <span>Lihat Katalog Publik</span>
+            </a>
+
+            <a href="{{ url('/') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                <span class="material-symbols-outlined text-[20px]">home</span>
+                <span>Halaman Depan</span>
+            </a>
+        </div>
+
+        <!-- Admin Profile Footer in Sidebar -->
+        <div class="p-4 border-t border-outline-variant/50 dark:border-outline-dark/50 bg-surface dark:bg-surface-dark/50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-[#1e2f47] flex items-center justify-center font-bold text-primary dark:text-inverse-primary">
+                    AD
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-semibold text-sm truncate text-on-surface dark:text-on-surface-dark">Admin Indrasari</span>
+                    <span class="text-xs text-text-muted dark:text-text-muted-dark truncate">admin@indrasari.co.id</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area with Top Header -->
+    <div class="flex-1 flex flex-col min-w-0">
+        <!-- Admin Topbar -->
+        <header class="h-18 bg-white dark:bg-surface-dark border-b border-outline-variant/60 dark:border-outline-dark/60 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30">
+            <div class="flex items-center gap-3">
+                <h1 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">
+                    @yield('header_title', 'Kelola Armada Mobil')
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle Button -->
+                <button type="button" onclick="toggleTheme()" class="p-2.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer" title="Ganti Tema">
+                    <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+                </button>
+
+                <a href="{{ url('/auth') }}" class="px-3.5 py-1.5 text-xs font-semibold text-text-muted dark:text-text-muted-dark border border-slate-300 dark:border-slate-700 rounded-lg hover:border-red-500 hover:text-red-600 transition-colors">
+                    Keluar
+                </a>
+            </div>
+        </header>
+
+        <!-- Dynamic Admin Content Canvas -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+            @yield('content')
+        </main>
+    </div>
+
+    @stack('scripts')
+</body>
+</html>
