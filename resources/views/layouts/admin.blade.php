@@ -86,18 +86,23 @@
                 <span>Transaksi & Pengembalian</span>
             </a>
 
+            <a href="{{ url('/admin/users') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/users*') ? 'bg-primary text-white shadow-sm font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+                <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+                <span>Kelola Pengguna (SIM A)</span>
+            </a>
+
             <div class="pt-4 px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
                 Operasional Rental
             </div>
 
+            <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
+                <span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+                <span>Dashboard Pelanggan</span>
+            </a>
+
             <a href="{{ url('/fleet') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
                 <span class="material-symbols-outlined text-[20px]">grid_view</span>
                 <span>Lihat Katalog Publik</span>
-            </a>
-
-            <a href="{{ url('/rentals') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
-                <span class="material-symbols-outlined text-[20px]">key</span>
-                <span>Lihat Sewa Pelanggan</span>
             </a>
 
             <a href="{{ url('/') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">

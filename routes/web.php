@@ -2,10 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Public & Customer Routes
+/*
+|--------------------------------------------------------------------------
+| 1. Guest / Public Routes (Accessible without login)
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/fleet', function () {
+    return view('fleet.index');
+})->name('fleet.index');
+
+Route::get('/fleet/{id}', function ($id) {
+    return view('fleet.show', ['carId' => $id]);
+})->name('fleet.show');
 
 Route::get('/auth', function () {
     return view('auth.auth');
@@ -19,27 +31,36 @@ Route::get('/register', function () {
     return redirect()->route('auth', ['tab' => 'register']);
 })->name('register');
 
-Route::get('/fleet', function () {
-    return view('fleet.index');
-})->name('fleet.index');
+/*
+|--------------------------------------------------------------------------
+| 2. Customer Routes (Accessible by logged-in customers)
+|--------------------------------------------------------------------------
+*/
+// TODO: Wrap with ->middleware('auth') once authentication backend is connected
+Route::group([], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard');
 
-Route::get('/fleet/{id}', function ($id) {
-    return view('fleet.show', ['carId' => $id]);
-})->name('fleet.show');
+    Route::get('/rentals', function () {
+        return view('rentals.index');
+    })->name('rentals.index');
 
-Route::get('/rentals', function () {
-    return view('rentals.index');
-})->name('rentals.index');
+    Route::get('/returns', function () {
+        return view('returns.index');
+    })->name('returns.index');
 
-Route::get('/returns', function () {
-    return view('returns.index');
-})->name('returns.index');
+    Route::get('/profile', function () {
+        return view('profile.index');
+    })->name('profile.index');
+});
 
-Route::get('/profile', function () {
-    return view('profile.index');
-})->name('profile.index');
-
-// Admin Management Routes
+/*
+|--------------------------------------------------------------------------
+| 3. Admin Routes (Accessible by administrators)
+|--------------------------------------------------------------------------
+*/
+// TODO: Wrap with ->middleware(['auth', 'admin']) once role authorization is connected
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return redirect()->route('admin.cars.index');
@@ -60,4 +81,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/rentals', function () {
         return view('admin.rentals.index');
     })->name('rentals.index');
+
+    Route::get('/users', function () {
+        return view('admin.users.index');
+    })->name('users.index');
 });

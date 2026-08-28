@@ -26,6 +26,16 @@ test('login and register routes redirect to auth page with tab parameters', func
     $registerResponse->assertRedirect(route('auth', ['tab' => 'register']));
 });
 
+test('dedicated customer dashboard loads with active booking and stats', function () {
+    $response = $this->get('/dashboard');
+
+    $response->assertStatus(200);
+    $response->assertSee('Selamat Datang, Budi Santoso', false);
+    $response->assertSee('Sewa Aktif Saat Ini', false);
+    $response->assertSee('B 2419 IND', false);
+    $response->assertSee('Kembalikan Unit Ini', false);
+});
+
 test('fleet catalog loads with filters and car list', function () {
     $response = $this->get('/fleet');
 
@@ -100,4 +110,14 @@ test('admin rentals management loads with metrics and transaction table', functi
     $response->assertSee('IND-BK-0091', false);
     $response->assertSee('Sedang Disewa', false);
     $response->assertSee('Verifikasi Kembali', false);
+});
+
+test('admin users management loads with metrics and customer SIM list', function () {
+    $response = $this->get('/admin/users');
+
+    $response->assertStatus(200);
+    $response->assertSee('Kelola Pengguna', false);
+    $response->assertSee('SIM A Terverifikasi', false);
+    $response->assertSee('Budi Santoso', false);
+    $response->assertSee('1234-5678-9012', false);
 });

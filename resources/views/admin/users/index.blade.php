@@ -220,15 +220,15 @@
 </div>
 
 <!-- User Detail Modal -->
-<div id="userModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div class="bg-white dark:bg-surface-dark rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 relative max-h-[90vh] overflow-y-auto">
+<div id="userModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-[#112038] rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-6 relative max-h-[90vh] overflow-y-auto">
         
-        <button type="button" onclick="closeUserModal()" class="absolute top-5 right-5 p-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer">
+        <button type="button" onclick="closeUserModal()" class="absolute top-5 right-5 p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-on-surface dark:hover:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors cursor-pointer">
             <span class="material-symbols-outlined text-xl">close</span>
         </button>
 
         <div class="flex items-center gap-4 border-b border-outline-variant/60 dark:border-outline-dark/60 pb-5">
-            <div id="modalAvatar" class="w-14 h-14 rounded-2xl bg-primary text-white text-xl font-bold flex items-center justify-center shrink-0">
+            <div id="modalAvatar" class="w-14 h-14 rounded-2xl bg-primary text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-md shadow-primary/20">
                 BS
             </div>
             <div class="space-y-0.5">
@@ -245,18 +245,18 @@
         </div>
 
         <div class="space-y-3 text-xs">
-            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                <span class="text-text-muted dark:text-text-muted-dark block">Nomor WhatsApp / HP:</span>
+            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-[#182a46] border border-outline-variant/40 dark:border-outline-dark/40 space-y-1">
+                <span class="text-text-muted dark:text-text-muted-dark block font-semibold">Nomor WhatsApp / HP:</span>
                 <strong id="modalPhone" class="font-mono text-sm text-on-surface dark:text-on-surface-dark block">0812-3456-7890</strong>
             </div>
 
-            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                <span class="text-text-muted dark:text-text-muted-dark block">Nomor SIM A (Legalitas Mengemudi):</span>
+            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-[#182a46] border border-outline-variant/40 dark:border-outline-dark/40 space-y-1">
+                <span class="text-text-muted dark:text-text-muted-dark block font-semibold">Nomor SIM A (Legalitas Mengemudi):</span>
                 <strong id="modalSIM" class="font-mono text-sm text-primary dark:text-inverse-primary block">1234-5678-9012</strong>
             </div>
 
-            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                <span class="text-text-muted dark:text-text-muted-dark block">Alamat Domisili:</span>
+            <div class="p-3.5 rounded-xl bg-surface-container dark:bg-[#182a46] border border-outline-variant/40 dark:border-outline-dark/40 space-y-1">
+                <span class="text-text-muted dark:text-text-muted-dark block font-semibold">Alamat Domisili:</span>
                 <p id="modalAddress" class="text-on-surface dark:text-on-surface-dark leading-relaxed">
                     Jl. Kemang Raya No. 45, Jakarta Selatan
                 </p>
@@ -264,10 +264,10 @@
         </div>
 
         <div class="pt-4 border-t border-outline-variant/50 dark:border-outline-dark/50 flex items-center justify-end gap-3">
-            <button type="button" onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors">
+            <button type="button" onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                 Tutup
             </button>
-            <button type="button" onclick="alert('Demo UI: Status verifikasi pengguna berhasil diperbarui!'); closeUserModal();" class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
+            <button type="button" onclick="alert('Demo UI: Status verifikasi pengguna berhasil diperbarui!'); closeUserModal();" class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all cursor-pointer">
                 Simpan Verifikasi
             </button>
         </div>

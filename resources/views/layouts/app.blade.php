@@ -55,23 +55,26 @@
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden md:flex items-center gap-1.5 lg:gap-2">
-                <a href="{{ url('/') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('/') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+            <nav class="hidden md:flex items-center gap-1 lg:gap-1.5">
+                <a href="{{ url('/') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('/') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Beranda
                 </a>
-                <a href="{{ url('/fleet') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('fleet*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                <a href="{{ url('/dashboard') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('dashboard*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                    Dashboard
+                </a>
+                <a href="{{ url('/fleet') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('fleet*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Armada Mobil
                 </a>
-                <a href="{{ url('/rentals') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('rentals*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                <a href="{{ url('/rentals') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('rentals*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Sewa Saya
                 </a>
-                <a href="{{ url('/returns') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('returns*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                <a href="{{ url('/returns') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('returns*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Pengembalian
                 </a>
-                <a href="{{ url('/admin/cars') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60">
+                <a href="{{ url('/admin/cars') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60">
                     <span class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
-                        Panel Admin
+                        <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+                        Admin
                     </span>
                 </a>
             </nav>
@@ -101,7 +104,7 @@
                         Masuk
                     </a>
                     <a href="{{ url('/auth?tab=register') }}" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-primary hover:bg-primary-hover text-white shadow-sm shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0">
-                        Daftar Akun
+                        Daftar
                     </a>
                 </div>
 
@@ -116,6 +119,9 @@
         <div id="mobileMenu" class="hidden md:hidden border-t border-outline-variant/60 dark:border-outline-dark/60 bg-surface dark:bg-surface-dark px-4 pt-3 pb-5 space-y-2">
             <a href="{{ url('/') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                 Beranda
+            </a>
+            <a href="{{ url('/dashboard') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                Dashboard Pelanggan
             </a>
             <a href="{{ url('/fleet') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                 Armada Mobil
@@ -174,10 +180,10 @@
                     <h3 class="font-semibold text-sm text-on-surface dark:text-on-surface-dark uppercase tracking-wider mb-4">Navigasi Cepat</h3>
                     <ul class="space-y-2.5 text-sm text-text-muted dark:text-text-muted-dark">
                         <li><a href="{{ url('/') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Beranda</a></li>
+                        <li><a href="{{ url('/dashboard') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Dashboard Pelanggan</a></li>
                         <li><a href="{{ url('/fleet') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Cari Armada Mobil</a></li>
                         <li><a href="{{ url('/rentals') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Sewa Saya</a></li>
                         <li><a href="{{ url('/returns') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Pengembalian Mobil</a></li>
-                        <li><a href="{{ url('/profile') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Profil Pengguna</a></li>
                     </ul>
                 </div>
 
