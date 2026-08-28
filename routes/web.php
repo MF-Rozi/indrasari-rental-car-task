@@ -2,35 +2,49 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Customer Landing Page
+// Public & Customer Routes
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-// Auth (Login & Register Split-Screen)
 Route::get('/auth', function () {
     return view('auth.auth');
 })->name('auth');
 
 Route::get('/login', function () {
-    return view('auth.auth');
+    return redirect()->route('auth', ['tab' => 'signin']);
 })->name('login');
 
 Route::get('/register', function () {
-    return view('auth.auth');
+    return redirect()->route('auth', ['tab' => 'register']);
 })->name('register');
 
-// Customer Fleet Catalog & Details
 Route::get('/fleet', function () {
     return view('fleet.index');
 })->name('fleet.index');
 
-Route::get('/fleet/{id}', function ($id = 1) {
-    return view('fleet.show', ['id' => $id]);
+Route::get('/fleet/{id}', function ($id) {
+    return view('fleet.show', ['carId' => $id]);
 })->name('fleet.show');
 
-// Admin Fleet Management
+Route::get('/rentals', function () {
+    return view('rentals.index');
+})->name('rentals.index');
+
+Route::get('/returns', function () {
+    return view('returns.index');
+})->name('returns.index');
+
+Route::get('/profile', function () {
+    return view('profile.index');
+})->name('profile.index');
+
+// Admin Management Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.cars.index');
+    })->name('dashboard');
+
     Route::get('/cars', function () {
         return view('admin.cars.index');
     })->name('cars.index');
@@ -38,4 +52,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/cars/create', function () {
         return view('admin.cars.create-edit');
     })->name('cars.create');
+
+    Route::get('/cars/{id}/edit', function ($id) {
+        return view('admin.cars.create-edit', ['carId' => $id]);
+    })->name('cars.edit');
+
+    Route::get('/rentals', function () {
+        return view('admin.rentals.index');
+    })->name('rentals.index');
 });

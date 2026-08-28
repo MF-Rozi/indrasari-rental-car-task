@@ -62,6 +62,12 @@
                 <a href="{{ url('/fleet') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('fleet*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Armada Mobil
                 </a>
+                <a href="{{ url('/rentals') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('rentals*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                    Sewa Saya
+                </a>
+                <a href="{{ url('/returns') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('returns*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                    Pengembalian
+                </a>
                 <a href="{{ url('/admin/cars') }}" class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60">
                     <span class="flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
@@ -74,23 +80,27 @@
             <div class="flex items-center gap-2.5 sm:gap-3">
                 
                 <!-- Animated Smooth Theme Switcher Button -->
-                <button type="button" onclick="toggleTheme()" class="relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group" title="Ganti Tema (Terang / Gelap)" aria-label="Ganti Tema">
-                    <!-- Sun Icon (Active in Light Mode) -->
+                <button type="button" onclick="toggleTheme()" class="relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group shadow-xs" title="Ganti Tema (Terang / Gelap)" aria-label="Ganti Tema">
+                    <!-- Sun Icon -->
                     <span class="material-symbols-outlined text-[20px] text-amber-500 transition-all duration-300 ease-in-out transform rotate-0 scale-100 opacity-100 dark:-rotate-90 dark:scale-0 dark:opacity-0 absolute">
                         light_mode
                     </span>
-                    <!-- Moon Icon (Active in Dark Mode) -->
+                    <!-- Moon Icon -->
                     <span class="material-symbols-outlined text-[20px] text-blue-400 transition-all duration-300 ease-in-out transform rotate-90 scale-0 opacity-0 dark:rotate-0 dark:scale-100 dark:opacity-100 absolute">
                         dark_mode
                     </span>
                 </button>
 
-                <!-- Auth Buttons -->
+                <!-- Profile & Auth Actions -->
                 <div class="hidden sm:flex items-center gap-2">
-                    <a href="{{ url('/auth?tab=signin') }}" class="px-4 py-2 text-sm font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 rounded-lg transition-colors duration-200">
+                    <a href="{{ url('/profile') }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                        <span class="w-6 h-6 rounded-full bg-primary/20 text-primary dark:text-inverse-primary flex items-center justify-center text-xs font-bold">BS</span>
+                        <span>Profil</span>
+                    </a>
+                    <a href="{{ url('/auth?tab=signin') }}" class="px-3.5 py-2 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 rounded-lg transition-colors">
                         Masuk
                     </a>
-                    <a href="{{ url('/auth?tab=register') }}" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary hover:bg-primary-hover text-white shadow-sm shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0">
+                    <a href="{{ url('/auth?tab=register') }}" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-primary hover:bg-primary-hover text-white shadow-sm shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0">
                         Daftar Akun
                     </a>
                 </div>
@@ -110,8 +120,17 @@
             <a href="{{ url('/fleet') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                 Armada Mobil
             </a>
+            <a href="{{ url('/rentals') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                Sewa Saya (Aktivitas)
+            </a>
+            <a href="{{ url('/returns') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                Pengembalian Mobil
+            </a>
+            <a href="{{ url('/profile') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                Profil & SIM A Saya
+            </a>
             <a href="{{ url('/admin/cars') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors">
-                Panel Admin Mobil
+                Panel Admin
             </a>
             <div class="pt-3 border-t border-outline-variant/40 dark:border-outline-dark/40 flex flex-col gap-2">
                 <a href="{{ url('/auth?tab=signin') }}" class="w-full text-center py-2.5 text-sm font-semibold border border-slate-300 dark:border-slate-700 text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary rounded-lg transition-colors">
@@ -156,8 +175,9 @@
                     <ul class="space-y-2.5 text-sm text-text-muted dark:text-text-muted-dark">
                         <li><a href="{{ url('/') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Beranda</a></li>
                         <li><a href="{{ url('/fleet') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Cari Armada Mobil</a></li>
-                        <li><a href="{{ url('/auth?tab=register') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Registrasi Pelanggan</a></li>
-                        <li><a href="{{ url('/admin/cars') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Kelola Mobil (Admin)</a></li>
+                        <li><a href="{{ url('/rentals') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Sewa Saya</a></li>
+                        <li><a href="{{ url('/returns') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Pengembalian Mobil</a></li>
+                        <li><a href="{{ url('/profile') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Profil Pengguna</a></li>
                     </ul>
                 </div>
 

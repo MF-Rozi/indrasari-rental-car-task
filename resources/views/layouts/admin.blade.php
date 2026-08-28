@@ -53,7 +53,7 @@
                     <span class="text-[10px] font-semibold tracking-wider text-primary dark:text-inverse-primary uppercase">ADMIN OPERASIONAL</span>
                 </div>
             </a>
-            <button type="button" onclick="toggleTheme()" class="md:hidden relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group" title="Ganti Tema">
+            <button type="button" onclick="toggleTheme()" class="md:hidden relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group shadow-xs" title="Ganti Tema">
                 <!-- Sun Icon -->
                 <span class="material-symbols-outlined text-[20px] text-amber-500 transition-all duration-300 ease-in-out transform rotate-0 scale-100 opacity-100 dark:-rotate-90 dark:scale-0 dark:opacity-0 absolute">
                     light_mode
@@ -71,7 +71,7 @@
                 Manajemen Sistem
             </div>
 
-            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars*') && !request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
                 <span class="material-symbols-outlined text-[20px]">directions_car</span>
                 <span>Kelola Mobil (Armada)</span>
             </a>
@@ -81,6 +81,11 @@
                 <span>Tambah Mobil Baru</span>
             </a>
 
+            <a href="{{ url('/admin/rentals') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/rentals*') ? 'bg-primary text-white shadow-sm font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+                <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                <span>Transaksi & Pengembalian</span>
+            </a>
+
             <div class="pt-4 px-3 pb-2 text-[11px] font-semibold tracking-wider text-text-muted dark:text-text-muted-dark uppercase">
                 Operasional Rental
             </div>
@@ -88,6 +93,11 @@
             <a href="{{ url('/fleet') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
                 <span class="material-symbols-outlined text-[20px]">grid_view</span>
                 <span>Lihat Katalog Publik</span>
+            </a>
+
+            <a href="{{ url('/rentals') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
+                <span class="material-symbols-outlined text-[20px]">key</span>
+                <span>Lihat Sewa Pelanggan</span>
             </a>
 
             <a href="{{ url('/') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
@@ -123,11 +133,11 @@
             <div class="flex items-center gap-3">
                 <!-- Animated Smooth Theme Switcher Button -->
                 <button type="button" onclick="toggleTheme()" class="relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group shadow-xs" title="Ganti Tema (Terang / Gelap)" aria-label="Ganti Tema">
-                    <!-- Sun Icon (Active in Light Mode) -->
+                    <!-- Sun Icon -->
                     <span class="material-symbols-outlined text-[20px] text-amber-500 transition-all duration-300 ease-in-out transform rotate-0 scale-100 opacity-100 dark:-rotate-90 dark:scale-0 dark:opacity-0 absolute">
                         light_mode
                     </span>
-                    <!-- Moon Icon (Active in Dark Mode) -->
+                    <!-- Moon Icon -->
                     <span class="material-symbols-outlined text-[20px] text-blue-400 transition-all duration-300 ease-in-out transform rotate-90 scale-0 opacity-0 dark:rotate-0 dark:scale-100 dark:opacity-100 absolute">
                         dark_mode
                     </span>
