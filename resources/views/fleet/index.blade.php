@@ -41,7 +41,7 @@
             <div class="bg-white dark:bg-surface-dark rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 space-y-6">
                 <div class="flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50 pb-4">
                     <h3 class="font-bold text-base text-on-surface dark:text-on-surface-dark flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[20px] text-primary">tune</span>
+                        <span class="material-symbols-outlined text-[20px] text-primary dark:text-inverse-primary">tune</span>
                         <span>Filter Pencarian</span>
                     </h3>
                     <a href="{{ url('/fleet') }}" class="text-xs text-primary dark:text-inverse-primary font-semibold hover:underline">
@@ -60,25 +60,25 @@
                     </div>
                 </div>
 
-                <!-- Category Filter Pills -->
+                <!-- Category Filter Pills with Calibrated Hover Contrast -->
                 <div class="space-y-2">
                     <label class="block text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark">
                         Tipe / Kategori
                     </label>
                     <div class="flex flex-wrap gap-1.5">
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white shadow-sm">
+                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white shadow-sm cursor-pointer">
                             Semua
                         </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 hover:text-primary transition-colors">
+                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                             MPV
                         </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 hover:text-primary transition-colors">
+                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                             SUV
                         </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 hover:text-primary transition-colors">
+                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                             Luxury VIP
                         </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 hover:text-primary transition-colors">
+                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                             Listrik (EV)
                         </button>
                     </div>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="w-full py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
+                <button type="button" class="w-full py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all cursor-pointer">
                     Terapkan Filter
                 </button>
             </div>
@@ -152,7 +152,7 @@
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Innova Zenix" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
@@ -173,15 +173,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>7 Kursi</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">local_gas_station</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
                                 <span>Hybrid</span>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Toyota Alphard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
@@ -223,15 +223,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>6 VIP</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">local_gas_station</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
                                 <span>Bensin</span>
                             </div>
                         </div>
@@ -252,7 +252,7 @@
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Toyota Avanza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
@@ -273,15 +273,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>7 Kursi</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">local_gas_station</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
                                 <span>Bensin</span>
                             </div>
                         </div>
@@ -302,7 +302,7 @@
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80" alt="Mitsubishi Pajero Sport" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
@@ -323,15 +323,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>7 Kursi</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">local_gas_station</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
                                 <span>Diesel</span>
                             </div>
                         </div>
@@ -352,7 +352,7 @@
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="Hyundai Ioniq 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
@@ -373,15 +373,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>5 Kursi</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">bolt</span>
                                 <span>100% Listrik</span>
                             </div>
                         </div>
@@ -397,12 +397,12 @@
                     </div>
                 </div>
 
-                <!-- Car 6: Honda HR-V (Sedang Disewa state demo) -->
+                <!-- Car 6: Honda HR-V (Sedang Disewa) -->
                 <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm flex flex-col opacity-90">
                     <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80" alt="Honda HR-V" class="w-full h-full object-cover grayscale-[30%]" />
                         <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                                 Sedang Disewa
                             </span>
@@ -423,15 +423,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">airline_seat_recline_normal</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                                 <span>5 Kursi</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
                                 <span>Matic</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary">local_gas_station</span>
+                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
                                 <span>Bensin</span>
                             </div>
                         </div>
@@ -456,9 +456,9 @@
                 </button>
                 <div class="flex items-center gap-1">
                     <span class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold flex items-center justify-center">1</span>
-                    <span class="w-8 h-8 rounded-lg text-xs font-semibold text-text-muted dark:text-text-muted-dark flex items-center justify-center hover:bg-surface-container cursor-pointer">2</span>
+                    <span class="w-8 h-8 rounded-lg text-xs font-semibold text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark flex items-center justify-center cursor-pointer transition-colors">2</span>
                 </div>
-                <button class="px-4 py-2 text-xs font-semibold border border-slate-300 dark:border-slate-700 rounded-lg text-on-surface dark:text-on-surface-dark hover:bg-surface-container transition-colors">
+                <button class="px-4 py-2 text-xs font-semibold border border-slate-300 dark:border-slate-700 rounded-lg text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
                     Selanjutnya &rarr;
                 </button>
             </div>

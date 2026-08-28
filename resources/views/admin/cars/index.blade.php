@@ -89,7 +89,7 @@
                 <tbody class="divide-y divide-outline-variant/40 dark:divide-outline-dark/40 bg-white dark:bg-surface-dark">
                     
                     <!-- Row 1 -->
-                    <tr class="hover:bg-surface-container/40 dark:hover:bg-surface-container-dark/40 transition-colors">
+                    <tr class="hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 transition-colors">
                         <td class="py-3 px-4 flex items-center gap-3">
                             <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=120&q=80" class="w-12 h-10 object-cover rounded-lg border border-slate-200 dark:border-slate-800" />
                             <div>
@@ -108,17 +108,17 @@
                             Rp 650.000 <span class="text-[10px] text-text-muted dark:text-text-muted-dark font-normal">/ hari</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
                         </td>
                         <td class="py-3 px-4 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{{ url('/fleet/1') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Lihat">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ url('/fleet/1') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Lihat">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </a>
-                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Edit">
+                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </a>
                             </div>
@@ -126,7 +126,7 @@
                     </tr>
 
                     <!-- Row 2 -->
-                    <tr class="hover:bg-surface-container/40 dark:hover:bg-surface-container-dark/40 transition-colors">
+                    <tr class="hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 transition-colors">
                         <td class="py-3 px-4 flex items-center gap-3">
                             <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=120&q=80" class="w-12 h-10 object-cover rounded-lg border border-slate-200 dark:border-slate-800" />
                             <div>
@@ -145,17 +145,17 @@
                             Rp 1.850.000 <span class="text-[10px] text-text-muted dark:text-text-muted-dark font-normal">/ hari</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
                         </td>
                         <td class="py-3 px-4 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{{ url('/fleet/2') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Lihat">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ url('/fleet/2') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Lihat">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </a>
-                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Edit">
+                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </a>
                             </div>
@@ -163,7 +163,7 @@
                     </tr>
 
                     <!-- Row 3 -->
-                    <tr class="hover:bg-surface-container/40 dark:hover:bg-surface-container-dark/40 transition-colors">
+                    <tr class="hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 transition-colors">
                         <td class="py-3 px-4 flex items-center gap-3">
                             <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=120&q=80" class="w-12 h-10 object-cover rounded-lg border border-slate-200 dark:border-slate-800" />
                             <div>
@@ -182,17 +182,17 @@
                             Rp 375.000 <span class="text-[10px] text-text-muted dark:text-text-muted-dark font-normal">/ hari</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Tersedia
                             </span>
                         </td>
                         <td class="py-3 px-4 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{{ url('/fleet/3') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Lihat">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ url('/fleet/3') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Lihat">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </a>
-                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container" title="Edit">
+                                <a href="{{ url('/admin/cars/create') }}" class="p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </a>
                             </div>

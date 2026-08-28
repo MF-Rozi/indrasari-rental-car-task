@@ -9,11 +9,11 @@
     <!-- Top Breadcrumb & Action Header -->
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-2 text-xs text-text-muted dark:text-text-muted-dark">
-            <a href="{{ url('/admin/cars') }}" class="hover:text-primary dark:hover:text-inverse-primary">Kelola Mobil</a>
+            <a href="{{ url('/admin/cars') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Kelola Mobil</a>
             <span>/</span>
             <span class="text-on-surface dark:text-on-surface-dark font-semibold">Tambah Unit Baru</span>
         </div>
-        <a href="{{ url('/admin/cars') }}" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold hover:bg-surface-container transition-colors">
+        <a href="{{ url('/admin/cars') }}" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
             &larr; Kembali ke Daftar
         </a>
     </div>
@@ -145,7 +145,7 @@
 
             <!-- Actions -->
             <div class="pt-4 border-t border-outline-variant/50 dark:border-outline-dark/50 flex items-center justify-end gap-3">
-                <a href="{{ url('/admin/cars') }}" class="px-5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-text-muted dark:text-text-muted-dark hover:bg-surface-container transition-colors">
+                <a href="{{ url('/admin/cars') }}" class="px-5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                     Batal
                 </a>
                 <button type="submit" class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer flex items-center gap-2">

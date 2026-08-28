@@ -10,11 +10,11 @@
         <!-- Background Car Visual with Overlay -->
         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80');">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0b1c30] via-[#0b1c30]/70 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b1c30] via-[#0b1c30]/75 to-[#0b1c30]/40"></div>
 
         <!-- Top Badge -->
         <div class="relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold uppercase tracking-wider text-inverse-primary">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-xs font-semibold uppercase tracking-wider text-white">
                 <span class="material-symbols-outlined text-[16px] text-emerald-400">verified_user</span>
                 <span>Armada Resmi & Bergaransi</span>
             </div>
@@ -25,7 +25,7 @@
             <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
                 Kenyamanan Perjalanan Anda Dimulai di Sini.
             </h2>
-            <p class="text-sm lg:text-base text-slate-300 leading-relaxed">
+            <p class="text-sm lg:text-base text-slate-200 leading-relaxed">
                 Nikmati kemudahan sewa mobil harian maupun mingguan dengan tarif terjangkau, unit terawat, dan jaminan ketersediaan instan di seluruh Indonesia.
             </p>
             
@@ -61,7 +61,7 @@
                 <button type="button" id="tabSignIn" onclick="switchAuthTab('signin')" class="flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center bg-primary text-white shadow-sm">
                     Masuk Akun
                 </button>
-                <button type="button" id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary">
+                <button type="button" id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-white/40 dark:hover:bg-surface-container-high-dark">
                     Daftar Baru
                 </button>
             </div>
@@ -110,7 +110,7 @@
                 <div class="mt-6 pt-5 border-t border-outline-variant/50 dark:border-outline-dark/50 text-center">
                     <p class="text-xs text-text-muted dark:text-text-muted-dark">
                         Belum memiliki akun? 
-                        <button type="button" onclick="switchAuthTab('register')" class="text-primary dark:text-inverse-primary font-semibold hover:underline">
+                        <button type="button" onclick="switchAuthTab('register')" class="text-primary dark:text-inverse-primary font-semibold hover:underline cursor-pointer">
                             Daftar sekarang
                         </button>
                     </p>
@@ -216,7 +216,7 @@
                 <div class="mt-6 pt-5 border-t border-outline-variant/50 dark:border-outline-dark/50 text-center">
                     <p class="text-xs text-text-muted dark:text-text-muted-dark">
                         Sudah punya akun? 
-                        <button type="button" onclick="switchAuthTab('signin')" class="text-primary dark:text-inverse-primary font-semibold hover:underline">
+                        <button type="button" onclick="switchAuthTab('signin')" class="text-primary dark:text-inverse-primary font-semibold hover:underline cursor-pointer">
                             Masuk di sini
                         </button>
                     </p>
@@ -239,20 +239,19 @@
 
         if (tab === 'register') {
             tabRegister.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center bg-primary text-white shadow-sm";
-            tabSignIn.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary";
+            tabSignIn.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-white/40 dark:hover:bg-surface-container-high-dark";
             panelRegister.classList.remove('hidden');
             panelSignIn.classList.add('hidden');
             history.replaceState(null, '', '?tab=register');
         } else {
             tabSignIn.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center bg-primary text-white shadow-sm";
-            tabRegister.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary";
+            tabRegister.className = "flex-1 py-2.5 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer text-center text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-white/40 dark:hover:bg-surface-container-high-dark";
             panelSignIn.classList.remove('hidden');
             panelRegister.classList.add('hidden');
             history.replaceState(null, '', '?tab=signin');
         }
     }
 
-    // Check URL params on load
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('tab') === 'register') {

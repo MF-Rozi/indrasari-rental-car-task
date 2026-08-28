@@ -8,39 +8,44 @@
     <!-- Material Symbols Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <!-- Theme Script to Prevent FOUC -->
+    <!-- Robust Theme Initialization Script -->
     <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            document.documentElement.classList.remove('light');
-        } else {
-            document.documentElement.classList.add('light');
-            document.documentElement.classList.remove('dark');
-        }
+        (function() {
+            const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
         function toggleTheme() {
-            if (document.documentElement.classList.contains('dark')) {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            if (newTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
                 document.documentElement.classList.remove('dark');
                 document.documentElement.classList.add('light');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.remove('light');
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
             }
+            localStorage.theme = newTheme;
         }
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="bg-background dark:bg-background-dark text-on-surface dark:text-on-surface-dark font-sans antialiased min-h-screen flex flex-col md:flex-row transition-colors duration-200">
+<body class="bg-background dark:bg-background-dark text-on-surface dark:text-on-surface-dark font-sans antialiased min-h-screen flex flex-col md:flex-row transition-colors duration-300">
     
     <!-- Admin Sidebar Navigation -->
-    <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0">
+    <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0 transition-colors duration-300">
         <!-- Brand Header -->
         <div class="h-18 px-6 flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50">
-            <a href="{{ url('/') }}" class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm">
+            <a href="{{ url('/') }}" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
                     <span class="material-symbols-outlined text-xl">directions_car</span>
                 </div>
                 <div class="flex flex-col">
@@ -48,9 +53,15 @@
                     <span class="text-[10px] font-semibold tracking-wider text-primary dark:text-inverse-primary uppercase">ADMIN OPERASIONAL</span>
                 </div>
             </a>
-            <button type="button" onclick="toggleTheme()" class="md:hidden p-2 text-text-muted dark:text-text-muted-dark">
-                <span class="material-symbols-outlined text-xl dark:hidden">dark_mode</span>
-                <span class="material-symbols-outlined text-xl hidden dark:block">light_mode</span>
+            <button type="button" onclick="toggleTheme()" class="md:hidden relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group" title="Ganti Tema">
+                <!-- Sun Icon -->
+                <span class="material-symbols-outlined text-[20px] text-amber-500 transition-all duration-300 ease-in-out transform rotate-0 scale-100 opacity-100 dark:-rotate-90 dark:scale-0 dark:opacity-0 absolute">
+                    light_mode
+                </span>
+                <!-- Moon Icon -->
+                <span class="material-symbols-outlined text-[20px] text-blue-400 transition-all duration-300 ease-in-out transform rotate-90 scale-0 opacity-0 dark:rotate-0 dark:scale-100 dark:opacity-100 absolute">
+                    dark_mode
+                </span>
             </button>
         </div>
 
@@ -60,12 +71,12 @@
                 Manajemen Sistem
             </div>
 
-            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->is('admin/cars*') ? 'bg-primary text-white shadow-sm shadow-primary/20' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
                 <span class="material-symbols-outlined text-[20px]">directions_car</span>
                 <span>Kelola Mobil (Armada)</span>
             </a>
 
-            <a href="{{ url('/admin/cars/create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+            <a href="{{ url('/admin/cars/create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
                 <span class="material-symbols-outlined text-[20px]">add_circle</span>
                 <span>Tambah Mobil Baru</span>
             </a>
@@ -74,19 +85,19 @@
                 Operasional Rental
             </div>
 
-            <a href="{{ url('/fleet') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+            <a href="{{ url('/fleet') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
                 <span class="material-symbols-outlined text-[20px]">grid_view</span>
                 <span>Lihat Katalog Publik</span>
             </a>
 
-            <a href="{{ url('/') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+            <a href="{{ url('/') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200">
                 <span class="material-symbols-outlined text-[20px]">home</span>
                 <span>Halaman Depan</span>
             </a>
         </div>
 
         <!-- Admin Profile Footer in Sidebar -->
-        <div class="p-4 border-t border-outline-variant/50 dark:border-outline-dark/50 bg-surface dark:bg-surface-dark/50">
+        <div class="p-4 border-t border-outline-variant/50 dark:border-outline-dark/50 bg-surface dark:bg-surface-dark/50 transition-colors duration-300">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-[#1e2f47] flex items-center justify-center font-bold text-primary dark:text-inverse-primary">
                     AD
@@ -102,7 +113,7 @@
     <!-- Main Content Area with Top Header -->
     <div class="flex-1 flex flex-col min-w-0">
         <!-- Admin Topbar -->
-        <header class="h-18 bg-white dark:bg-surface-dark border-b border-outline-variant/60 dark:border-outline-dark/60 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30">
+        <header class="h-18 bg-white dark:bg-surface-dark border-b border-outline-variant/60 dark:border-outline-dark/60 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300">
             <div class="flex items-center gap-3">
                 <h1 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">
                     @yield('header_title', 'Kelola Armada Mobil')
@@ -110,13 +121,19 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <!-- Theme Toggle Button -->
-                <button type="button" onclick="toggleTheme()" class="p-2.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer" title="Ganti Tema">
-                    <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
-                    <span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+                <!-- Animated Smooth Theme Switcher Button -->
+                <button type="button" onclick="toggleTheme()" class="relative w-9 h-9 rounded-xl flex items-center justify-center bg-surface-container/60 dark:bg-surface-container-dark/60 hover:bg-surface-container dark:hover:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark border border-outline-variant/60 dark:border-outline-dark/60 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden group shadow-xs" title="Ganti Tema (Terang / Gelap)" aria-label="Ganti Tema">
+                    <!-- Sun Icon (Active in Light Mode) -->
+                    <span class="material-symbols-outlined text-[20px] text-amber-500 transition-all duration-300 ease-in-out transform rotate-0 scale-100 opacity-100 dark:-rotate-90 dark:scale-0 dark:opacity-0 absolute">
+                        light_mode
+                    </span>
+                    <!-- Moon Icon (Active in Dark Mode) -->
+                    <span class="material-symbols-outlined text-[20px] text-blue-400 transition-all duration-300 ease-in-out transform rotate-90 scale-0 opacity-0 dark:rotate-0 dark:scale-100 dark:opacity-100 absolute">
+                        dark_mode
+                    </span>
                 </button>
 
-                <a href="{{ url('/auth') }}" class="px-3.5 py-1.5 text-xs font-semibold text-text-muted dark:text-text-muted-dark border border-slate-300 dark:border-slate-700 rounded-lg hover:border-red-500 hover:text-red-600 transition-colors">
+                <a href="{{ url('/auth') }}" class="px-3.5 py-1.5 text-xs font-semibold text-text-muted dark:text-text-muted-dark border border-slate-300 dark:border-slate-700 rounded-lg hover:border-red-500 hover:text-red-600 dark:hover:border-red-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors">
                     Keluar
                 </a>
             </div>

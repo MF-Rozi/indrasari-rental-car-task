@@ -7,9 +7,9 @@
 
     <!-- Breadcrumb Nav -->
     <nav class="flex items-center gap-2 text-xs text-text-muted dark:text-text-muted-dark">
-        <a href="{{ url('/') }}" class="hover:text-primary dark:hover:text-inverse-primary">Beranda</a>
+        <a href="{{ url('/') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Beranda</a>
         <span>/</span>
-        <a href="{{ url('/fleet') }}" class="hover:text-primary dark:hover:text-inverse-primary">Armada Mobil</a>
+        <a href="{{ url('/fleet') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Armada Mobil</a>
         <span>/</span>
         <span class="text-on-surface dark:text-on-surface-dark font-semibold">Toyota Innova Zenix 2.0 Q Hybrid</span>
     </nav>
@@ -34,16 +34,16 @@
 
                 <!-- Thumbnails -->
                 <div class="grid grid-cols-4 gap-3">
-                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border-2 border-primary cursor-pointer focus:outline-none">
+                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border-2 border-primary dark:border-inverse-primary cursor-pointer focus:outline-none">
                         <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />
                     </button>
-                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary cursor-pointer focus:outline-none transition-colors">
+                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-inverse-primary cursor-pointer focus:outline-none transition-colors">
                         <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />
                     </button>
-                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary cursor-pointer focus:outline-none transition-colors">
+                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-inverse-primary cursor-pointer focus:outline-none transition-colors">
                         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />
                     </button>
-                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary cursor-pointer focus:outline-none transition-colors">
+                    <button type="button" onclick="changeGalleryImage('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80')" class="h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-inverse-primary cursor-pointer focus:outline-none transition-colors">
                         <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />
                     </button>
                 </div>
@@ -60,22 +60,22 @@
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="p-4 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                        <span class="material-symbols-outlined text-primary text-2xl">airline_seat_recline_normal</span>
+                        <span class="material-symbols-outlined text-primary dark:text-inverse-primary text-2xl">airline_seat_recline_normal</span>
                         <span class="text-xs text-text-muted dark:text-text-muted-dark block">Kapasitas</span>
                         <span class="text-sm font-bold text-on-surface dark:text-on-surface-dark">7 Penumpang</span>
                     </div>
                     <div class="p-4 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                        <span class="material-symbols-outlined text-primary text-2xl">settings</span>
+                        <span class="material-symbols-outlined text-primary dark:text-inverse-primary text-2xl">settings</span>
                         <span class="text-xs text-text-muted dark:text-text-muted-dark block">Transmisi</span>
                         <span class="text-sm font-bold text-on-surface dark:text-on-surface-dark">Matic (CVT)</span>
                     </div>
                     <div class="p-4 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                        <span class="material-symbols-outlined text-primary text-2xl">local_gas_station</span>
+                        <span class="material-symbols-outlined text-primary dark:text-inverse-primary text-2xl">local_gas_station</span>
                         <span class="text-xs text-text-muted dark:text-text-muted-dark block">Bahan Bakar</span>
                         <span class="text-sm font-bold text-on-surface dark:text-on-surface-dark">Hybrid Bensin</span>
                     </div>
                     <div class="p-4 rounded-xl bg-surface-container dark:bg-surface-container-dark space-y-1">
-                        <span class="material-symbols-outlined text-primary text-2xl">pin</span>
+                        <span class="material-symbols-outlined text-primary dark:text-inverse-primary text-2xl">pin</span>
                         <span class="text-xs text-text-muted dark:text-text-muted-dark block">Nomor Plat</span>
                         <span class="text-sm font-bold font-mono text-on-surface dark:text-on-surface-dark">B 2419 IND</span>
                     </div>
@@ -122,7 +122,7 @@
                             <span class="text-xs text-text-muted dark:text-text-muted-dark font-medium">/ 24 Jam</span>
                         </div>
                     </div>
-                    <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300">
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300">
                         Lepas Kunci
                     </span>
                 </div>

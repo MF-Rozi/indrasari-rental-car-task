@@ -105,7 +105,7 @@
                 <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Toyota Innova Zenix" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             Tersedia
                         </span>
@@ -132,15 +132,15 @@
                     <!-- Specs Chips -->
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">airline_seat_recline_normal</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                             <span>7 Kursi</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">settings</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
                             <span>Matic (CVT)</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">local_gas_station</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
                             <span>Hybrid</span>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                 <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Toyota Alphard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             Tersedia
                         </span>
@@ -195,15 +195,15 @@
                     <!-- Specs Chips -->
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">airline_seat_recline_normal</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                             <span>6 Kursi VIP</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">settings</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
                             <span>Matic (AT)</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">local_gas_station</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
                             <span>Bensin</span>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                 <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Toyota Avanza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             Tersedia
                         </span>
@@ -258,15 +258,15 @@
                     <!-- Specs Chips -->
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">airline_seat_recline_normal</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
                             <span>7 Kursi</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">settings</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
                             <span>Matic (CVT)</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary">local_gas_station</span>
+                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
                             <span>Bensin</span>
                         </div>
                     </div>
