@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-28T15:51:05+07:00",
+  "title": "Design System: Indrasari Rental Car",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Sapphire Blue",
+        "canonical": "oklch(0.48 0.18 250)",
+        "tonalRamp": ["#001a41", "#002d6b", "#004493", "#0058bc", "#0070eb", "#adc6ff", "#d8e2ff", "#f8f9ff"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Emerald Green",
+        "canonical": "oklch(0.5 0.14 160)",
+        "tonalRamp": ["#002113", "#003924", "#005236", "#006c49", "#059669", "#34d399", "#a7f3d0", "#ecfdf5"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Pure Canvas",
+        "canonical": "oklch(0.99 0.005 250)",
+        "tonalRamp": ["#0b1c30", "#112038", "#152336", "#1e2f47", "#cbd5e1", "#e2e8f0", "#eff4ff", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines and landing headers" },
+      "headline": { "displayName": "Headline", "purpose": "Section headings and modal headers" },
+      "body": { "displayName": "Body", "purpose": "Main content and form instructions" },
+      "label": { "displayName": "Label", "purpose": "Buttons, badges, and metadata tags" }
+    },
+    "shadows": [
+      { "name": "subtle-rest", "value": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)", "purpose": "Resting cards and panels" },
+      { "name": "elevated-hover", "value": "0 10px 25px -5px rgba(0,88,188,0.12), 0 8px 10px -6px rgba(0,0,0,0.04)", "purpose": "Interactive vehicle cards on hover" }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for micro-interactions" }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action button for bookings, reservations, and form submissions.",
+      "html": "<button class=\"ds-btn-primary\">Pesan Sekarang</button>",
+      "css": ".ds-btn-primary { background: #0058bc; color: #ffffff; padding: 10px 20px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: background 0.15s ease, transform 0.15s ease; } .ds-btn-primary:hover { background: #004899; transform: translateY(-1px); } .ds-btn-primary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Vehicle Status Badge",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Status badge indicating vehicle availability with high WCAG contrast.",
+      "html": "<span class=\"ds-badge-available\">Tersedia</span>",
+      "css": ".ds-badge-available { display: inline-flex; align-items: center; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 4px 10px; border-radius: 9999px; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600; }"
+    },
+    {
+      "name": "Form Input Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "High-contrast accessible text input field.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Nomor SIM A\" />",
+      "css": ".ds-input { width: 100%; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; font-family: Inter, sans-serif; font-size: 14px; color: #0b1c30; outline: none; transition: border-color 0.15s, box-shadow 0.15s; } .ds-input::placeholder { color: #64748b; } .ds-input:focus { border-color: #0058bc; box-shadow: 0 0 0 3px rgba(0, 88, 188, 0.15); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Precision Fleet & Hospitality",
+    "overview": "Indrasari Rental Car bridges executive automotive precision with accessible Indonesian rental operations. The visual system pairs structured operational data density with crisp, modern typography and calibrated dual-theme contrast.",
+    "keyCharacteristics": [
+      "Strict WCAG AA/AAA Contrast Hierarchy for both Light (#f8f9ff / #ffffff) and Dark (#0b1c30 / #112038) surfaces.",
+      "Accessible Typography & Input States: Placeholders (#64748b, 4.6:1) and secondary metadata (#334155, 9.8:1).",
+      "Operational Availability Badges: High-contrast semantic chips (Tersedia, Sedang Disewa, Perawatan).",
+      "Mobile-first Responsiveness: Balances on-the-go customer bookings and desktop admin operations."
+    ],
+    "rules": [
+      { "name": "The 4.5:1 Minimum Contrast Rule", "body": "All body text, input placeholders, metadata labels, and interactive icons must maintain at least a 4.5:1 contrast ratio against their background.", "section": "colors" },
+      { "name": "The Availability Color Rule", "body": "Emerald green is strictly reserved for available vehicles, active healthy rentals, and confirmed financial returns.", "section": "colors" },
+      { "name": "The Currency Formatting Rule", "body": "All monetary figures must be explicitly formatted in Indonesian Rupiah (Rp 450.000 / hari) with consistent tabular figures.", "section": "typography" },
+      { "name": "The Structural Border Rule", "body": "Cards and table containers must use a crisp 1px border meeting WCAG 3:1 non-text contrast.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do format all currency in Indonesian Rupiah (Rp 350.000 / hari) with Indonesian thousand separators (.).",
+      "Do validate and format customer Indonesian credentials (SIM A, Nomor HP +62 / 08xx, Alamat) with clear accessible feedback.",
+      "Do provide immediate duration and total price calculation as soon as start and end dates are picked.",
+      "Do maintain at least 4.5:1 contrast for all text (including placeholders and metadata) and 3:1 for borders.",
+      "Do support instant theme switching between Light and Dark mode while preserving high contrast."
+    ],
+    "donts": [
+      "Don't use faint placeholders or metadata tokens (#c1c6d6) that fail WCAG contrast on light surfaces.",
+      "Don't use cluttered legacy tables with raw data dumps and no sorting/filtering hierarchy.",
+      "Don't use decorative gradient text or glassmorphic blur filters that impair readability.",
+      "Don't create complicated multi-step booking flows that require repetitive data re-entry.",
+      "Don't use side-stripe colored accent borders on cards or alerts."
+    ]
+  }
+}
