@@ -49,4 +49,45 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Indicate that the user has admin role.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+            'verification_status' => 'verified',
+        ]);
+    }
+
+    /**
+     * Indicate that the user SIM A verification is pending.
+     */
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'verification_status' => 'pending',
+        ]);
+    }
+
+    /**
+     * Indicate that the user SIM A verification is rejected.
+     */
+    public function rejected(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'verification_status' => 'rejected',
+        ]);
+    }
+
+    /**
+     * Indicate that the user SIM A is verified.
+     */
+    public function verified(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'verification_status' => 'verified',
+        ]);
+    }
 }

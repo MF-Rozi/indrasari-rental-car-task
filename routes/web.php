@@ -83,7 +83,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         return view('admin.rentals.index');
     })->name('rentals.index');
 
-    Route::get('/users', function () {
-        return view('admin.users.index');
-    })->name('users.index');
+    Route::get('/users', [UserController::class, 'adminIndex'])->name('users.index');
+    Route::patch('/users/{user}/verify', [UserController::class, 'verifySim'])->name('users.verify');
+    Route::patch('/users/{user}/reject', [UserController::class, 'rejectSim'])->name('users.reject');
+    Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
 });

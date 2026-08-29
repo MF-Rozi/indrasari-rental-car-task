@@ -113,4 +113,106 @@ class UserController extends Controller
 
         return redirect()->route('profile.index')->with('success_password', 'Kata sandi Anda berhasil diperbarui.');
     }
+
+    /**
+     * Display a listing of registered users and SIM verification queue (Admin).
+     */
+    public function adminIndex(Request $request): View
+    {
+        $query = User::query()->withCount([
+            'rentals as total_rentals_count',
+            'rentals as active_rentals_count' => function ($q) {
+                $q->whereIn('status', ['active', 'pending_return']);
+            },
+        ]);
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%")
+                    ->orWhere('driving_license_number', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('verification_status') && in_array($request->verification_status, ['verified', 'pending', 'rejected'])) {
+            $query->where('verification_status', $request->verification_status);
+        }
+
+        if ($request->filled('role') && in_array($request->role, ['user', 'admin'])) {
+            $query->where('role', $request->role);
+        }
+
+        $users = $query->latest()->paginate(10)->withQueryString();
+
+        $stats = [
+            'total_users' => User::count(),
+            'verified_users' => User::where('verification_status', 'verified')->count(),
+            'pending_users' => User::where('verification_status', 'pending')->count(),
+            'rejected_users' => User::where('verification_status', 'rejected')->count(),
+            'active_renters' => User::whereHas('rentals', function ($q) {
+                $q->whereIn('status', ['active', 'pending_return']);
+            })->count(),
+        ];
+
+        return view('admin.users.index', [
+            'users' => $users,
+            'stats' => $stats,
+            'filters' => [
+                'search' => $request->search ?? '',
+                'verification_status' => $request->verification_status ?? 'all',
+                'role' => $request->role ?? 'all',
+            ],
+        ]);
+    }
+
+    /**
+     * Verify a user's driving license (SIM A).
+     */
+    public function verifySim(User $user): RedirectResponse
+    {
+        $user->update([
+            'verification_status' => 'verified',
+        ]);
+
+        return redirect()->back()->with('success', "Dokumen SIM A milik {$user->name} berhasil diverifikasi.");
+    }
+
+    /**
+     * Reject a user's driving license (SIM A) verification.
+     */
+    public function rejectSim(Request $request, User $user): RedirectResponse
+    {
+        $user->update([
+            'verification_status' => 'rejected',
+        ]);
+
+        return redirect()->back()->with('success', "Verifikasi SIM A milik {$user->name} telah ditolak.");
+    }
+
+    /**
+     * Update a user's role (user/admin).
+     */
+    public function updateRole(Request $request, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'role' => ['required', 'string', Rule::in(['user', 'admin'])],
+        ]);
+
+        /** @var User $currentUser */
+        $currentUser = Auth::user();
+
+        if ($currentUser->id === $user->id && $validated['role'] !== 'admin') {
+            return redirect()->back()->with('error', 'Anda tidak dapat mencabut hak akses administrator dari akun Anda sendiri.');
+        }
+
+        $user->update([
+            'role' => $validated['role'],
+        ]);
+
+        $roleName = $validated['role'] === 'admin' ? 'Administrator' : 'Customer (Pelanggan)';
+
+        return redirect()->back()->with('success', "Peran akun {$user->name} berhasil diperbarui menjadi {$roleName}.");
+    }
 }
