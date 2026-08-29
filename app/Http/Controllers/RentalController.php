@@ -226,16 +226,11 @@ class RentalController extends Controller
             : $autoPenalty;
 
         DB::transaction(function () use ($rental, $returnDate, $finalPenalty, $validated) {
-            $notes = $rental->notes;
-            if (! empty($validated['admin_notes'])) {
-                $notes = $notes ? $notes."\n[Pemeriksaan Fisik Admin: ".$validated['admin_notes'].']' : 'Pemeriksaan Fisik Admin: '.$validated['admin_notes'];
-            }
-
             $rental->update([
                 'status' => 'completed',
                 'return_date' => $returnDate->toDateString(),
                 'penalty_price' => (string) $finalPenalty,
-                'notes' => $notes,
+                'admin_notes' => $validated['admin_notes'] ?? null,
             ]);
 
             // Set car back to available

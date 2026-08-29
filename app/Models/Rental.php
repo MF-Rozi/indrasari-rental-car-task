@@ -22,11 +22,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'penalty_price',
     'status',
     'notes',
+    'admin_notes',
 ])]
 class Rental extends Model
 {
     /** @use HasFactory<RentalFactory> */
     use HasFactory;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'grand_total',
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -201,6 +211,22 @@ class Rental extends Model
     public function getFormattedDailyRateAttribute(): string
     {
         return 'Rp '.number_format((float) $this->daily_rate, 0, ',', '.');
+    }
+
+    /**
+     * Get grand total price including late penalties.
+     */
+    public function getGrandTotalAttribute(): float
+    {
+        return (float) ($this->total_price + ($this->penalty_price ?? 0));
+    }
+
+    /**
+     * Formatted grand total in IDR currency.
+     */
+    public function getFormattedGrandTotalAttribute(): string
+    {
+        return 'Rp '.number_format($this->grand_total, 0, ',', '.');
     }
 
     /**

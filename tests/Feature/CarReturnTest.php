@@ -205,7 +205,7 @@ test('admin can confirm physical car return which marks rental as completed and 
 
     expect($rental->status)->toBe('completed');
     expect((float) $rental->penalty_price)->toBe(650000.0);
-    expect($rental->notes)->toContain('Body mulus, kunci dan STNK lengkap diserahkan.');
+    expect($rental->admin_notes)->toBe('Body mulus, kunci dan STNK lengkap diserahkan.');
     expect($car->availability)->toBe('available');
 });
 

@@ -220,7 +220,15 @@
                                     {{ $history->total_days }} Hari
                                 </td>
                                 <td class="py-3 px-4 font-bold text-on-surface dark:text-on-surface-dark">
-                                    Rp {{ number_format((float)$history->total_price, 0, ',', '.') }}
+                                    @php
+                                        $finalTotal = (float)$history->total_price + (float)($history->penalty_price ?? 0);
+                                    @endphp
+                                    Rp {{ number_format($finalTotal, 0, ',', '.') }}
+                                    @if($history->penalty_price > 0)
+                                        <span class="block text-[10px] text-red-600 dark:text-red-400 font-semibold mt-0.5">
+                                            + Denda Rp {{ number_format((float)$history->penalty_price, 0, ',', '.') }}
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="py-3 px-4">
                                     @if($history->status === 'completed')
@@ -362,6 +370,23 @@
                                 -
                             </td>
                         </tr>
+                        <tr id="invoicePenaltyRow" class="hidden bg-rose-50/70 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300">
+                            <td class="py-2.5 px-4">
+                                <span class="font-semibold block flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
+                                    <span class="material-symbols-outlined text-[15px]">warning</span>
+                                    <span>Denda Keterlambatan Pengembalian</span>
+                                </span>
+                                <span class="text-[10px] text-text-muted dark:text-text-muted-dark" id="invoicePenaltyDesc">
+                                    Keterlambatan pengembalian unit
+                                </span>
+                            </td>
+                            <td class="py-2.5 px-4 text-center font-mono font-semibold text-rose-600 dark:text-rose-400" id="invoicePenaltyUnit">
+                                -
+                            </td>
+                            <td class="py-2.5 px-4 text-right font-mono font-bold text-rose-600 dark:text-rose-400" id="invoicePenaltyTotal">
+                                Rp 0
+                            </td>
+                        </tr>
                         <tr>
                             <td class="py-2 px-4">
                                 <span class="font-semibold block text-emerald-600 dark:text-emerald-400">Proteksi Asuransi All-Risk</span>
@@ -379,6 +404,28 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+
+            <!-- Customer Booking Purpose / Note -->
+            <div id="invoiceCustomerNotesContainer" class="hidden p-3.5 rounded-xl bg-surface-container/40 dark:bg-surface-container-dark/40 border border-outline-variant/40 dark:border-outline-dark/40 space-y-1 text-xs">
+                <span class="text-text-muted dark:text-text-muted-dark font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-primary dark:text-inverse-primary">description</span>
+                    <span>Keperluan Sewa / Catatan Pelanggan:</span>
+                </span>
+                <p id="invoiceCustomerNotesText" class="text-on-surface dark:text-on-surface-dark font-medium whitespace-pre-line leading-relaxed">
+                    -
+                </p>
+            </div>
+
+            <!-- Admin Handover & Inspection Notes (if present) -->
+            <div id="invoiceAdminNotesContainer" class="hidden p-3.5 rounded-xl bg-surface-container/60 dark:bg-surface-container-dark/60 border border-outline-variant/50 dark:border-outline-dark/50 space-y-1 text-xs">
+                <span class="text-text-muted dark:text-text-muted-dark font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-emerald-600 dark:text-emerald-400">verified</span>
+                    <span>Berita Acara Pemeriksaan Fisik & Serah Terima:</span>
+                </span>
+                <p id="invoiceAdminNotesText" class="text-on-surface dark:text-on-surface-dark font-medium whitespace-pre-line leading-relaxed">
+                    -
+                </p>
             </div>
 
             <p class="text-center text-[10px] text-text-muted dark:text-text-muted-dark pt-2">
@@ -458,12 +505,51 @@
         }
         document.getElementById('invoiceTotalDays').innerText = (rental.total_days || 1) + ' Hari Kalender';
 
-        // Table
+        // Table & Pricing Breakdown
         const dailyRate = parseFloat(rental.daily_rate || 0);
         const totalPrice = parseFloat(rental.total_price || 0);
+        const penaltyPrice = parseFloat(rental.penalty_price || 0);
+        const grandTotal = totalPrice + penaltyPrice;
+
         document.getElementById('invoiceTableRate').innerText = (rental.total_days || 1) + ' Hari x Rp ' + dailyRate.toLocaleString('id-ID');
         document.getElementById('invoiceTableSubtotal').innerText = 'Rp ' + totalPrice.toLocaleString('id-ID');
-        document.getElementById('invoiceTableGrandTotal').innerText = 'Rp ' + totalPrice.toLocaleString('id-ID');
+
+        const penaltyRow = document.getElementById('invoicePenaltyRow');
+        const penaltyDesc = document.getElementById('invoicePenaltyDesc');
+        const penaltyUnit = document.getElementById('invoicePenaltyUnit');
+        const penaltyTotal = document.getElementById('invoicePenaltyTotal');
+
+        if (penaltyPrice > 0) {
+            const daysOverdue = dailyRate > 0 ? Math.round(penaltyPrice / dailyRate) : 1;
+            penaltyDesc.innerText = `Keterlambatan ${daysOverdue} hari melampaui jadwal`;
+            penaltyUnit.innerText = `${daysOverdue} Hari x Rp ${dailyRate.toLocaleString('id-ID')}`;
+            penaltyTotal.innerText = '+ Rp ' + penaltyPrice.toLocaleString('id-ID');
+            penaltyRow.classList.remove('hidden');
+        } else {
+            penaltyRow.classList.add('hidden');
+        }
+
+        document.getElementById('invoiceTableGrandTotal').innerText = 'Rp ' + grandTotal.toLocaleString('id-ID');
+
+        // Customer Booking Notes
+        const custNotesContainer = document.getElementById('invoiceCustomerNotesContainer');
+        const custNotesText = document.getElementById('invoiceCustomerNotesText');
+        if (rental.notes && rental.notes.trim() !== '') {
+            custNotesText.innerText = rental.notes;
+            custNotesContainer.classList.remove('hidden');
+        } else {
+            custNotesContainer.classList.add('hidden');
+        }
+
+        // Admin Handover & Physical Inspection Notes
+        const adminNotesContainer = document.getElementById('invoiceAdminNotesContainer');
+        const adminNotesText = document.getElementById('invoiceAdminNotesText');
+        if (rental.admin_notes && rental.admin_notes.trim() !== '') {
+            adminNotesText.innerText = rental.admin_notes;
+            adminNotesContainer.classList.remove('hidden');
+        } else {
+            adminNotesContainer.classList.add('hidden');
+        }
 
         modal.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');

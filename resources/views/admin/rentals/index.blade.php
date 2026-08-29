@@ -405,14 +405,44 @@
                 <span>Durasi Sewa:</span>
                 <span class="text-on-surface dark:text-on-surface-dark" id="invModalDuration">-</span>
             </div>
+            <div class="flex justify-between">
+                <span>Sewa Pokok Kendaraan:</span>
+                <span class="font-mono text-on-surface dark:text-on-surface-dark" id="invModalBasePrice">-</span>
+            </div>
+            <div class="flex justify-between text-rose-600 dark:text-rose-400 font-semibold" id="invModalPenaltyRow">
+                <span>Denda Keterlambatan:</span>
+                <span class="font-mono" id="invModalPenalty">-</span>
+            </div>
             <div class="flex justify-between border-t border-outline-variant/60 dark:border-outline-dark/60 pt-2 text-sm font-bold">
-                <span class="text-on-surface dark:text-on-surface-dark">Total Pembayaran:</span>
+                <span class="text-on-surface dark:text-on-surface-dark">Total Pelunasan:</span>
                 <span class="text-emerald-600 dark:text-emerald-400 font-mono font-extrabold" id="invModalTotal">-</span>
             </div>
             <div class="flex justify-between text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">
                 <span>Status Pelunasan:</span>
                 <span class="uppercase tracking-wider">LUNAS & SELESAI</span>
             </div>
+        </div>
+
+        <!-- Customer Booking Purpose / Note -->
+        <div id="adminInvModalCustNotesContainer" class="hidden p-3.5 rounded-xl bg-surface-container/40 dark:bg-surface-container-dark/40 border border-outline-variant/40 dark:border-outline-dark/40 space-y-1 text-xs">
+            <span class="text-text-muted dark:text-text-muted-dark font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-primary dark:text-inverse-primary">description</span>
+                <span>Keperluan Sewa / Catatan Pelanggan:</span>
+            </span>
+            <p id="adminInvModalCustNotes" class="text-on-surface dark:text-on-surface-dark font-medium whitespace-pre-line leading-relaxed">
+                -
+            </p>
+        </div>
+
+        <!-- Handover & Inspection Notes (if present) -->
+        <div id="adminInvModalNotesContainer" class="hidden p-3.5 rounded-xl bg-surface-container/60 dark:bg-surface-container-dark/60 border border-outline-variant/40 dark:border-outline-dark/40 space-y-1 text-xs">
+            <span class="text-text-muted dark:text-text-muted-dark font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-emerald-600 dark:text-emerald-400">verified</span>
+                <span>Berita Acara Pemeriksaan Fisik & Serah Terima:</span>
+            </span>
+            <p id="adminInvModalNotes" class="text-on-surface dark:text-on-surface-dark font-medium whitespace-pre-line leading-relaxed">
+                -
+            </p>
         </div>
 
         <!-- Modal Actions -->
@@ -504,8 +534,41 @@
         const endFormatted = new Date(rental.end_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
         document.getElementById('invModalDuration').innerText = `${startFormatted} - ${endFormatted} (${rental.total_days} Hari)`;
 
-        const grandTotal = Number(rental.total_price) + Number(rental.penalty_price || 0);
-        document.getElementById('invModalTotal').innerText = 'Rp ' + Number(grandTotal).toLocaleString('id-ID');
+        const basePrice = Number(rental.total_price || 0);
+        const penaltyPrice = Number(rental.penalty_price || 0);
+        const grandTotal = basePrice + penaltyPrice;
+
+        document.getElementById('invModalBasePrice').innerText = 'Rp ' + basePrice.toLocaleString('id-ID');
+
+        const penaltyRow = document.getElementById('invModalPenaltyRow');
+        if (penaltyPrice > 0) {
+            document.getElementById('invModalPenalty').innerText = '+ Rp ' + penaltyPrice.toLocaleString('id-ID');
+            penaltyRow.classList.remove('hidden');
+        } else {
+            penaltyRow.classList.add('hidden');
+        }
+
+        document.getElementById('invModalTotal').innerText = 'Rp ' + grandTotal.toLocaleString('id-ID');
+
+        // Customer Booking Notes
+        const custNotesContainer = document.getElementById('adminInvModalCustNotesContainer');
+        const custNotesText = document.getElementById('adminInvModalCustNotes');
+        if (rental.notes && rental.notes.trim() !== '') {
+            custNotesText.innerText = rental.notes;
+            custNotesContainer.classList.remove('hidden');
+        } else {
+            custNotesContainer.classList.add('hidden');
+        }
+
+        // Admin Handover & Inspection Notes
+        const notesContainer = document.getElementById('adminInvModalNotesContainer');
+        const notesText = document.getElementById('adminInvModalNotes');
+        if (rental.admin_notes && rental.admin_notes.trim() !== '') {
+            notesText.innerText = rental.admin_notes;
+            notesContainer.classList.remove('hidden');
+        } else {
+            notesContainer.classList.add('hidden');
+        }
 
         const modal = document.getElementById('adminInvoiceModal');
         modal.classList.remove('hidden');
