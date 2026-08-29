@@ -73,11 +73,17 @@ test('fleet detail page loads with vehicle specs and live pricing calculator', f
     $response->assertSee('Spesifikasi Lengkap', false);
     $response->assertSee('Masuk Akun untuk Memesan', false);
 
-    // As authenticated user
-    $user = User::factory()->create(['role' => 'user']);
-    $authResponse = $this->actingAs($user)->get('/fleet/'.$car->id);
+    // As unverified user
+    $unverifiedUser = User::factory()->pending()->create(['role' => 'user']);
+    $unverifiedResponse = $this->actingAs($unverifiedUser)->get('/fleet/'.$car->id);
+    $unverifiedResponse->assertStatus(200);
+    $unverifiedResponse->assertSee('Menunggu Verifikasi SIM A', false);
+
+    // As verified user
+    $verifiedUser = User::factory()->verified()->create(['role' => 'user']);
+    $authResponse = $this->actingAs($verifiedUser)->get('/fleet/'.$car->id);
     $authResponse->assertStatus(200);
-    $authResponse->assertSee('Pesan Mobil Ini Sekarang', false);
+    $authResponse->assertSee('Lanjutkan Pemesanan Unit', false);
 });
 
 test('admin executive dashboard loads with revenue, utilization and live rentals monitor', function () {
