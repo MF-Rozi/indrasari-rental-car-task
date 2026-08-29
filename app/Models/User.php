@@ -44,6 +44,15 @@ class User extends Authenticatable
     }
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'driving_license_photo_url',
+    ];
+
+    /**
      * Get the rentals for the user.
      */
     public function rentals(): HasMany
@@ -56,7 +65,7 @@ class User extends Authenticatable
      */
     public function getDrivingLicensePhotoUrlAttribute(): ?string
     {
-        if (! $this->driving_license_photo) {
+        if (empty($this->driving_license_photo)) {
             return null;
         }
 
@@ -64,7 +73,11 @@ class User extends Authenticatable
             return $this->driving_license_photo;
         }
 
-        $path = ltrim(str_replace('public/storage/', '', $this->driving_license_photo), '/');
+        if (str_starts_with($this->driving_license_photo, 'public/')) {
+            return asset($this->driving_license_photo);
+        }
+
+        $path = ltrim(str_replace('storage/', '', $this->driving_license_photo), '/');
 
         return asset('storage/'.$path);
     }

@@ -129,3 +129,15 @@ test('admin cannot demote their own account from admin', function () {
     $admin->refresh();
     expect($admin->role)->toBe('admin');
 });
+
+test('user model includes driving_license_photo_url in json and resolves storage path correctly', function () {
+    $user = User::factory()->create([
+        'driving_license_photo' => 'driving_licenses/my_test_license.jpg',
+    ]);
+
+    expect($user->driving_license_photo_url)->toContain('storage/driving_licenses/my_test_license.jpg');
+
+    $json = $user->toArray();
+    expect($json)->toHaveKey('driving_license_photo_url');
+    expect($json['driving_license_photo_url'])->toContain('storage/driving_licenses/my_test_license.jpg');
+});

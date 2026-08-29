@@ -463,7 +463,17 @@
         const noSimNotice = document.getElementById('modalNoSimNotice');
         const simFullLink = document.getElementById('modalSimFullLink');
 
-        const photoUrl = user.driving_license_photo_url || (user.driving_license_photo && user.driving_license_photo.startsWith('http') ? user.driving_license_photo : null);
+        let photoUrl = user.driving_license_photo_url;
+        if (!photoUrl && user.driving_license_photo) {
+            if (user.driving_license_photo.startsWith('http://') || user.driving_license_photo.startsWith('https://')) {
+                photoUrl = user.driving_license_photo;
+            } else if (user.driving_license_photo.startsWith('public/')) {
+                photoUrl = `/${user.driving_license_photo}`;
+            } else {
+                const clean = user.driving_license_photo.replace(/^storage\//, '').replace(/^\/+/, '');
+                photoUrl = `/storage/${clean}`;
+            }
+        }
 
         if (photoUrl) {
             simImg.src = photoUrl;
