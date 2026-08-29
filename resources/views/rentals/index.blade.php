@@ -5,31 +5,6 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-8">
 
-    <!-- Flash Notification Messages -->
-    @if(session('success'))
-        <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold shadow-xs animate-in fade-in">
-            <div class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400 shrink-0">check_circle</span>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-200 text-xs font-bold cursor-pointer">
-                ✕
-            </button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="p-4 rounded-xl bg-red-50 dark:bg-red-950/70 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold shadow-xs animate-in fade-in">
-            <div class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-[20px] text-red-600 dark:text-red-400 shrink-0">error</span>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200 text-xs font-bold cursor-pointer">
-                ✕
-            </button>
-        </div>
-    @endif
-
     <!-- Page Header Banner -->
     <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="space-y-1">
@@ -76,12 +51,15 @@
     <!-- Active Rentals Panel -->
     <div id="activeRentalsPanel" class="space-y-6">
         @forelse($activeRentals as $rental)
-            <div class="bg-white dark:bg-surface-dark rounded-2xl border {{ $rental->isOverdue() ? 'border-red-400 dark:border-red-700 ring-2 ring-red-400/20' : 'border-slate-200 dark:border-slate-800 hover:border-primary/40 dark:hover:border-inverse-primary/40' }} p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 transition-all">
+            <div class="bg-white dark:bg-surface-dark rounded-2xl border {{ $rental->isOverdue() ? 'border-red-400 dark:border-red-700 ring-2 ring-red-400/20' : 'border-slate-200 dark:border-slate-800 hover:border-primary/40 dark:hover:border-inverse-primary/40' }} p-6 shadow-sm flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6 transition-all">
                 
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full lg:w-auto">
-                    <img src="{{ $rental->fleet->image_url }}" alt="{{ $rental->fleet->full_name }}" class="w-full sm:w-48 h-32 object-cover rounded-xl border border-slate-200 dark:border-slate-800 shrink-0" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80';" />
+                <!-- Left: Vehicle Image & Info -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 min-w-0">
+                    <div class="rounded-xl overflow-hidden bg-surface-container dark:bg-surface-container-dark border border-slate-200 dark:border-slate-800 shrink-0" style="width: 220px; min-width: 220px; max-width: 220px; height: 140px;">
+                        <img src="{{ $rental->fleet->image_url }}" alt="{{ $rental->fleet->full_name }}" class="w-full h-full object-cover" style="width: 220px; height: 140px; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=500&q=80';" />
+                    </div>
                     
-                    <div class="space-y-2.5">
+                    <div class="space-y-2.5 flex-1 min-w-0 w-full">
                         <div class="flex flex-wrap items-center gap-2">
                             @if($rental->status === 'active')
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-800">
@@ -108,7 +86,7 @@
                             </span>
                         </div>
 
-                        <h3 class="text-xl font-bold text-on-surface dark:text-on-surface-dark">
+                        <h3 class="text-xl font-bold text-on-surface dark:text-on-surface-dark truncate">
                             {{ $rental->fleet->brand }} {{ $rental->fleet->model }}
                         </h3>
 
@@ -123,22 +101,22 @@
                         <div class="flex flex-wrap items-center gap-4 text-xs text-text-muted dark:text-text-muted-dark">
                             <div class="flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">calendar_today</span>
-                                <span>Mulai: <strong>{{ $rental->start_date->format('d M Y') }}</strong></span>
+                                <span>Mulai: <strong class="text-on-surface dark:text-on-surface-dark">{{ $rental->start_date->format('d M Y') }}</strong></span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">event</span>
-                                <span>Selesai: <strong>{{ $rental->end_date->format('d M Y') }}</strong></span>
+                                <span>Selesai: <strong class="text-on-surface dark:text-on-surface-dark">{{ $rental->end_date->format('d M Y') }}</strong></span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">schedule</span>
-                                <span>Durasi: <strong>{{ $rental->total_days }} Hari</strong></span>
+                                <span>Durasi: <strong class="text-primary dark:text-inverse-primary">{{ $rental->total_days }} Hari</strong></span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Price & Action Section -->
-                <div class="w-full lg:w-auto flex flex-row lg:flex-col items-center lg:items-end justify-between gap-4 border-t lg:border-t-0 border-outline-variant/50 dark:border-outline-dark/50 pt-4 lg:pt-0 shrink-0">
+                <!-- Right: Price & Action Buttons -->
+                <div class="w-full xl:w-auto flex flex-row xl:flex-col items-center xl:items-end justify-between gap-4 border-t xl:border-t-0 xl:border-l border-outline-variant/50 dark:border-outline-dark/50 pt-4 xl:pt-0 xl:pl-6 shrink-0">
                     <div class="text-left lg:text-right">
                         <span class="text-xs text-text-muted dark:text-text-muted-dark block">Total Biaya Sewa</span>
                         <span class="text-2xl font-extrabold text-on-surface dark:text-on-surface-dark">
@@ -348,11 +326,11 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <div>
                         <span class="text-text-muted dark:text-text-muted-dark text-[10px] block">Mulai Sewa:</span>
-                        <strong id="invoiceStartDate" class="font-medium">-</strong>
+                        <strong id="invoiceStartDate" class="font-medium text-on-surface dark:text-on-surface-dark">-</strong>
                     </div>
                     <div>
                         <span class="text-text-muted dark:text-text-muted-dark text-[10px] block">Selesai Sewa:</span>
-                        <strong id="invoiceEndDate" class="font-medium">-</strong>
+                        <strong id="invoiceEndDate" class="font-medium text-on-surface dark:text-on-surface-dark">-</strong>
                     </div>
                     <div>
                         <span class="text-text-muted dark:text-text-muted-dark text-[10px] block">Durasi Hari Inklusif:</span>
