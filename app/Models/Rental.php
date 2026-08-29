@@ -112,11 +112,50 @@ class Rental extends Model
     /**
      * Calculate late fee based on days overdue and daily rate.
      */
-    public function calculateLateFee(): float
+    public function calculateLateFee(?Carbon $actualReturnDate = null): float
     {
+        if ($actualReturnDate !== null) {
+            $returnDate = Carbon::parse($actualReturnDate)->startOfDay();
+            $endDate = $this->end_date->startOfDay();
+            if ($returnDate->gt($endDate)) {
+                $days = (int) $endDate->diffInDays($returnDate);
+
+                return (float) ($days * (float) $this->daily_rate);
+            }
+
+            return 0.0;
+        }
+
         $days = $this->daysOverdue();
 
         return (float) ($days * (float) $this->daily_rate);
+    }
+
+    /**
+     * Calculate comprehensive settlement summary including penalties.
+     *
+     * @return array{is_overdue: bool, days_overdue: int, daily_rate: float, total_days: int, total_price: float, penalty_price: float, grand_total: float}
+     */
+    public function calculateSettlementSummary(?Carbon $actualReturnDate = null): array
+    {
+        $returnDate = $actualReturnDate ? Carbon::parse($actualReturnDate)->startOfDay() : now()->startOfDay();
+        $endDate = $this->end_date->startOfDay();
+
+        $isOverdue = $returnDate->gt($endDate);
+        $daysOverdue = $isOverdue ? (int) $endDate->diffInDays($returnDate) : 0;
+        $penaltyPrice = (float) ($daysOverdue * (float) $this->daily_rate);
+        $totalPrice = (float) $this->total_price;
+        $grandTotal = $totalPrice + $penaltyPrice;
+
+        return [
+            'is_overdue' => $isOverdue,
+            'days_overdue' => $daysOverdue,
+            'daily_rate' => (float) $this->daily_rate,
+            'total_days' => (int) $this->total_days,
+            'total_price' => $totalPrice,
+            'penalty_price' => $penaltyPrice,
+            'grand_total' => $grandTotal,
+        ];
     }
 
     /**
