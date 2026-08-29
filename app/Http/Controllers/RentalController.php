@@ -8,9 +8,32 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class RentalController extends Controller
 {
+    /**
+     * Display a listing of the authenticated customer's rentals.
+     */
+    public function index(Request $request): View
+    {
+        $user = $request->user();
+
+        $activeRentals = $user->rentals()
+            ->with('fleet')
+            ->whereIn('status', ['pending', 'active', 'pending_return'])
+            ->latest('created_at')
+            ->get();
+
+        $historyRentals = $user->rentals()
+            ->with('fleet')
+            ->whereIn('status', ['completed', 'cancelled'])
+            ->latest('updated_at')
+            ->get();
+
+        return view('rentals.index', compact('activeRentals', 'historyRentals'));
+    }
+
     /**
      * Store a newly created rental booking in storage.
      */

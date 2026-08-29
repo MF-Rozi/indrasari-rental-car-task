@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Fleet;
+use App\Models\Rental;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -122,7 +123,18 @@ test('admin car create page loads with all required specification fields', funct
 });
 
 test('customer rentals page loads with active and completed rental tabs', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->verified()->create(['role' => 'user']);
+    $car = Fleet::factory()->create([
+        'brand' => 'Toyota',
+        'model' => 'Innova Zenix 2.0 Q Hybrid',
+        'plate_number' => 'B 2419 IND',
+    ]);
+    Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car->id,
+        'status' => 'active',
+    ]);
+
     $response = $this->actingAs($user)->get('/rentals');
 
     $response->assertStatus(200);

@@ -277,3 +277,58 @@ test('user cannot cancel another user rental booking', function () {
     $rental->refresh();
     expect($rental->status)->toBe('active');
 });
+
+test('customer can view own active and completed rentals on my rentals portal', function () {
+    $user = User::factory()->verified()->create(['name' => 'Dr. Hendra Gunawan']);
+    $car1 = Fleet::factory()->create(['brand' => 'Mitsubishi', 'model' => 'Pajero Sport Dakar', 'plate_number' => 'BM 1902 INH']);
+    $car2 = Fleet::factory()->create(['brand' => 'Toyota', 'model' => 'Innova Reborn 2.4 V', 'plate_number' => 'BM 2024 RS']);
+
+    $activeRental = Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car1->id,
+        'rental_code' => 'IND-BK-202608-8811',
+        'status' => 'active',
+        'start_date' => Carbon::now()->format('Y-m-d'),
+        'end_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
+    ]);
+
+    $completedRental = Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car2->id,
+        'rental_code' => 'IND-BK-202608-1122',
+        'status' => 'completed',
+        'start_date' => Carbon::now()->subDays(5)->format('Y-m-d'),
+        'end_date' => Carbon::now()->subDays(3)->format('Y-m-d'),
+        'return_date' => Carbon::now()->subDays(3)->format('Y-m-d'),
+    ]);
+
+    $response = $this->actingAs($user)->get(route('rentals.index'));
+
+    $response->assertStatus(200);
+    $response->assertSee('Daftar Sewa Mobil Saya');
+    $response->assertSee('Mitsubishi Pajero Sport Dakar');
+    $response->assertSee('BM 1902 INH');
+    $response->assertSee('IND-BK-202608-8811');
+    $response->assertSee('Toyota Innova Reborn 2.4 V');
+    $response->assertSee('BM 2024 RS');
+    $response->assertSee('IND-BK-202608-1122');
+});
+
+test('customer cannot see rentals belonging to other customers on my rentals portal', function () {
+    $user1 = User::factory()->verified()->create();
+    $user2 = User::factory()->verified()->create();
+    $car1 = Fleet::factory()->create(['brand' => 'Hyundai', 'model' => 'Ioniq 5 Signature', 'plate_number' => 'BM 9999 EV']);
+
+    Rental::factory()->create([
+        'user_id' => $user1->id,
+        'fleet_id' => $car1->id,
+        'rental_code' => 'IND-BK-202608-SECRET',
+        'status' => 'active',
+    ]);
+
+    $response = $this->actingAs($user2)->get(route('rentals.index'));
+
+    $response->assertStatus(200);
+    $response->assertDontSee('IND-BK-202608-SECRET');
+    $response->assertSee('Belum Ada Sewa Mobil Aktif');
+});
