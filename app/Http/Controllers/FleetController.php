@@ -12,11 +12,16 @@ use Illuminate\View\View;
 class FleetController extends Controller
 {
     /**
-     * Display a listing of the fleet cars with search, filters, and metrics.
+     * Display a listing of the fleet cars with search, filters, and metrics (Admin).
      */
     public function index(Request $request): View
     {
-        $query = Fleet::query();
+        $query = Fleet::query()->withCount([
+            'rentals as total_rentals_count',
+            'rentals as active_rentals_count' => function ($q) {
+                $q->whereIn('status', ['active', 'pending_return']);
+            },
+        ]);
 
         if ($request->filled('search')) {
             $search = trim($request->search);
@@ -53,6 +58,57 @@ class FleetController extends Controller
             'rentedCount',
             'maintenanceCount'
         ));
+    }
+
+    /**
+     * Public catalog listing of all fleets.
+     */
+    public function publicIndex(Request $request): View
+    {
+        $query = Fleet::query();
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('brand', 'like', "%{$search}%")
+                    ->orWhere('model', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('transmission')) {
+            $query->where('transmission', $request->transmission);
+        }
+
+        if ($request->filled('fuel_type')) {
+            $query->where('fuel_type', $request->fuel_type);
+        }
+
+        $totalCount = Fleet::count();
+        $availableCount = Fleet::where('availability', 'available')->count();
+        $fleets = $query->latest()->paginate(9)->withQueryString();
+
+        return view('fleet.index', compact('fleets', 'totalCount', 'availableCount'));
+    }
+
+    /**
+     * Public detail view for a specific car.
+     */
+    public function publicShow(Fleet $car): View
+    {
+        $relatedCars = Fleet::where('id', '!=', $car->id)
+            ->where(function ($q) use ($car) {
+                $q->where('type', $car->type)
+                    ->orWhere('brand', $car->brand);
+            })
+            ->where('availability', 'available')
+            ->limit(3)
+            ->get();
+
+        return view('fleet.show', compact('car', 'relatedCars'));
     }
 
     /**

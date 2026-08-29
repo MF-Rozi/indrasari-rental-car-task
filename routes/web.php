@@ -14,13 +14,8 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/fleet', function () {
-    return view('fleet.index');
-})->name('fleet.index');
-
-Route::get('/fleet/{id}', function ($id) {
-    return view('fleet.show', ['carId' => $id]);
-})->name('fleet.show');
+Route::get('/fleet', [FleetController::class, 'publicIndex'])->name('fleet.index');
+Route::get('/fleet/{car}', [FleetController::class, 'publicShow'])->name('fleet.show');
 
 /*
 |--------------------------------------------------------------------------

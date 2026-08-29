@@ -46,6 +46,9 @@ test('dedicated customer dashboard loads with active booking and stats', functio
 });
 
 test('fleet catalog loads with filters and car list', function () {
+    $car1 = Fleet::factory()->create(['brand' => 'Toyota', 'model' => 'Innova Zenix 2.0 Q Hybrid']);
+    $car2 = Fleet::factory()->create(['brand' => 'Mitsubishi', 'model' => 'Pajero Sport Dakar 4x2']);
+
     $response = $this->get('/fleet');
 
     $response->assertStatus(200);
@@ -56,12 +59,25 @@ test('fleet catalog loads with filters and car list', function () {
 });
 
 test('fleet detail page loads with vehicle specs and live pricing calculator', function () {
-    $response = $this->get('/fleet/1');
+    $car = Fleet::factory()->create([
+        'brand' => 'Toyota',
+        'model' => 'Innova Zenix 2.0 Q Hybrid',
+        'price' => 650000,
+        'availability' => 'available',
+    ]);
 
+    // As guest
+    $response = $this->get('/fleet/'.$car->id);
     $response->assertStatus(200);
     $response->assertSee('Toyota Innova Zenix 2.0 Q Hybrid', false);
-    $response->assertSee('Fitur & Performa Kendaraan', false);
-    $response->assertSee('Pesan Mobil Ini Sekarang', false);
+    $response->assertSee('Spesifikasi Lengkap', false);
+    $response->assertSee('Masuk Akun untuk Memesan', false);
+
+    // As authenticated user
+    $user = User::factory()->create(['role' => 'user']);
+    $authResponse = $this->actingAs($user)->get('/fleet/'.$car->id);
+    $authResponse->assertStatus(200);
+    $authResponse->assertSee('Pesan Mobil Ini Sekarang', false);
 });
 
 test('admin executive dashboard loads with revenue, utilization and live rentals monitor', function () {

@@ -183,3 +183,43 @@ test('admin can soft delete car when no active rentals exist', function () {
         'id' => $car->id,
     ]);
 });
+
+test('admin cars table contains car detail dossier modal trigger', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+    $car = Fleet::factory()->create([
+        'brand' => 'Mazda',
+        'model' => 'CX-60 3.3 AWD',
+        'plate_number' => 'B 6060 MZD',
+        'images' => ['fleets/photo1.jpg', 'fleets/photo2.jpg'],
+    ]);
+
+    $response = $this->actingAs($admin)->get('/admin/cars');
+    $response->assertStatus(200);
+    $response->assertSee('openCarDetailModal', false);
+    $response->assertSee('B 6060 MZD');
+    $response->assertSee('carDetailModal');
+});
+
+test('public fleet show renders car details and related units', function () {
+    $mainCar = Fleet::factory()->create([
+        'brand' => 'Honda',
+        'model' => 'CR-V e:HEV RS',
+        'type' => 'SUV',
+        'price' => 750000,
+        'availability' => 'available',
+    ]);
+
+    $relatedCar = Fleet::factory()->create([
+        'brand' => 'Honda',
+        'model' => 'HR-V SE',
+        'type' => 'SUV',
+        'price' => 500000,
+        'availability' => 'available',
+    ]);
+
+    $response = $this->get('/fleet/'.$mainCar->id);
+    $response->assertStatus(200);
+    $response->assertSee('CR-V e:HEV RS');
+    $response->assertSee('Rp 750.000');
+    $response->assertSee('HR-V SE');
+});
