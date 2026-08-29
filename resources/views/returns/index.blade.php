@@ -464,7 +464,8 @@
         const rental = currentVerifiedRental;
         const settlement = currentSettlement || {};
 
-        document.getElementById('modalCarName').innerText = rental.fleet ? rental.fleet.full_name : (rental.fleet_full_name || 'Unit Mobil');
+        const carName = rental.fleet ? (rental.fleet.full_name || (rental.fleet.brand + ' ' + rental.fleet.model)) : 'Unit Mobil';
+        document.getElementById('modalCarName').innerText = carName;
         document.getElementById('modalCarPlate').innerText = rental.fleet ? rental.fleet.plate_number : (rental.plate_number || '-');
         
         const overdueEl = document.getElementById('modalOverdueStatus');

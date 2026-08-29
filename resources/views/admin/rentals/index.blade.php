@@ -212,7 +212,7 @@
                                 @if($isPendingReturn || $isActive)
                                     <button 
                                         type="button" 
-                                        onclick="openAdminReturnModal(@json($rental), @json($settlement))" 
+                                        onclick="openAdminReturnModal({{ $rental->id }})" 
                                         class="px-3 py-1.5 rounded-lg {{ $isPendingReturn ? 'bg-amber-600 hover:bg-amber-700 shadow-md shadow-amber-600/20' : 'bg-emerald-600 hover:bg-emerald-700' }} text-white font-semibold transition-all cursor-pointer inline-flex items-center gap-1 hover:-translate-y-0.5"
                                     >
                                         <span class="material-symbols-outlined text-[16px]">assignment_turned_in</span>
@@ -221,7 +221,7 @@
                                 @elseif($isCompleted)
                                     <button 
                                         type="button" 
-                                        onclick="openAdminInvoiceModal(@json($rental))" 
+                                        onclick="openAdminInvoiceModal({{ $rental->id }})" 
                                         class="p-1.5 rounded-lg text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors cursor-pointer" 
                                         title="Lihat Kuitansi Resmi"
                                     >
@@ -432,7 +432,12 @@
 
 @push('scripts')
 <script>
-    function openAdminReturnModal(rental, settlement) {
+    const rentalsData = @json($rentals->items());
+
+    function openAdminReturnModal(rentalId) {
+        const rental = rentalsData.find(r => r.id === rentalId);
+        if (!rental) return;
+
         document.getElementById('adminModalRentalCode').innerText = rental.rental_code;
         document.getElementById('adminModalPlate').innerText = rental.fleet ? rental.fleet.plate_number : '-';
         document.getElementById('adminModalCarName').innerText = rental.fleet ? (rental.fleet.brand + ' ' + rental.fleet.model) : '-';
@@ -442,12 +447,26 @@
         const endFormatted = new Date(rental.end_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
         document.getElementById('adminModalPeriod').innerText = `${startFormatted} - ${endFormatted} (${rental.total_days} Hari)`;
 
+        // Calculate overdue status dynamically
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const endDate = new Date(rental.end_date);
+        endDate.setHours(0, 0, 0, 0);
+
+        const isOverdue = today > endDate;
+        let daysOverdue = 0;
+        let autoPenalty = 0;
+
+        if (isOverdue) {
+            const diffTime = Math.abs(today - endDate);
+            daysOverdue = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            autoPenalty = daysOverdue * Number(rental.daily_rate);
+        }
+
         const overdueEl = document.getElementById('adminModalOverdueText');
-        const autoPenalty = settlement ? settlement.penalty_price : 0;
-        
-        if (settlement && settlement.is_overdue) {
+        if (isOverdue) {
             overdueEl.className = 'text-red-600 dark:text-red-400 font-bold';
-            overdueEl.innerText = `Terlambat ${settlement.days_overdue} Hari`;
+            overdueEl.innerText = `Terlambat ${daysOverdue} Hari`;
         } else {
             overdueEl.className = 'text-emerald-600 dark:text-emerald-400 font-semibold';
             overdueEl.innerText = 'Tepat Waktu (Tanpa Keterlambatan)';
@@ -472,7 +491,10 @@
         }
     }
 
-    function openAdminInvoiceModal(rental) {
+    function openAdminInvoiceModal(rentalId) {
+        const rental = rentalsData.find(r => r.id === rentalId);
+        if (!rental) return;
+
         document.getElementById('invModalCode').innerText = rental.rental_code;
         document.getElementById('invModalUser').innerText = rental.user ? rental.user.name : '-';
         document.getElementById('invModalCar').innerText = rental.fleet ? (rental.fleet.brand + ' ' + rental.fleet.model) : '-';
