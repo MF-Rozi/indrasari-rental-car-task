@@ -36,7 +36,14 @@ test('login and register routes render auth page directly with active tab', func
 });
 
 test('dedicated customer dashboard loads with active booking and stats', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->create(['role' => 'user', 'name' => 'Budi Santoso']);
+    $car = Fleet::factory()->create(['brand' => 'Toyota', 'model' => 'Innova Zenix 2.0 Q', 'plate_number' => 'B 2419 IND']);
+    Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car->id,
+        'status' => 'active',
+    ]);
+
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertStatus(200);
