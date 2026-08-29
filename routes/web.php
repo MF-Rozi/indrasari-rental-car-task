@@ -1,27 +1,17 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Public & Customer Routes
+/*
+|--------------------------------------------------------------------------
+| 1. Public Browsing Routes (No login required)
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('home');
 })->name('home');
-
-Route::get('/auth', function () {
-    return view('auth.auth');
-})->name('auth');
-
-Route::get('/login', function () {
-    return redirect()->route('auth', ['tab' => 'signin']);
-})->name('login');
-
-Route::get('/register', function () {
-    return redirect()->route('auth', ['tab' => 'register']);
-})->name('register');
-
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
 
 Route::get('/fleet', function () {
     return view('fleet.index');
@@ -31,20 +21,52 @@ Route::get('/fleet/{id}', function ($id) {
     return view('fleet.show', ['carId' => $id]);
 })->name('fleet.show');
 
-Route::get('/rentals', function () {
-    return view('rentals.index');
-})->name('rentals.index');
+/*
+|--------------------------------------------------------------------------
+| 2. Guest Authentication Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'auth'])->name('login.post');
 
-Route::get('/returns', function () {
-    return view('returns.index');
-})->name('returns.index');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'store'])->name('register.post');
 
-Route::get('/profile', function () {
-    return view('profile.index');
-})->name('profile.index');
+    Route::get('/auth', [AuthController::class, 'login'])->name('auth');
+});
 
-// Admin Management Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| 3. Customer Protected Routes (Requires logged in user)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard');
+
+    Route::get('/rentals', function () {
+        return view('rentals.index');
+    })->name('rentals.index');
+
+    Route::get('/returns', function () {
+        return view('returns.index');
+    })->name('returns.index');
+
+    Route::get('/profile', [UserController::class, 'show'])->name('profile.index');
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password.update');
+});
+
+/*
+|--------------------------------------------------------------------------
+| 4. Admin Management Routes (Requires logged in user with role=admin)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
     })->name('dashboard');

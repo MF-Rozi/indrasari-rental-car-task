@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
 test('homepage loads successfully with hero and featured cars', function () {
     $response = $this->get('/');
 
@@ -18,16 +23,19 @@ test('auth page loads with sign-in and registration tabs', function () {
     $response->assertSee('Nomor SIM A', false);
 });
 
-test('login and register routes redirect to auth page with tab parameters', function () {
+test('login and register routes render auth page directly with active tab', function () {
     $loginResponse = $this->get('/login');
-    $loginResponse->assertRedirect(route('auth', ['tab' => 'signin']));
+    $loginResponse->assertStatus(200);
+    $loginResponse->assertSee('Masuk Akun');
 
     $registerResponse = $this->get('/register');
-    $registerResponse->assertRedirect(route('auth', ['tab' => 'register']));
+    $registerResponse->assertStatus(200);
+    $registerResponse->assertSee('Daftar Baru');
 });
 
 test('dedicated customer dashboard loads with active booking and stats', function () {
-    $response = $this->get('/dashboard');
+    $user = User::factory()->create(['role' => 'user']);
+    $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertStatus(200);
     $response->assertSee('Selamat Datang, Budi Santoso', false);
@@ -56,7 +64,8 @@ test('fleet detail page loads with vehicle specs and live pricing calculator', f
 });
 
 test('admin executive dashboard loads with revenue, utilization and live rentals monitor', function () {
-    $response = $this->get('/admin');
+    $admin = User::factory()->create(['role' => 'admin']);
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('Pusat Kontrol Rental Indrasari', false);
@@ -66,7 +75,8 @@ test('admin executive dashboard loads with revenue, utilization and live rentals
 });
 
 test('admin cars index loads with metric badges and vehicle table', function () {
-    $response = $this->get('/admin/cars');
+    $admin = User::factory()->create(['role' => 'admin']);
+    $response = $this->actingAs($admin)->get('/admin/cars');
 
     $response->assertStatus(200);
     $response->assertSee('Manajemen Armada Mobil', false);
@@ -75,7 +85,8 @@ test('admin cars index loads with metric badges and vehicle table', function () 
 });
 
 test('admin car create page loads with all required specification fields', function () {
-    $response = $this->get('/admin/cars/create');
+    $admin = User::factory()->create(['role' => 'admin']);
+    $response = $this->actingAs($admin)->get('/admin/cars/create');
 
     $response->assertStatus(200);
     $response->assertSee('Informasi & Spesifikasi Unit Kendaraan', false);
@@ -84,7 +95,8 @@ test('admin car create page loads with all required specification fields', funct
 });
 
 test('customer rentals page loads with active and completed rental tabs', function () {
-    $response = $this->get('/rentals');
+    $user = User::factory()->create(['role' => 'user']);
+    $response = $this->actingAs($user)->get('/rentals');
 
     $response->assertStatus(200);
     $response->assertSee('Daftar Sewa Mobil Saya', false);
@@ -94,7 +106,8 @@ test('customer rentals page loads with active and completed rental tabs', functi
 });
 
 test('car returns page loads with plate verification and cost calculation', function () {
-    $response = $this->get('/returns');
+    $user = User::factory()->create(['role' => 'user']);
+    $response = $this->actingAs($user)->get('/returns');
 
     $response->assertStatus(200);
     $response->assertSee('Formulir Pengembalian Unit Mobil', false);
@@ -104,7 +117,13 @@ test('car returns page loads with plate verification and cost calculation', func
 });
 
 test('customer profile page loads with user data and SIM A verification', function () {
-    $response = $this->get('/profile');
+    $user = User::factory()->create([
+        'name' => 'Budi Santoso',
+        'role' => 'user',
+        'driving_license_number' => '1234-5678-9012',
+        'verification_status' => 'verified',
+    ]);
+    $response = $this->actingAs($user)->get('/profile');
 
     $response->assertStatus(200);
     $response->assertSee('Budi Santoso', false);
@@ -113,7 +132,8 @@ test('customer profile page loads with user data and SIM A verification', functi
 });
 
 test('admin rentals management loads with metrics and transaction table', function () {
-    $response = $this->get('/admin/rentals');
+    $admin = User::factory()->create(['role' => 'admin']);
+    $response = $this->actingAs($admin)->get('/admin/rentals');
 
     $response->assertStatus(200);
     $response->assertSee('Kelola Transaksi Sewa dan Pengembalian', false);
@@ -123,7 +143,8 @@ test('admin rentals management loads with metrics and transaction table', functi
 });
 
 test('admin users management loads with metrics and customer SIM list', function () {
-    $response = $this->get('/admin/users');
+    $admin = User::factory()->create(['role' => 'admin']);
+    $response = $this->actingAs($admin)->get('/admin/users');
 
     $response->assertStatus(200);
     $response->assertSee('Kelola Pengguna', false);
