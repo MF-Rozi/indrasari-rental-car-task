@@ -80,14 +80,9 @@
                 Manajemen Sistem
             </div>
 
-            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
+            <a href="{{ url('/admin/cars') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars*') ? 'bg-primary text-white shadow-sm shadow-primary/20 font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
                 <span class="material-symbols-outlined text-[20px]">directions_car</span>
                 <span>Kelola Mobil (Armada)</span>
-            </a>
-
-            <a href="{{ url('/admin/cars/create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/cars/create') ? 'bg-primary text-white shadow-sm font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
-                <span class="material-symbols-outlined text-[20px]">add_circle</span>
-                <span>Tambah Mobil Baru</span>
             </a>
 
             <a href="{{ url('/admin/rentals') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 {{ request()->is('admin/rentals*') ? 'bg-primary text-white shadow-sm font-semibold' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary' }}">
