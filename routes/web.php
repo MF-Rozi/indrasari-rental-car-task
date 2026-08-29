@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FleetController;
+use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,9 +45,9 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.index');
     })->name('dashboard');
 
-    Route::get('/rentals', function () {
-        return view('rentals.index');
-    })->name('rentals.index');
+    Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index');
+    Route::post('/rentals', [RentalController::class, 'store'])->name('rentals.store');
+    Route::delete('/rentals/{rental}', [RentalController::class, 'cancel'])->name('rentals.cancel');
 
     Route::get('/returns', function () {
         return view('returns.index');

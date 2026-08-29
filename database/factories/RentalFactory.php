@@ -27,6 +27,7 @@ class RentalFactory extends Factory
         $totalPrice = $dailyRate * $totalDays;
 
         return [
+            'rental_code' => 'IND-BK-'.now()->format('Ym').'-'.str_pad((string) fake()->unique()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
             'user_id' => User::factory(),
             'fleet_id' => Fleet::factory(),
             'start_date' => $startDate->format('Y-m-d'),
@@ -73,6 +74,17 @@ class RentalFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'status' => 'completed',
             'return_date' => Carbon::now()->format('Y-m-d'),
+        ]);
+    }
+
+    /**
+     * State for cancelled rental.
+     */
+    public function cancelled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'cancelled',
+            'return_date' => null,
         ]);
     }
 }

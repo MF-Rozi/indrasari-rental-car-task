@@ -32,6 +32,7 @@ class RentalSeeder extends Seeder
             $totalPrice1 = $dailyRate1 * $totalDays1;
 
             Rental::create([
+                'rental_code' => 'IND-BK-202608-0091',
                 'user_id' => $customer->id,
                 'fleet_id' => $fleet1->id,
                 'start_date' => $startDate1,
@@ -58,6 +59,7 @@ class RentalSeeder extends Seeder
             $totalPrice2 = $dailyRate2 * $totalDays2;
 
             Rental::create([
+                'rental_code' => 'IND-BK-202608-0092',
                 'user_id' => $customer->id,
                 'fleet_id' => $fleet2->id,
                 'start_date' => $startDate2,

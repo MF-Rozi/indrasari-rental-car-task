@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Fleet;
+use App\Models\Rental;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -73,11 +74,17 @@ test('fleet detail page loads with vehicle specs and live pricing calculator', f
     $response->assertSee('Spesifikasi Lengkap', false);
     $response->assertSee('Masuk Akun untuk Memesan', false);
 
-    // As authenticated user
-    $user = User::factory()->create(['role' => 'user']);
-    $authResponse = $this->actingAs($user)->get('/fleet/'.$car->id);
+    // As unverified user
+    $unverifiedUser = User::factory()->pending()->create(['role' => 'user']);
+    $unverifiedResponse = $this->actingAs($unverifiedUser)->get('/fleet/'.$car->id);
+    $unverifiedResponse->assertStatus(200);
+    $unverifiedResponse->assertSee('Menunggu Verifikasi SIM A', false);
+
+    // As verified user
+    $verifiedUser = User::factory()->verified()->create(['role' => 'user']);
+    $authResponse = $this->actingAs($verifiedUser)->get('/fleet/'.$car->id);
     $authResponse->assertStatus(200);
-    $authResponse->assertSee('Pesan Mobil Ini Sekarang', false);
+    $authResponse->assertSee('Lanjutkan Pemesanan Unit', false);
 });
 
 test('admin executive dashboard loads with revenue, utilization and live rentals monitor', function () {
@@ -116,7 +123,18 @@ test('admin car create page loads with all required specification fields', funct
 });
 
 test('customer rentals page loads with active and completed rental tabs', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->verified()->create(['role' => 'user']);
+    $car = Fleet::factory()->create([
+        'brand' => 'Toyota',
+        'model' => 'Innova Zenix 2.0 Q Hybrid',
+        'plate_number' => 'B 2419 IND',
+    ]);
+    Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car->id,
+        'status' => 'active',
+    ]);
+
     $response = $this->actingAs($user)->get('/rentals');
 
     $response->assertStatus(200);
