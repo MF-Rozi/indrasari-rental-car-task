@@ -129,12 +129,14 @@
                             <!-- User Identity & Role -->
                             <td class="py-3.5 px-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-xl {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300' : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-inverse-primary' }} font-bold flex items-center justify-center text-xs shrink-0 shadow-xs">
+                                    <button type="button" onclick='openUserInspectionModal(@json($user))' class="w-9 h-9 rounded-xl {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300' : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-inverse-primary' }} font-bold flex items-center justify-center text-xs shrink-0 shadow-xs hover:scale-105 transition-transform cursor-pointer" title="Lihat detail pengguna">
                                         {{ strtoupper(substr($user->name, 0, 2)) }}
-                                    </div>
+                                    </button>
                                     <div class="space-y-0.5 min-w-0">
                                         <div class="flex items-center gap-1.5">
-                                            <span class="font-bold text-on-surface dark:text-on-surface-dark block truncate">{{ $user->name }}</span>
+                                            <button type="button" onclick='openUserInspectionModal(@json($user))' class="font-bold text-on-surface dark:text-on-surface-dark hover:text-primary dark:hover:text-inverse-primary transition-colors text-left truncate cursor-pointer">
+                                                {{ $user->name }}
+                                            </button>
                                             @if($user->role === 'admin')
                                                 <span class="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 border border-purple-200 dark:border-purple-800 uppercase tracking-wider">
                                                     ADMIN
@@ -184,8 +186,11 @@
                                         @endif
 
                                         @if($user->driving_license_expiry_date)
-                                            <span class="text-[10px] text-text-muted dark:text-text-muted-dark">
+                                            <span class="text-[10px] {{ $user->driving_license_expiry_date->isPast() ? 'text-red-600 dark:text-red-400 font-bold' : 'text-text-muted dark:text-text-muted-dark' }}">
                                                 Exp: {{ $user->driving_license_expiry_date->format('d/m/Y') }}
+                                                @if($user->driving_license_expiry_date->isPast())
+                                                    (Kadaluwarsa)
+                                                @endif
                                             </span>
                                         @endif
                                     </div>
@@ -429,9 +434,12 @@
         document.getElementById('modalSimNumber').innerText = user.driving_license_number || 'Belum diisi';
         if (user.driving_license_expiry_date) {
             const expDate = new Date(user.driving_license_expiry_date);
-            document.getElementById('modalSimExpiry').innerText = expDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            const isPast = expDate < new Date();
+            document.getElementById('modalSimExpiry').innerText = expDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) + (isPast ? ' (Kadaluwarsa)' : '');
+            document.getElementById('modalSimExpiry').className = 'font-mono text-sm block mt-0.5 ' + (isPast ? 'text-red-600 dark:text-red-400 font-bold' : 'text-on-surface dark:text-on-surface-dark');
         } else {
             document.getElementById('modalSimExpiry').innerText = '-';
+            document.getElementById('modalSimExpiry').className = 'font-mono text-sm text-on-surface dark:text-on-surface-dark block mt-0.5';
         }
 
         // Status Badge Pill
