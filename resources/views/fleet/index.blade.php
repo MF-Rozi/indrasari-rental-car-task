@@ -24,11 +24,11 @@
         <div class="flex items-center gap-3">
             <div class="px-4 py-2 rounded-xl bg-surface-container dark:bg-surface-container-dark border border-outline-variant/60 dark:border-outline-dark/60 text-center">
                 <span class="text-xs text-text-muted dark:text-text-muted-dark block">Total Armada</span>
-                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">8 Unit</span>
+                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">{{ $totalCount }} Unit</span>
             </div>
             <div class="px-4 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-center">
                 <span class="text-xs text-emerald-700 dark:text-emerald-400 block font-medium">Siap Disewa</span>
-                <span class="text-lg font-bold text-emerald-800 dark:text-emerald-300">6 Unit</span>
+                <span class="text-lg font-bold text-emerald-800 dark:text-emerald-300">{{ $availableCount }} Unit</span>
             </div>
         </div>
     </div>
@@ -38,15 +38,17 @@
         
         <!-- Left Sidebar Filter (Desktop) -->
         <aside class="space-y-6 lg:col-span-1">
-            <div class="bg-white dark:bg-surface-dark rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 space-y-6">
+            <form method="GET" action="{{ route('fleet.index') }}" class="bg-white dark:bg-surface-dark rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 space-y-6">
                 <div class="flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50 pb-4">
                     <h3 class="font-bold text-base text-on-surface dark:text-on-surface-dark flex items-center gap-2">
                         <span class="material-symbols-outlined text-[20px] text-primary dark:text-inverse-primary">tune</span>
                         <span>Filter Pencarian</span>
                     </h3>
-                    <a href="{{ url('/fleet') }}" class="text-xs text-primary dark:text-inverse-primary font-semibold hover:underline">
-                        Reset
-                    </a>
+                    @if(request()->hasAny(['search', 'type', 'transmission', 'fuel_type']))
+                        <a href="{{ route('fleet.index') }}" class="text-xs text-red-500 font-semibold hover:underline">
+                            Reset
+                        </a>
+                    @endif
                 </div>
 
                 <!-- Search Input -->
@@ -56,32 +58,23 @@
                     </label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-muted-dark text-[18px]">search</span>
-                        <input type="text" id="filterSearch" placeholder="Ketik Avanza, Alphard..." class="w-full pl-9 pr-3 py-2 bg-background dark:bg-background-dark border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-on-surface dark:text-on-surface-dark placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Ketik Avanza, Alphard..." class="w-full pl-9 pr-3 py-2 bg-background dark:bg-background-dark border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-on-surface dark:text-on-surface-dark placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                     </div>
                 </div>
 
-                <!-- Category Filter Pills with Calibrated Hover Contrast -->
+                <!-- Category Filter -->
                 <div class="space-y-2">
                     <label class="block text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark">
                         Tipe / Kategori
                     </label>
-                    <div class="flex flex-wrap gap-1.5">
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white shadow-sm cursor-pointer">
-                            Semua
-                        </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
-                            MPV
-                        </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
-                            SUV
-                        </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
-                            Luxury VIP
-                        </button>
-                        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-primary/10 dark:hover:bg-surface-container-high-dark hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer">
-                            Listrik (EV)
-                        </button>
-                    </div>
+                    <select name="type" class="w-full py-2 px-3 bg-background dark:bg-background-dark border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-on-surface dark:text-on-surface-dark focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        <option value="">Semua Kategori</option>
+                        <option value="MPV" {{ request('type') === 'MPV' ? 'selected' : '' }}>MPV Keluarga</option>
+                        <option value="SUV" {{ request('type') === 'SUV' ? 'selected' : '' }}>SUV Tangguh</option>
+                        <option value="Luxury" {{ request('type') === 'Luxury' ? 'selected' : '' }}>Luxury VIP</option>
+                        <option value="Sedan" {{ request('type') === 'Sedan' ? 'selected' : '' }}>Sedan Premium</option>
+                        <option value="Electric" {{ request('type') === 'Electric' ? 'selected' : '' }}>Listrik (EV)</option>
+                    </select>
                 </div>
 
                 <!-- Transmission Radio -->
@@ -91,40 +84,39 @@
                     </label>
                     <div class="space-y-1.5 text-xs text-on-surface dark:text-on-surface-dark">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="trans" checked class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
+                            <input type="radio" name="transmission" value="" {{ !request('transmission') ? 'checked' : '' }} class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
                             <span>Semua Transmisi</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="trans" class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
+                            <input type="radio" name="transmission" value="Automatic" {{ request('transmission') === 'Automatic' ? 'checked' : '' }} class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
                             <span>Automatic (AT / CVT)</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="trans" class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
+                            <input type="radio" name="transmission" value="Manual" {{ request('transmission') === 'Manual' ? 'checked' : '' }} class="text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
                             <span>Manual (MT)</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Status Filter -->
+                <!-- Fuel Type -->
                 <div class="space-y-2">
                     <label class="block text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark">
-                        Ketersediaan
+                        Bahan Bakar
                     </label>
-                    <div class="space-y-1.5 text-xs text-on-surface dark:text-on-surface-dark">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" checked class="rounded text-primary focus:ring-primary border-slate-300 dark:border-slate-700">
-                            <span class="flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                <span>Hanya Mobil Tersedia</span>
-                            </span>
-                        </label>
-                    </div>
+                    <select name="fuel_type" class="w-full py-2 px-3 bg-background dark:bg-background-dark border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-on-surface dark:text-on-surface-dark focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        <option value="">Semua Bahan Bakar</option>
+                        <option value="Bensin" {{ request('fuel_type') === 'Bensin' ? 'selected' : '' }}>Bensin</option>
+                        <option value="Diesel" {{ request('fuel_type') === 'Diesel' ? 'selected' : '' }}>Diesel</option>
+                        <option value="Hybrid" {{ request('fuel_type') === 'Hybrid' ? 'selected' : '' }}>Hybrid</option>
+                        <option value="Listrik" {{ request('fuel_type') === 'Listrik' ? 'selected' : '' }}>Listrik (EV)</option>
+                    </select>
                 </div>
 
-                <button type="button" class="w-full py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all cursor-pointer">
-                    Terapkan Filter
+                <button type="submit" class="w-full py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all cursor-pointer flex items-center justify-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px]">filter_alt</span>
+                    <span>Terapkan Filter</span>
                 </button>
-            </div>
+            </form>
         </aside>
 
         <!-- Right Vehicle Grid -->
@@ -132,321 +124,92 @@
             
             <!-- Filter Toolbar / Active Sort -->
             <div class="flex items-center justify-between text-xs text-text-muted dark:text-text-muted-dark">
-                <span>Menampilkan <strong class="text-on-surface dark:text-on-surface-dark font-semibold">6 dari 8</strong> mobil tersedia</span>
-                <div class="flex items-center gap-2">
-                    <span>Urutkan:</span>
-                    <select class="bg-white dark:bg-surface-dark border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-on-surface dark:text-on-surface-dark focus:ring-primary focus:border-primary outline-none">
-                        <option>Paling Populer</option>
-                        <option>Tarif: Terendah ke Tertinggi</option>
-                        <option>Tarif: Tertinggi ke Terendah</option>
-                        <option>Kapasitas Kursi Terbanyak</option>
-                    </select>
-                </div>
+                <span>Menampilkan <strong class="text-on-surface dark:text-on-surface-dark font-semibold">{{ $fleets->total() }}</strong> armada mobil</span>
             </div>
 
             <!-- Cars Cards List -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @forelse($fleets as $car)
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group">
+                        
+                        <!-- Thumbnail Image -->
+                        <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
+                            <img src="{{ $car->image_url }}" alt="{{ $car->full_name }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80';" />
+                            
+                            <div class="absolute top-3 left-3">
+                                @if($car->availability === 'available')
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/80 dark:text-emerald-300 dark:border-emerald-800 shadow-sm backdrop-blur-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        Tersedia
+                                    </span>
+                                @elseif($car->availability === 'rented')
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/80 dark:text-blue-300 dark:border-blue-800 shadow-sm backdrop-blur-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                        Disewa
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/80 dark:text-amber-300 dark:border-amber-800 shadow-sm backdrop-blur-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        Perawatan
+                                    </span>
+                                @endif
+                            </div>
 
-                <!-- Car 1: Innova Zenix -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Innova Zenix" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Tersedia
-                            </span>
+                            @if(!empty($car->images) && count($car->images) > 0)
+                                <span class="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-xs text-white text-[10px] font-bold rounded-md flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[12px]">photo_camera</span>
+                                    <span>+{{ count($car->images) }}</span>
+                                </span>
+                            @endif
                         </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">MPV</span>
-                        </div>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 2419 IND</span>
-                            </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                                Innova Zenix 2.0 Q Hybrid
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>7 Kursi</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                                <span>Hybrid</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-1">
+
+                        <!-- Card Body -->
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
                             <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 650.000</span>
+                                <span class="text-[11px] font-semibold text-primary dark:text-inverse-primary uppercase tracking-wider">{{ $car->type }}</span>
+                                <h3 class="font-bold text-base text-on-surface dark:text-on-surface-dark mt-0.5 truncate">{{ $car->brand }} {{ $car->model }}</h3>
+                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block mt-0.5">Tahun {{ $car->year }} • {{ $car->color }}</span>
                             </div>
-                            <a href="{{ url('/fleet/1') }}" class="py-2 px-3.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
-                                Detail & Sewa
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Car 2: Toyota Alphard -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Toyota Alphard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Tersedia
-                            </span>
-                        </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">Luxury</span>
-                        </div>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 1008 SRI</span>
+                            <!-- Specs Pills -->
+                            <div class="grid grid-cols-3 gap-2 py-2 border-y border-outline-variant/40 dark:border-outline-dark/40 text-[11px] text-text-muted dark:text-text-muted-dark">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[15px] text-primary">airline_seat_recline_normal</span>
+                                    <span>{{ $car->seat_capacity }} Kursi</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[15px] text-primary">settings</span>
+                                    <span class="truncate">{{ $car->transmission === 'Automatic' ? 'Matic' : 'Manual' }}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[15px] text-primary">local_gas_station</span>
+                                    <span class="truncate">{{ $car->fuel_type }}</span>
+                                </div>
                             </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                                Alphard 2.5 Transformer VIP
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>6 VIP</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                                <span>Bensin</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-1">
-                            <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 1.850.000</span>
-                            </div>
-                            <a href="{{ url('/fleet/2') }}" class="py-2 px-3.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
-                                Detail & Sewa
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Car 3: Avanza -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Toyota Avanza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Tersedia
-                            </span>
-                        </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">MPV</span>
-                        </div>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 1872 IND</span>
-                            </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                                All New Avanza 1.5 G
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>7 Kursi</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                                <span>Bensin</span>
+                            <!-- Pricing & Action -->
+                            <div class="flex items-center justify-between pt-1">
+                                <div>
+                                    <span class="text-base font-extrabold text-primary dark:text-inverse-primary">Rp {{ number_format((int)$car->price, 0, ',', '.') }}</span>
+                                    <span class="text-[10px] text-text-muted dark:text-text-muted-dark">/ hari</span>
+                                </div>
+                                <a href="{{ route('fleet.show', $car) }}" class="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5">
+                                    Detail & Pesan &rarr;
+                                </a>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between pt-1">
-                            <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 375.000</span>
-                            </div>
-                            <a href="{{ url('/fleet/3') }}" class="py-2 px-3.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
-                                Detail & Sewa
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Car 4: Mitsubishi Pajero Sport -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80" alt="Mitsubishi Pajero Sport" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Tersedia
-                            </span>
-                        </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">SUV</span>
-                        </div>
                     </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Mitsubishi</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">D 1945 PJ</span>
-                            </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                                Pajero Sport Dakar 4x2
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>7 Kursi</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                                <span>Diesel</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-1">
-                            <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 850.000</span>
-                            </div>
-                            <a href="{{ url('/fleet/1') }}" class="py-2 px-3.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
-                                Detail & Sewa
-                            </a>
-                        </div>
+                @empty
+                    <div class="col-span-full py-16 text-center text-text-muted dark:text-text-muted-dark">
+                        <span class="material-symbols-outlined text-5xl text-slate-400">directions_car</span>
+                        <p class="font-bold text-sm text-on-surface dark:text-on-surface-dark mt-2">Tidak ada mobil yang sesuai filter</p>
+                        <p class="text-xs mt-1">Coba ubah kata kunci pencarian atau reset filter di sisi kiri.</p>
+                        <a href="{{ route('fleet.index') }}" class="inline-block mt-4 px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold">
+                            Reset Semua Filter
+                        </a>
                     </div>
-                </div>
-
-                <!-- Car 5: Hyundai Ioniq 5 EV -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="Hyundai Ioniq 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Tersedia
-                            </span>
-                        </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">EV Eco</span>
-                        </div>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Hyundai</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 2024 EV</span>
-                            </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                                Ioniq 5 Signature Long Range
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>5 Kursi</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">bolt</span>
-                                <span>100% Listrik</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-1">
-                            <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 1.100.000</span>
-                            </div>
-                            <a href="{{ url('/fleet/1') }}" class="py-2 px-3.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all">
-                                Detail & Sewa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 6: Honda HR-V (Sedang Disewa) -->
-                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm flex flex-col opacity-90">
-                    <div class="relative h-48 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80" alt="Honda HR-V" class="w-full h-full object-cover grayscale-[30%]" />
-                        <div class="absolute top-3 left-3">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                Sedang Disewa
-                            </span>
-                        </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-black/60 backdrop-blur-md text-white">Compact SUV</span>
-                        </div>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Honda</span>
-                                <span class="text-xs font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 1667 HRV</span>
-                            </div>
-                            <h3 class="text-base font-bold text-on-surface dark:text-on-surface-dark mt-1">
-                                HR-V 1.5 SE RS Look
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                                <span>5 Kursi</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">settings</span>
-                                <span>Matic</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                                <span>Bensin</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-1">
-                            <div>
-                                <span class="text-[11px] text-text-muted dark:text-text-muted-dark block">Tarif / Hari</span>
-                                <span class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Rp 500.000</span>
-                            </div>
-                            <button disabled class="py-2 px-3.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold cursor-not-allowed">
-                                Disewa s/d 30 Ags
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                @endforelse
             </div>
 
             <!-- Pagination -->

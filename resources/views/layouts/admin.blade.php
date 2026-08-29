@@ -38,10 +38,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="bg-background dark:bg-background-dark text-on-surface dark:text-on-surface-dark font-sans antialiased min-h-screen flex flex-col md:flex-row transition-colors duration-300">
+<body class="bg-background dark:bg-background-dark text-on-surface dark:text-on-surface-dark font-sans antialiased min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden transition-colors duration-300">
     
     <!-- Admin Sidebar Navigation -->
-    <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0 transition-colors duration-300">
+    <aside id="adminSidebar" class="w-full md:w-64 lg:w-72 bg-white dark:bg-surface-dark border-r border-outline-variant/60 dark:border-outline-dark/60 flex flex-col shrink-0 md:h-full transition-colors duration-300">
         <!-- Brand Header -->
         <div class="h-18 px-6 flex items-center justify-between border-b border-outline-variant/50 dark:border-outline-dark/50">
             <a href="{{ url('/admin') }}" class="flex items-center gap-3 group">
@@ -135,7 +135,7 @@
     </aside>
 
     <!-- Main Content Area with Top Header -->
-    <div class="flex-1 flex flex-col min-w-0">
+    <div class="flex-1 flex flex-col min-w-0 md:h-full">
         <!-- Admin Topbar -->
         <header class="h-18 bg-white dark:bg-surface-dark border-b border-outline-variant/60 dark:border-outline-dark/60 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300">
             <div class="flex items-center gap-3">
@@ -168,7 +168,21 @@
         </header>
 
         <!-- Dynamic Admin Content Canvas -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-visible md:overflow-y-auto space-y-6">
+            @if(session('success'))
+                <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-3 shadow-xs">
+                    <span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400 shrink-0">check_circle</span>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 text-xs flex items-center gap-3 shadow-xs">
+                    <span class="material-symbols-outlined text-[20px] text-red-600 dark:text-red-400 shrink-0">error</span>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>
