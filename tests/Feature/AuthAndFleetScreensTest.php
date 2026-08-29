@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Fleet;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -76,6 +77,10 @@ test('admin executive dashboard loads with revenue, utilization and live rentals
 
 test('admin cars index loads with metric badges and vehicle table', function () {
     $admin = User::factory()->create(['role' => 'admin']);
+    Fleet::factory()->create([
+        'brand' => 'Toyota',
+        'model' => 'Innova Zenix 2.0 Q',
+    ]);
     $response = $this->actingAs($admin)->get('/admin/cars');
 
     $response->assertStatus(200);

@@ -168,7 +168,21 @@
         </header>
 
         <!-- Dynamic Admin Content Canvas -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto space-y-6">
+            @if(session('success'))
+                <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-3 shadow-xs">
+                    <span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400 shrink-0">check_circle</span>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 text-xs flex items-center gap-3 shadow-xs">
+                    <span class="material-symbols-outlined text-[20px] text-red-600 dark:text-red-400 shrink-0">error</span>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FleetController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,17 +76,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         return view('admin.dashboard.index');
     })->name('dashboard.index');
 
-    Route::get('/cars', function () {
-        return view('admin.cars.index');
-    })->name('cars.index');
-
-    Route::get('/cars/create', function () {
-        return view('admin.cars.create-edit');
-    })->name('cars.create');
-
-    Route::get('/cars/{id}/edit', function ($id) {
-        return view('admin.cars.create-edit', ['carId' => $id]);
-    })->name('cars.edit');
+    Route::get('/cars', [FleetController::class, 'index'])->name('cars.index');
+    Route::get('/cars/create', [FleetController::class, 'create'])->name('cars.create');
+    Route::post('/cars', [FleetController::class, 'store'])->name('cars.store');
+    Route::get('/cars/{car}/edit', [FleetController::class, 'edit'])->name('cars.edit');
+    Route::put('/cars/{car}', [FleetController::class, 'update'])->name('cars.update');
+    Route::delete('/cars/{car}', [FleetController::class, 'destroy'])->name('cars.destroy');
+    Route::patch('/cars/{car}/status', [FleetController::class, 'updateStatus'])->name('cars.status');
 
     Route::get('/rentals', function () {
         return view('admin.rentals.index');
