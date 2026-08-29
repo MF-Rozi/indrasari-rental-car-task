@@ -28,6 +28,13 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'driving_license_number' => fake()->unique()->numerify('################'),
+            'driving_license_expiry_date' => fake()->dateTimeBetween('+1 year', '+5 years')->format('Y-m-d'),
+            'driving_license_photo' => 'public/storage/driving_license/driving_license_photo.jpg',
+            'phone_number' => fake()->unique()->phoneNumber(),
+            'address' => fake()->address(),
+            'role' => 'user',
+            'verification_status' => 'verified',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

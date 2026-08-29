@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('driving_license_number')->unique();
+            $table->date('driving_license_expiry_date');
+            $table->string('driving_license_photo');
+            $table->string('phone_number')->unique();
+            $table->string('address');
+            $table->enum('role', ['admin', 'user'])->default('user');
+            $table->enum('verification_status', ['pending', 'verified', 'rejected'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });
