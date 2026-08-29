@@ -117,7 +117,12 @@ test('car returns page loads with plate verification and cost calculation', func
 });
 
 test('customer profile page loads with user data and SIM A verification', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->create([
+        'name' => 'Budi Santoso',
+        'role' => 'user',
+        'driving_license_number' => '1234-5678-9012',
+        'verification_status' => 'verified',
+    ]);
     $response = $this->actingAs($user)->get('/profile');
 
     $response->assertStatus(200);

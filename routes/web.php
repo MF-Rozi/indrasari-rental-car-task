@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,9 +56,9 @@ Route::middleware('auth')->group(function () {
         return view('returns.index');
     })->name('returns.index');
 
-    Route::get('/profile', function () {
-        return view('profile.index');
-    })->name('profile.index');
+    Route::get('/profile', [UserController::class, 'show'])->name('profile.index');
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 /*
