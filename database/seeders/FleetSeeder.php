@@ -14,6 +14,26 @@ class FleetSeeder extends Seeder
     {
         $fleets = [
             [
+                'brand' => 'Mazda',
+                'type' => 'SUV',
+                'model' => 'CX-60 3.3L Kuro AWD',
+                'year' => '2024',
+                'color' => 'Soul Red Crystal',
+                'plate_number' => 'B 3300 MZD',
+                'transmission' => 'Automatic',
+                'fuel_type' => 'Hybrid',
+                'seat_capacity' => '5',
+                'price' => '1250000',
+                'availability' => 'available',
+                'image' => 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
+                'images' => [
+                    'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+                    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
+                    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80',
+                    'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
+                ],
+            ],
+            [
                 'brand' => 'Toyota',
                 'type' => 'MPV',
                 'model' => 'Innova Zenix 2.0 Q Hybrid',
@@ -26,6 +46,10 @@ class FleetSeeder extends Seeder
                 'price' => '650000',
                 'availability' => 'available',
                 'image' => 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+                'images' => [
+                    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
+                    'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80',
+                ],
             ],
             [
                 'brand' => 'Mitsubishi',
@@ -54,6 +78,10 @@ class FleetSeeder extends Seeder
                 'price' => '1750000',
                 'availability' => 'available',
                 'image' => 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80',
+                'images' => [
+                    'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+                    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80',
+                ],
             ],
             [
                 'brand' => 'Honda',

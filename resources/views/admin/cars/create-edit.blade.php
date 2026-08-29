@@ -15,8 +15,9 @@
                 {{ $isEdit ? 'Edit: ' . $car->brand . ' ' . $car->model . ' (' . $car->plate_number . ')' : 'Tambah Unit Baru' }}
             </span>
         </div>
-        <a href="{{ route('admin.cars.index') }}" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-            &larr; Kembali ke Daftar
+        <a href="{{ route('admin.cars.index') }}" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-all shadow-xs group">
+            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:-translate-x-0.5">arrow_back</span>
+            <span>Kembali ke Daftar</span>
         </a>
     </div>
 
