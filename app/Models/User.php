@@ -50,4 +50,38 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rental::class);
     }
+
+    /**
+     * Get the driving license photo full URL.
+     */
+    public function getDrivingLicensePhotoUrlAttribute(): ?string
+    {
+        if (! $this->driving_license_photo) {
+            return null;
+        }
+
+        if (str_starts_with($this->driving_license_photo, 'http://') || str_starts_with($this->driving_license_photo, 'https://')) {
+            return $this->driving_license_photo;
+        }
+
+        $path = ltrim(str_replace('public/storage/', '', $this->driving_license_photo), '/');
+
+        return asset('storage/'.$path);
+    }
+
+    /**
+     * Check if user SIM A is verified.
+     */
+    public function isVerified(): bool
+    {
+        return $this->verification_status === 'verified';
+    }
+
+    /**
+     * Check if user is an administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }

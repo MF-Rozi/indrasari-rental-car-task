@@ -165,6 +165,12 @@ test('admin rentals management loads with metrics and transaction table', functi
 
 test('admin users management loads with metrics and customer SIM list', function () {
     $admin = User::factory()->create(['role' => 'admin']);
+    $customer = User::factory()->create([
+        'name' => 'Budi Santoso',
+        'driving_license_number' => '1234-5678-9012',
+        'verification_status' => 'verified',
+    ]);
+
     $response = $this->actingAs($admin)->get('/admin/users');
 
     $response->assertStatus(200);
