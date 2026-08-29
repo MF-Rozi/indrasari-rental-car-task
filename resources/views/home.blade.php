@@ -24,7 +24,7 @@
                 </h1>
 
                 <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-                    Armada bersih, terawat, dan siap menemani perjalanan bisnis maupun liburan keluarga Anda. Tarif mulai dari <span class="text-white font-bold">Rp 350.000/hari</span> tanpa biaya tersembunyi.
+                    Armada bersih, terawat, dan siap menemani perjalanan bisnis maupun liburan keluarga Anda. Tarif mulai dari <span class="text-white font-bold">Rp {{ number_format($minDailyRate, 0, ',', '.') }}/hari</span> tanpa biaya tersembunyi.
                 </p>
             </div>
 
@@ -98,196 +98,86 @@
 
         <!-- Vehicle Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            
-            <!-- Car Card 1: Toyota Innova Zenix -->
-            <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                <!-- Vehicle Image -->
-                <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Toyota Innova Zenix" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Tersedia
-                        </span>
-                    </div>
-                    <div class="absolute top-3 right-3">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-black/60 backdrop-blur-md text-white">
-                            MPV Premium
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Card Body -->
-                <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                            <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 2419 IND</span>
+            @forelse($featuredCars as $car)
+                <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
+                    <!-- Vehicle Image -->
+                    <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
+                        <img src="{{ $car->image_url }}" alt="{{ $car->brand }} {{ $car->model }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="absolute top-3 left-3">
+                            @if($car->availability === 'available')
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Tersedia
+                                </span>
+                            @elseif($car->availability === 'rented')
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-800">
+                                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                    Sedang Disewa
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/70 dark:text-amber-300 dark:border-amber-800">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                    Perawatan
+                                </span>
+                            @endif
                         </div>
-                        <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                            Innova Zenix 2.0 Q Hybrid
-                        </h3>
-                    </div>
-
-                    <!-- Specs Chips -->
-                    <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                            <span>7 Kursi</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
-                            <span>Matic (CVT)</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                            <span>Hybrid</span>
+                        <div class="absolute top-3 right-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-black/60 backdrop-blur-md text-white">
+                                {{ $car->type ?? 'Armada Unggulan' }}
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Pricing & CTA -->
-                    <div class="flex items-center justify-between pt-1">
+                    <!-- Card Body -->
+                    <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                         <div>
-                            <span class="text-xs text-text-muted dark:text-text-muted-dark block">Tarif Sewa</span>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-xl font-bold text-on-surface dark:text-on-surface-dark">Rp 650.000</span>
-                                <span class="text-xs text-text-muted dark:text-text-muted-dark font-medium">/ hari</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">{{ $car->brand }}</span>
+                                <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">{{ $car->plate_number }}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
+                                {{ $car->model }} ({{ $car->year }})
+                            </h3>
+                        </div>
+
+                        <!-- Specs Chips -->
+                        <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
+                                <span>{{ $car->seat_capacity ?? 5 }} Kursi</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
+                                <span>{{ $car->transmission }}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
+                                <span>{{ $car->fuel_type ?? 'Bensin' }}</span>
                             </div>
                         </div>
-                        <a href="{{ url('/fleet/1') }}" class="py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5">
-                            <span>Detail & Pesan</span>
-                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Car Card 2: Toyota Alphard Executive Lounge -->
-            <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                <!-- Vehicle Image -->
-                <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Toyota Alphard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Tersedia
-                        </span>
-                    </div>
-                    <div class="absolute top-3 right-3">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-black/60 backdrop-blur-md text-white">
-                            Luxury VIP
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Card Body -->
-                <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                            <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 1008 SRI</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                            Alphard 2.5 Transformer VIP
-                        </h3>
-                    </div>
-
-                    <!-- Specs Chips -->
-                    <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                            <span>6 Kursi VIP</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
-                            <span>Matic (AT)</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                            <span>Bensin</span>
-                        </div>
-                    </div>
-
-                    <!-- Pricing & CTA -->
-                    <div class="flex items-center justify-between pt-1">
-                        <div>
-                            <span class="text-xs text-text-muted dark:text-text-muted-dark block">Tarif Sewa</span>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-xl font-bold text-on-surface dark:text-on-surface-dark">Rp 1.850.000</span>
-                                <span class="text-xs text-text-muted dark:text-text-muted-dark font-medium">/ hari</span>
+                        <!-- Pricing & CTA -->
+                        <div class="flex items-center justify-between pt-1">
+                            <div>
+                                <span class="text-xs text-text-muted dark:text-text-muted-dark block">Tarif Sewa</span>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-xl font-bold text-on-surface dark:text-on-surface-dark">Rp {{ number_format($car->price, 0, ',', '.') }}</span>
+                                    <span class="text-xs text-text-muted dark:text-text-muted-dark font-medium">/ hari</span>
+                                </div>
                             </div>
+                            <a href="{{ route('fleet.show', $car) }}" class="py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5">
+                                <span>Detail & Pesan</span>
+                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                            </a>
                         </div>
-                        <a href="{{ url('/fleet/2') }}" class="py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5">
-                            <span>Detail & Pesan</span>
-                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-                        </a>
                     </div>
                 </div>
-            </div>
-
-            <!-- Car Card 3: Toyota Avanza -->
-            <div class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-lg hover:border-primary/40 dark:hover:border-inverse-primary/40 transition-all group flex flex-col">
-                <!-- Vehicle Image -->
-                <div class="relative h-52 bg-surface-container dark:bg-surface-container-dark overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Toyota Avanza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute top-3 left-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Tersedia
-                        </span>
-                    </div>
-                    <div class="absolute top-3 right-3">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-black/60 backdrop-blur-md text-white">
-                            MPV Hemat
-                        </span>
-                    </div>
+            @empty
+                <div class="col-span-full py-12 text-center bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-8">
+                    <span class="material-symbols-outlined text-4xl text-text-muted">directions_car</span>
+                    <p class="text-sm font-semibold text-on-surface dark:text-on-surface-dark mt-2">Belum ada armada mobil yang ditampilkan saat ini.</p>
                 </div>
-
-                <!-- Card Body -->
-                <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Toyota</span>
-                            <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-surface-container dark:bg-surface-container-dark text-on-surface-variant dark:text-on-surface-variant-dark">B 1872 IND</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark mt-1 group-hover:text-primary dark:group-hover:text-inverse-primary transition-colors">
-                            All New Avanza 1.5 G
-                        </h3>
-                    </div>
-
-                    <!-- Specs Chips -->
-                    <div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/50 dark:border-outline-dark/50 text-xs text-text-muted dark:text-text-muted-dark">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">airline_seat_recline_normal</span>
-                            <span>7 Kursi</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">settings</span>
-                            <span>Matic (CVT)</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[18px] text-primary dark:text-inverse-primary">local_gas_station</span>
-                            <span>Bensin</span>
-                        </div>
-                    </div>
-
-                    <!-- Pricing & CTA -->
-                    <div class="flex items-center justify-between pt-1">
-                        <div>
-                            <span class="text-xs text-text-muted dark:text-text-muted-dark block">Tarif Sewa</span>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-xl font-bold text-on-surface dark:text-on-surface-dark">Rp 375.000</span>
-                                <span class="text-xs text-text-muted dark:text-text-muted-dark font-medium">/ hari</span>
-                            </div>
-                        </div>
-                        <a href="{{ url('/fleet/3') }}" class="py-2.5 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5">
-                            <span>Detail & Pesan</span>
-                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            @endforelse
         </div>
     </section>
 
@@ -311,7 +201,7 @@
                 </div>
                 <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Unit Bersih & Servis Rutin</h3>
                 <p class="text-sm text-text-muted dark:text-text-muted-dark leading-relaxed">
-                    Setiap unit melalui pengecekan mesin, tekanan ban, sistem AC, dan pembersihan menyeluruh sebelum diserahkan ke pelanggan.
+                    Setiap unit dari total <span class="font-bold text-primary dark:text-inverse-primary">{{ $totalFleets }} armada</span> kami melalui inspeksi mesin berkala, tekanan ban, sistem AC, dan sterilisasi sebelum diserahkan.
                 </p>
             </div>
 
@@ -322,7 +212,7 @@
                 </div>
                 <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Harga Pasti Tanpa Biaya Tersembunyi</h3>
                 <p class="text-sm text-text-muted dark:text-text-muted-dark leading-relaxed">
-                    Semua biaya dihitung transparan per hari. Tidak ada biaya tambahan mendadak saat pengambilan maupun pengembalian unit.
+                    Semua biaya dihitung transparan per hari mulai dari <span class="font-bold text-emerald-600 dark:text-emerald-400">Rp {{ number_format($minDailyRate, 0, ',', '.') }}</span>. Tidak ada biaya siluman saat serah terima unit.
                 </p>
             </div>
 
@@ -333,7 +223,7 @@
                 </div>
                 <h3 class="text-lg font-bold text-on-surface dark:text-on-surface-dark">Layanan & Bantuan 24/7</h3>
                 <p class="text-sm text-text-muted dark:text-text-muted-dark leading-relaxed">
-                    Tim customer support dan teknisi siaga 24 jam untuk membantu jika Anda memerlukan bantuan selama masa sewa.
+                    Tim customer support RSUD Indrasari siaga 24 jam untuk mendampingi Anda di setiap kilometer perjalanan.
                 </p>
             </div>
         </div>

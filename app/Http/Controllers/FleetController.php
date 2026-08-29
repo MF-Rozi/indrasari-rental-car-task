@@ -61,6 +61,31 @@ class FleetController extends Controller
     }
 
     /**
+     * Display the public landing page with featured fleets, stats, and lowest rate.
+     */
+    public function home(): View
+    {
+        $featuredCars = Fleet::where('availability', 'available')
+            ->latest('id')
+            ->take(3)
+            ->get();
+
+        if ($featuredCars->count() < 3) {
+            $fallback = Fleet::whereNotIn('id', $featuredCars->pluck('id'))
+                ->latest('id')
+                ->take(3 - $featuredCars->count())
+                ->get();
+            $featuredCars = $featuredCars->concat($fallback);
+        }
+
+        $totalFleets = Fleet::count();
+        $availableFleets = Fleet::where('availability', 'available')->count();
+        $minDailyRate = Fleet::min('price') ?? 350000;
+
+        return view('home', compact('featuredCars', 'totalFleets', 'availableFleets', 'minDailyRate'));
+    }
+
+    /**
      * Public catalog listing of all fleets.
      */
     public function publicIndex(Request $request): View

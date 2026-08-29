@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 | 1. Public Browsing Routes (No login required)
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [FleetController::class, 'home'])->name('home');
 
 Route::get('/fleet', [FleetController::class, 'publicIndex'])->name('fleet.index');
 Route::get('/fleet/{car}', [FleetController::class, 'publicShow'])->name('fleet.show');

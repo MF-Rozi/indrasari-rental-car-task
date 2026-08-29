@@ -8,6 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 test('homepage loads successfully with hero and featured cars', function () {
+    $car = Fleet::factory()->create([
+        'brand' => 'Toyota',
+        'model' => 'Innova Zenix 2.0 Q Hybrid',
+        'availability' => 'available',
+    ]);
+
     $response = $this->get('/');
 
     $response->assertStatus(200);
