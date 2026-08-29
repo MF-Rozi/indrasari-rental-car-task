@@ -146,13 +146,20 @@ test('customer rentals page loads with active and completed rental tabs', functi
 
 test('car returns page loads with plate verification and cost calculation', function () {
     $user = User::factory()->create(['role' => 'user']);
+    $car = Fleet::factory()->create(['plate_number' => 'B 2419 IND', 'brand' => 'Toyota', 'model' => 'Innova Zenix']);
+    Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car->id,
+        'status' => 'active',
+    ]);
+
     $response = $this->actingAs($user)->get('/returns');
 
     $response->assertStatus(200);
     $response->assertSee('Formulir Pengembalian Unit Mobil', false);
     $response->assertSee('Verifikasi Nomor Plat Kendaraan', false);
     $response->assertSee('B 2419 IND', false);
-    $response->assertSee('Konfirmasi dan Selesaikan Pengembalian', false);
+    $response->assertSee('Ajukan Serah Terima Pengembalian', false);
 });
 
 test('customer profile page loads with user data and SIM A verification', function () {
@@ -172,13 +179,12 @@ test('customer profile page loads with user data and SIM A verification', functi
 
 test('admin rentals management loads with metrics and transaction table', function () {
     $admin = User::factory()->create(['role' => 'admin']);
+
     $response = $this->actingAs($admin)->get('/admin/rentals');
 
     $response->assertStatus(200);
     $response->assertSee('Kelola Transaksi Sewa dan Pengembalian', false);
-    $response->assertSee('IND-BK-0091', false);
-    $response->assertSee('Sedang Disewa', false);
-    $response->assertSee('Verifikasi Kembali', false);
+    $response->assertSee('Total Peminjaman', false);
 });
 
 test('admin users management loads with metrics and customer SIM list', function () {

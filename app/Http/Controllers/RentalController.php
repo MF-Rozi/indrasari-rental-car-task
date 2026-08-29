@@ -156,4 +156,92 @@ class RentalController extends Controller
 
         return redirect()->route('rentals.index')->with('success', 'Pesanan sewa dengan kode '.$rental->rental_code.' berhasil dibatalkan.');
     }
+
+    /**
+     * Display a listing of all customer rental transactions for administrators.
+     */
+    public function adminIndex(Request $request): View
+    {
+        $search = $request->query('search');
+        $status = $request->query('status');
+
+        $query = Rental::with(['user', 'fleet'])->latest('created_at');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('rental_code', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhere('phone_number', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('fleet', function ($fq) use ($search) {
+                        $fq->where('brand', 'like', "%{$search}%")
+                            ->orWhere('model', 'like', "%{$search}%")
+                            ->orWhere('plate_number', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($status && $status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $rentals = $query->paginate(10)->withQueryString();
+
+        $stats = [
+            'total_rentals' => Rental::count(),
+            'active_rentals' => Rental::where('status', 'active')->count(),
+            'pending_return_rentals' => Rental::where('status', 'pending_return')->count(),
+            'completed_rentals' => Rental::where('status', 'completed')->count(),
+            'total_revenue' => (float) Rental::where('status', 'completed')->sum(DB::raw('total_price + COALESCE(penalty_price, 0)')),
+        ];
+
+        $filters = [
+            'search' => $search,
+            'status' => $status ?? 'all',
+        ];
+
+        return view('admin.rentals.index', compact('rentals', 'stats', 'filters'));
+    }
+
+    /**
+     * Confirm and complete vehicle physical return by an administrator.
+     */
+    public function adminConfirmReturn(Request $request, Rental $rental): RedirectResponse
+    {
+        if (! in_array($rental->status, ['active', 'pending_return'], true)) {
+            return back()->with('error', 'Transaksi sewa ini tidak dalam status yang dapat dikonfirmasi pengembaliannya.');
+        }
+
+        $validated = $request->validate([
+            'penalty_price' => ['nullable', 'numeric', 'min:0'],
+            'admin_notes' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $returnDate = now();
+        $autoPenalty = $rental->calculateLateFee($returnDate);
+        $finalPenalty = isset($validated['penalty_price']) && is_numeric($validated['penalty_price'])
+            ? (float) $validated['penalty_price']
+            : $autoPenalty;
+
+        DB::transaction(function () use ($rental, $returnDate, $finalPenalty, $validated) {
+            $notes = $rental->notes;
+            if (! empty($validated['admin_notes'])) {
+                $notes = $notes ? $notes."\n[Pemeriksaan Fisik Admin: ".$validated['admin_notes'].']' : 'Pemeriksaan Fisik Admin: '.$validated['admin_notes'];
+            }
+
+            $rental->update([
+                'status' => 'completed',
+                'return_date' => $returnDate->toDateString(),
+                'penalty_price' => (string) $finalPenalty,
+                'notes' => $notes,
+            ]);
+
+            // Set car back to available
+            $rental->fleet->update(['availability' => 'available']);
+        });
+
+        return redirect()->route('admin.rentals.index')->with('success', 'Pengembalian unit mobil '.$rental->fleet->brand.' '.$rental->fleet->model.' ('.$rental->fleet->plate_number.') berhasil diverifikasi! Transaksi telah selesai dan armada kembali Tersedia.');
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FleetController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,9 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/rentals', [RentalController::class, 'store'])->name('rentals.store');
     Route::delete('/rentals/{rental}', [RentalController::class, 'cancel'])->name('rentals.cancel');
 
-    Route::get('/returns', function () {
-        return view('returns.index');
-    })->name('returns.index');
+    Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
+    Route::post('/returns/verify', [ReturnController::class, 'verify'])->name('returns.verify');
+    Route::post('/returns', [ReturnController::class, 'store'])->name('returns.store');
 
     Route::get('/profile', [UserController::class, 'show'])->name('profile.index');
     Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
@@ -80,9 +81,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/cars/{car}', [FleetController::class, 'destroy'])->name('cars.destroy');
     Route::patch('/cars/{car}/status', [FleetController::class, 'updateStatus'])->name('cars.status');
 
-    Route::get('/rentals', function () {
-        return view('admin.rentals.index');
-    })->name('rentals.index');
+    Route::get('/rentals', [RentalController::class, 'adminIndex'])->name('rentals.index');
+    Route::patch('/rentals/{rental}/confirm-return', [RentalController::class, 'adminConfirmReturn'])->name('rentals.confirm-return');
 
     Route::get('/users', [UserController::class, 'adminIndex'])->name('users.index');
     Route::patch('/users/{user}/verify', [UserController::class, 'verifySim'])->name('users.verify');
