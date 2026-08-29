@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FleetController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\ReturnController;
@@ -42,9 +43,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'customerDashboard'])->name('dashboard');
 
     Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index');
     Route::post('/rentals', [RentalController::class, 'store'])->name('rentals.store');
@@ -65,13 +64,8 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
-    })->name('dashboard');
-
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard.index');
-    })->name('dashboard.index');
+    Route::get('/', [DashboardController::class, 'adminDashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard.index');
 
     Route::get('/cars', [FleetController::class, 'index'])->name('cars.index');
     Route::get('/cars/create', [FleetController::class, 'create'])->name('cars.create');

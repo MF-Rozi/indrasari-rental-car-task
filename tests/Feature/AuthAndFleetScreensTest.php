@@ -36,7 +36,14 @@ test('login and register routes render auth page directly with active tab', func
 });
 
 test('dedicated customer dashboard loads with active booking and stats', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->create(['role' => 'user', 'name' => 'Budi Santoso']);
+    $car = Fleet::factory()->create(['brand' => 'Toyota', 'model' => 'Innova Zenix 2.0 Q', 'plate_number' => 'B 2419 IND']);
+    Rental::factory()->create([
+        'user_id' => $user->id,
+        'fleet_id' => $car->id,
+        'status' => 'active',
+    ]);
+
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertStatus(200);
@@ -93,9 +100,9 @@ test('admin executive dashboard loads with revenue, utilization and live rentals
 
     $response->assertStatus(200);
     $response->assertSee('Pusat Kontrol Rental Indrasari', false);
-    $response->assertSee('Pendapatan Bulan Ini', false);
-    $response->assertSee('Monitoring Unit Sedang Disewa', false);
-    $response->assertSee('Antrean Verifikasi SIM A', false);
+    $response->assertSee('Total Pendapatan Selesai', false);
+    $response->assertSee('Komposisi Status Operasional Armada Mobil', false);
+    $response->assertSee('Antrean Verifikasi Legalitas SIM A', false);
 });
 
 test('admin cars index loads with metric badges and vehicle table', function () {
@@ -202,4 +209,30 @@ test('admin users management loads with metrics and customer SIM list', function
     $response->assertSee('SIM A Terverifikasi', false);
     $response->assertSee('Budi Santoso', false);
     $response->assertSee('1234-5678-9012', false);
+});
+
+test('admin executive dashboard loads with financial metrics, fleet composition, and queues', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+    $customer = User::factory()->create([
+        'name' => 'Budi Santoso',
+        'verification_status' => 'verified',
+    ]);
+    $car = Fleet::factory()->create(['plate_number' => 'B 2419 IND', 'brand' => 'Toyota', 'model' => 'Innova Zenix']);
+    Rental::factory()->create([
+        'user_id' => $customer->id,
+        'fleet_id' => $car->id,
+        'rental_code' => 'IND-BK-202608-0091',
+        'status' => 'completed',
+        'total_price' => 1950000,
+    ]);
+
+    $response = $this->actingAs($admin)->get('/admin/dashboard');
+
+    $response->assertStatus(200);
+    $response->assertSee('Pusat Kontrol Rental Indrasari', false);
+    $response->assertSee('Total Pendapatan Selesai', false);
+    $response->assertSee('Komposisi Status Operasional Armada Mobil', false);
+    $response->assertSee('Antrean Pengembalian Fisik Unit', false);
+    $response->assertSee('Antrean Verifikasi Legalitas SIM A', false);
+    $response->assertSee('IND-BK-202608-0091', false);
 });

@@ -62,6 +62,11 @@
 
 - Satu transaksi pemesanan berlaku untuk **1 unit mobil**.
 - Pelanggan memasukkan tanggal mulai dan tanggal selesai sewa serta memilih unit mobil yang diinginkan.
+- Sistem menghitung durasi sewa hari kalender inklusif:
+  - **Rumus:** `Durasi Sewa = (Tanggal Selesai - Tanggal Mulai) + 1 Hari`
+  - *Contoh: Sewa mulai 28 Agustus s.d. 30 Agustus dihitung 3 hari penuh.*
+- Sistem menghitung estimasi subtotal biaya pokok:
+  - **Rumus:** `Subtotal Sewa Pokok = Tarif Harian Mobil × Durasi Sewa (Hari)`
 - Hanya pelanggan dengan akun **Terverifikasi** yang dapat menyelesaikan formulir booking.
 - Pengecekan ketersediaan sistem: unit tidak dapat dipilih jika mobil berstatus `MAINTENANCE` atau terdapat transaksi `PENDING`/`ACTIVE`/`PENDING_RETURN` pada rentang tanggal yang saling bertabrakan (*overlap*).
 - Data peminjaman tersimpan ke dalam database dan status awal diset menjadi `ACTIVE` (atau `PENDING`).
@@ -71,11 +76,13 @@
 - Pengguna mengajukan pengembalian mobil sewaan dengan memasukkan nomor plat kendaraan atau memilih dari daftar sewa aktif di dashboard/booking page.
 - Sistem memverifikasi bahwa nomor plat tersebut benar-benar sedang aktif disewa oleh pengguna yang bersangkutan.
 - Sistem menghitung durasi sewa hari kalender inklusif:
-  `Durasi Hari = (Tanggal Selesai - Tanggal Mulai) + 1 Hari`
-- Sistem menghitung denda keterlambatan secara otomatis jika tanggal pengembalian melebihi tanggal selesai sewa:
-  `Denda = Hari Keterlambatan * Tarif Denda per Hari`
+  - **Rumus:** `Durasi Sewa = (Tanggal Selesai - Tanggal Mulai) + 1 Hari`
+- Sistem menghitung denda keterlambatan secara otomatis jika pengembalian melewati tanggal selesai sewa:
+  - **Hari Keterlambatan:** `Tanggal Pengembalian Aktual - Tanggal Selesai Sewa`
+  - **Rumus Denda:** `Denda Keterlambatan = Hari Keterlambatan × Tarif Harian Mobil`
+  - *(Jika dikembalikan tepat waktu atau lebih awal, denda adalah Rp 0).*
 - Sistem menghitung total biaya yang wajib dibayar saat serah terima pengembalian:
-  `Total Biaya = (Tarif Harian * Durasi Hari) + Denda`
+  - **Rumus Pelunasan:** `Total Biaya Pelunasan = Subtotal Sewa Pokok + Denda Keterlambatan`
 - Setelah pengguna mengonfirmasi pengajuan pengembalian, status transaksi berubah menjadi `PENDING_RETURN` hingga diverifikasi oleh Admin.
 
 ### Logout
@@ -112,6 +119,7 @@
 
 - Menampilkan galeri foto kendaraan dan badge status ketersediaan unit.
 - Menampilkan spesifikasi teknis lengkap (transmisi, jenis bahan bakar, kapasitas penumpang, bagasi, dan fitur keselamatan).
-- Menyediakan kalkulator estimasi tarif sewa interaktif berdasarkan tanggal sewa yang dipilih.
+- Menyediakan kalkulator estimasi tarif sewa interaktif berdasarkan tanggal sewa yang dipilih:
+  - **Rumus:** `Estimasi Total Biaya = Tarif Harian Mobil × ((Tanggal Selesai - Tanggal Mulai) + 1 Hari)`
 - Menampilkan syarat & ketentuan sewa (Wajib SIM A terverifikasi, e-KTP, dan deposit).
 - Tombol pemesanan langsung (*Booking CTA*) yang mengarahkan ke form pemesanan jika sudah login & terverifikasi.
