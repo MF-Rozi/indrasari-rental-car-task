@@ -210,3 +210,31 @@ test('admin can access admin routes successfully', function () {
     $this->actingAs($admin)->get('/admin/rentals')->assertStatus(200);
     $this->actingAs($admin)->get('/admin/users')->assertStatus(200);
 });
+
+test('navigation bar only displays accessible menu items for guests, users, and admins', function () {
+    // 1. Guest
+    $guestResponse = $this->get('/');
+    $guestResponse->assertStatus(200);
+    $guestResponse->assertSee('Armada Mobil');
+    $guestResponse->assertSee('Masuk');
+    $guestResponse->assertSee('Daftar');
+    $guestResponse->assertDontSee('Sewa Saya');
+    $guestResponse->assertDontSee('admin_panel_settings');
+
+    // 2. Regular User / Customer
+    $customer = User::factory()->create(['role' => 'user']);
+    $userResponse = $this->actingAs($customer)->get('/');
+    $userResponse->assertStatus(200);
+    $userResponse->assertSee('Dashboard');
+    $userResponse->assertSee('Sewa Saya');
+    $userResponse->assertSee('Pengembalian');
+    $userResponse->assertDontSee('admin_panel_settings');
+
+    // 3. Administrator
+    $admin = User::factory()->create(['role' => 'admin']);
+    $adminResponse = $this->actingAs($admin)->get('/');
+    $adminResponse->assertStatus(200);
+    $adminResponse->assertSee('Dashboard');
+    $adminResponse->assertSee('Sewa Saya');
+    $adminResponse->assertSee('admin_panel_settings');
+});

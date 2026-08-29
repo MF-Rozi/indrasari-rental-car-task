@@ -59,24 +59,30 @@
                 <a href="{{ url('/') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('/') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Beranda
                 </a>
-                <a href="{{ url('/dashboard') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('dashboard*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
-                    Dashboard
-                </a>
                 <a href="{{ url('/fleet') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('fleet*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
                     Armada Mobil
                 </a>
-                <a href="{{ url('/rentals') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('rentals*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
-                    Sewa Saya
-                </a>
-                <a href="{{ url('/returns') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('returns*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
-                    Pengembalian
-                </a>
-                <a href="{{ url('/admin/cars') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60">
-                    <span class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
-                        Admin
-                    </span>
-                </a>
+
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('dashboard*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                        Dashboard
+                    </a>
+                    <a href="{{ url('/rentals') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('rentals*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                        Sewa Saya
+                    </a>
+                    <a href="{{ url('/returns') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 {{ request()->is('returns*') ? 'text-primary dark:text-inverse-primary bg-surface-container dark:bg-surface-container-dark' : 'text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60' }}">
+                        Pengembalian
+                    </a>
+
+                    @if(auth()->user()->role === 'admin')
+                        <a href="{{ url('/admin/dashboard') }}" class="px-3 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60">
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+                                Admin
+                            </span>
+                        </a>
+                    @endif
+                @endauth
             </nav>
 
             <!-- Actions & User Section -->
@@ -133,26 +139,30 @@
             <a href="{{ url('/') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                 Beranda
             </a>
-            <a href="{{ url('/dashboard') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-                Dashboard Pelanggan
-            </a>
             <a href="{{ url('/fleet') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
                 Armada Mobil
             </a>
-            <a href="{{ url('/rentals') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-                Sewa Saya (Aktivitas)
-            </a>
-            <a href="{{ url('/returns') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-                Pengembalian Mobil
-            </a>
-            <a href="{{ url('/profile') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-                Profil & SIM A Saya
-            </a>
-            <a href="{{ url('/admin/cars') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors">
-                Panel Admin
-            </a>
 
             @auth
+                <a href="{{ url('/dashboard') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                    Dashboard Pelanggan
+                </a>
+                <a href="{{ url('/rentals') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                    Sewa Saya (Aktivitas)
+                </a>
+                <a href="{{ url('/returns') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                    Pengembalian Mobil
+                </a>
+                <a href="{{ url('/profile') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
+                    Profil & SIM A Saya
+                </a>
+
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ url('/admin/dashboard') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors">
+                        Panel Admin
+                    </a>
+                @endif
+
                 <div class="pt-3 pb-1 border-t border-outline-variant/40 dark:border-outline-dark/40 space-y-2">
                     <div class="flex items-center gap-3 px-3 py-2 bg-surface-container/60 dark:bg-surface-container-dark/60 rounded-lg">
                         <div class="w-9 h-9 rounded-full bg-primary/20 text-primary dark:text-inverse-primary flex items-center justify-center text-xs font-bold shrink-0">
@@ -225,10 +235,18 @@
                     <h3 class="font-semibold text-sm text-on-surface dark:text-on-surface-dark uppercase tracking-wider mb-4">Navigasi Cepat</h3>
                     <ul class="space-y-2.5 text-sm text-text-muted dark:text-text-muted-dark">
                         <li><a href="{{ url('/') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Beranda</a></li>
-                        <li><a href="{{ url('/dashboard') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Dashboard Pelanggan</a></li>
                         <li><a href="{{ url('/fleet') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Cari Armada Mobil</a></li>
-                        <li><a href="{{ url('/rentals') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Sewa Saya</a></li>
-                        <li><a href="{{ url('/returns') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Pengembalian Mobil</a></li>
+                        @auth
+                            <li><a href="{{ url('/dashboard') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Dashboard Pelanggan</a></li>
+                            <li><a href="{{ url('/rentals') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Sewa Saya</a></li>
+                            <li><a href="{{ url('/returns') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Pengembalian Mobil</a></li>
+                            @if(auth()->user()->role === 'admin')
+                                <li><a href="{{ url('/admin/dashboard') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Panel Admin</a></li>
+                            @endif
+                        @else
+                            <li><a href="{{ route('login') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Masuk Akun</a></li>
+                            <li><a href="{{ route('register') }}" class="hover:text-primary dark:hover:text-inverse-primary transition-colors">Daftar Akun Baru</a></li>
+                        @endauth
                     </ul>
                 </div>
 
