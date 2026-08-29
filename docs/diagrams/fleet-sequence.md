@@ -19,37 +19,37 @@ sequenceDiagram
     participant DB as MySQL Database
 
     Customer->>Browser: Akses Halaman Katalog (/fleet) dengan opsi filter
-    Browser->>Route: GET /fleet?search=...&type=...&transmission=...&fuel_type=...
+    Browser->>Route: GET /fleet (search, type, transmission, fuel_type)
     Route->>FleetCtrl: publicIndex(Request $request)
     
     FleetCtrl->>Model: Fleet::query()
     
-    opt Parameter 'search' terisi
-        FleetCtrl->>Model: where(brand, 'like', '%') or where(model, 'like', '%') or where(plate_number, 'like', '%')
+    opt Parameter search terisi
+        FleetCtrl->>Model: where brand, model, atau plate_number match keyword
     end
     
-    opt Parameter 'type' terisi & != 'all'
+    opt Parameter type dipilih spesifik
         FleetCtrl->>Model: where('type', $type)
     end
     
-    opt Parameter 'transmission' terisi & != 'all'
+    opt Parameter transmission dipilih spesifik
         FleetCtrl->>Model: where('transmission', $transmission)
     end
     
-    opt Parameter 'fuel_type' terisi & != 'all'
+    opt Parameter fuel_type dipilih spesifik
         FleetCtrl->>Model: where('fuel_type', $fuel_type)
     end
     
-    FleetCtrl->>Model: orderByRaw("availability = 'available' desc")->paginate(9)->withQueryString()
-    Model->>DB: Eksekusi SQL Query & Pagination
-    DB-->>Model: Return Koleksi $fleets & Metadata Paginasi
+    FleetCtrl->>Model: orderByRaw availability available first, paginate 9 per page
+    Model->>DB: Eksekusi SQL Query dan Pagination
+    DB-->>Model: Return Koleksi $fleets dan Metadata Paginasi
     
-    FleetCtrl->>Model: Fleet::count() & Fleet::where('availability', 'available')->count()
-    Model->>DB: Query Total Armada & Unit Siap Sewa
-    DB-->>Model: Return $totalCount & $availableCount
+    FleetCtrl->>Model: Query count total armada dan unit available
+    Model->>DB: Eksekusi count query
+    DB-->>Model: Return $totalCount dan $availableCount
     
     FleetCtrl-->>Browser: Render view fleet.index.blade.php ($fleets, $filters, $stats)
-    Browser-->>Customer: Tampilkan kartu armada mobil responsif & kontrol paginasi
+    Browser-->>Customer: Tampilkan kartu armada mobil responsif dan kontrol paginasi
 ```
 
 ---
@@ -68,36 +68,36 @@ sequenceDiagram
     participant Model as Fleet Model
     participant DB as MySQL Database
 
-    Customer->>Browser: Klik "Detail & Pesan →" pada salah satu mobil
+    Customer->>Browser: Klik Detail dan Pesan pada salah satu mobil
     Browser->>Route: GET /fleet/{car}
     Route->>FleetCtrl: publicShow(Fleet $car)
     
-    FleetCtrl->>Model: Fleet::where('availability', 'available')->where('id', '!=', $car->id)->where('type', $car->type)->take(3)->get()
-    Model->>DB: Query armada serupa yang tersedia
+    FleetCtrl->>Model: Query unit serupa yang tersedia berdasarkan tipe yang sama
+    Model->>DB: Eksekusi SELECT related fleets LIMIT 3
     DB-->>Model: Return $relatedCars
     
     FleetCtrl-->>Browser: Render view fleet.show.blade.php ($car, $relatedCars)
-    Browser-->>Customer: Tampilkan foto utama, spesifikasi bento, & widget kalkulator sewa
+    Browser-->>Customer: Tampilkan foto utama, spesifikasi bento, dan widget kalkulator sewa
 
     opt Pengunjung Mengklik Thumbnail Galeri
-        Customer->>Browser: Klik salah satu thumbnail foto (misal: interior / belakang)
-        Browser->>Browser: JavaScript switchShowcaseImage(imgUrl, thumbElement)
-        Browser-->>Customer: Update hero image stage & beri border aktif pada thumbnail terpilih
+        Customer->>Browser: Klik salah satu thumbnail foto (misal foto interior atau belakang)
+        Browser->>Browser: Eksekusi JavaScript switchShowcaseImage(imgUrl, thumbElement)
+        Browser-->>Customer: Update foto panggung utama dan aktifkan border thumbnail terpilih
     end
 
-    opt Pengunjung Mengubah Tanggal Mulai / Tanggal Selesai
-        Customer->>Browser: Pilih Tanggal Mulai (Start Date) & Tanggal Selesai (End Date)
-        Browser->>Browser: JavaScript calculateRentalPrice()
-        Browser->>Browser: Hitung selisih hari = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
-        Browser->>Browser: Subtotal = durasiHari * tarifHarian; Total = Subtotal + biayaAsuransi
-        Browser-->>Customer: Perbarui label durasi hari, rincian biaya, dan total estimasi harga secara real-time
+    opt Pengunjung Mengubah Tanggal Mulai atau Tanggal Selesai
+        Customer->>Browser: Pilih Tanggal Mulai dan Tanggal Selesai
+        Browser->>Browser: Eksekusi JavaScript calculateRentalPrice()
+        Browser->>Browser: Hitung selisih hari penyewaan
+        Browser->>Browser: Hitung total tarif sewa harian ditambah proteksi asuransi
+        Browser-->>Customer: Perbarui label durasi hari, rincian biaya, dan total estimasi harga secara instan
     end
 
-    Customer->>Browser: Klik "Pesan Mobil Ini Sekarang"
-    alt User Belum Login
-        Browser-->>Customer: Arahkan ke /login dengan parameter redirect
-    else User Sudah Login & SIM Terverifikasi
-        Browser-->>Customer: Arahkan ke alur checkout sewa (/rentals/create?car_id=...)
+    Customer->>Browser: Klik Pesan Mobil Ini Sekarang
+    alt Pengguna Belum Login
+        Browser-->>Customer: Arahkan ke halaman /login
+    else Pengguna Sudah Login dan SIM Terverifikasi
+        Browser-->>Customer: Arahkan ke form pemesanan sewa (/rentals/create?car_id=id)
     end
 ```
 
@@ -113,54 +113,54 @@ sequenceDiagram
     actor Admin as Admin Operasional
     participant Browser as Web Browser (Admin Panel)
     participant Route as routes/web.php (prefix: admin)
-    participant Middleware as Auth & Admin Middleware
+    participant Middleware as Auth dan Admin Middleware
     participant FleetCtrl as FleetController
     participant Storage as File Storage (public disk)
     participant DB as MySQL Database
 
     Admin->>Browser: Buka formulir Tambah Mobil (/admin/cars/create) atau Edit (/admin/cars/{id}/edit)
     Browser->>Route: GET /admin/cars/create atau /admin/cars/{car}/edit
-    Route->>Middleware: Verifikasi autentikasi & role == 'admin'
+    Route->>Middleware: Verifikasi autentikasi dan role admin
     Middleware->>FleetCtrl: create() atau edit(Fleet $car)
     FleetCtrl-->>Browser: Render view admin.cars.create-edit.blade.php
     
-    Admin->>Browser: Lengkapi form spesifikasi, pilih cover image, & upload file galeri tambahan
+    Admin->>Browser: Lengkapi data spesifikasi, pilih cover image, dan upload berkas galeri
     Browser->>Route: POST /admin/cars atau PUT /admin/cars/{car} (multipart/form-data)
     Route->>Middleware: Verifikasi hak akses admin
     Middleware->>FleetCtrl: store(Request $request) atau update(Request $request, Fleet $car)
     
     FleetCtrl->>FleetCtrl: Validasi merek, model, tahun, plat nomor unik, tipe, harga, dan file gambar
     alt Validasi Gagal
-        FleetCtrl-->>Browser: Redirect back with errors & old input
+        FleetCtrl-->>Browser: Redirect back with errors and old input
     end
 
-    opt Ada Berkas Foto Cover Utama Baru Diunggah
+    opt Berkas Foto Cover Utama Baru Diunggah
         FleetCtrl->>Storage: $request->file('image_file')->store('fleets', 'public')
-        Storage-->>FleetCtrl: Return $primaryPath
+        Storage-->>FleetCtrl: Return path cover image baru
     end
 
-    opt Ada Berkas Foto Galeri Tambahan Diunggah
+    opt Berkas Foto Galeri Tambahan Diunggah
         loop Setiap berkas galeri baru
             FleetCtrl->>Storage: $file->store('fleets/gallery', 'public')
-            Storage-->>FleetCtrl: Tambahkan path baru ke array $galleryImages
+            Storage-->>FleetCtrl: Tambahkan path baru ke koleksi $galleryImages
         end
     end
 
-    opt (Mode Edit) Admin Mencentang Foto Galeri yang Dihapus
+    opt Mode Edit dan Admin Mencentang Foto Galeri yang Dihapus
         loop Setiap foto yang dicentang
             FleetCtrl->>Storage: Hapus file fisik dari disk public jika ada
-            FleetCtrl->>FleetCtrl: Hapus path dari array $existingGallery
+            FleetCtrl->>FleetCtrl: Hapus path dari array galeri mobil
         end
     end
 
     alt Mode Store (Mobil Baru)
-        FleetCtrl->>DB: Fleet::create(data, image=$primaryPath, images=$galleryImages)
+        FleetCtrl->>DB: Fleet::create(data, image, images)
     else Mode Update (Edit Mobil)
-        FleetCtrl->>DB: $car->update(data, image=$primaryPath, images=$updatedGallery)
+        FleetCtrl->>DB: $car->update(data, image, images)
     end
-    DB-->>FleetCtrl: Record Armada Berhasil Disimpan
+    DB-->>FleetCtrl: Record armada berhasil disimpan ke database
 
-    FleetCtrl-->>Browser: Redirect to /admin/cars with success notification ('Unit berhasil disimpan')
+    FleetCtrl-->>Browser: Redirect to /admin/cars dengan flash message sukses
     Browser-->>Admin: Tampilkan daftar tabel armada terbaru
 ```
 
@@ -175,38 +175,38 @@ sequenceDiagram
     autonumber
     actor Admin as Admin Operasional
     participant Browser as Web Browser (Admin Panel)
-    participant DOM as JavaScript openCarDetailModal(carData)
+    participant DOM as JavaScript openCarDetailModal
     participant Route as routes/web.php
     participant FleetCtrl as FleetController
     participant DB as MySQL Database
 
-    Admin->>Browser: Klik baris unit mobil (Nama Unit / Foto Thumbnail / Ikon Mata 👁️)
+    Admin->>Browser: Klik baris unit mobil (Nama Unit, Foto Thumbnail, atau Ikon Mata)
     Browser->>DOM: Panggil fungsi openCarDetailModal(carPayload)
-    DOM->>DOM: Injeksi data (nama, plat, harga, tahun, warna, transmisi, BBM, kapasitas) ke elemen modal
-    DOM->>DOM: Render foto utama & generate tombol thumbnail strip galeri (#modalGalleryList)
-    DOM->>DOM: Update status form action URL (/admin/cars/{id}/status) & value dropdown
-    DOM->>DOM: Tampilkan #carDetailModal dengan animasi fade-in & scale-up
-    Browser-->>Admin: Modal Dossier terbuka menampilkan rincian spesifikasi & metrik sewa
+    DOM->>DOM: Injeksi data spesifikasi lengkap ke elemen modal
+    DOM->>DOM: Render foto cover dan buat tombol thumbnail galeri foto
+    DOM->>DOM: Set endpoint update status (/admin/cars/{id}/status) dan pilih value aktif
+    DOM->>DOM: Tampilkan elemen #carDetailModal dengan animasi fade-in
+    Browser-->>Admin: Modal Dossier terbuka menampilkan rincian spesifikasi dan riwayat sewa
 
     opt Admin Mengklik Thumbnail Galeri di Dalam Modal
         Admin->>DOM: Klik salah satu thumbnail foto galeri
-        DOM-->>Admin: Ganti foto pratinjau utama (#modalMainImg) secara instan
+        DOM-->>Admin: Ganti foto pratinjau utama (#modalMainImg) seketika
     end
 
     opt Admin Mengubah Status Ketersediaan Cepat di Modal
-        Admin->>DOM: Ubah dropdown status (misal: 'Tersedia' -> 'Servis / Perawatan')
+        Admin->>DOM: Ubah dropdown status (misal Tersedia menjadi Servis / Perawatan)
         DOM->>Route: Submit form PATCH /admin/cars/{car}/status
         Route->>FleetCtrl: updateStatus(Request $request, Fleet $car)
-        FleetCtrl->>FleetCtrl: Validasi availability in:available,rented,maintenance
+        FleetCtrl->>FleetCtrl: Validasi availability (available, rented, maintenance)
         FleetCtrl->>DB: $car->update(['availability' => $request->availability])
-        DB-->>FleetCtrl: Status Berhasil Diperbarui
-        FleetCtrl-->>Browser: Redirect back with success message ('Status armada berhasil diperbarui')
-        Browser-->>Admin: Tabel armada ter-refresh dengan badge status baru
+        DB-->>FleetCtrl: Status ketersediaan berhasil diperbarui
+        FleetCtrl-->>Browser: Redirect back dengan notifikasi sukses
+        Browser-->>Admin: Tabel armada ter-refresh dengan badge status terbaru
     end
 
     opt Admin Menutup Modal
-        Admin->>DOM: Klik tombol 'Tutup', ikon 'X', backdrop, atau tekan tombol 'Escape'
-        DOM->>DOM: Animasi fade-out & sembunyikan #carDetailModal
+        Admin->>DOM: Klik tombol Tutup, ikon silang, backdrop, atau tekan tombol Escape
+        DOM->>DOM: Jalankan animasi fade-out dan sembunyikan elemen modal
         Browser-->>Admin: Kembali ke tampilan tabel armada
     end
 ```
