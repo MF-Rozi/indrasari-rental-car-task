@@ -18,12 +18,14 @@ test('auth page loads with sign-in and registration tabs', function () {
     $response->assertSee('Nomor SIM A', false);
 });
 
-test('login and register routes redirect to auth page with tab parameters', function () {
+test('login and register routes render auth page directly with active tab', function () {
     $loginResponse = $this->get('/login');
-    $loginResponse->assertRedirect(route('auth', ['tab' => 'signin']));
+    $loginResponse->assertStatus(200);
+    $loginResponse->assertSee('Masuk Akun');
 
     $registerResponse = $this->get('/register');
-    $registerResponse->assertRedirect(route('auth', ['tab' => 'register']));
+    $registerResponse->assertStatus(200);
+    $registerResponse->assertSee('Daftar Baru');
 });
 
 test('dedicated customer dashboard loads with active booking and stats', function () {

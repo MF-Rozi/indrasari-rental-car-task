@@ -96,16 +96,29 @@
 
                 <!-- Profile & Auth Actions -->
                 <div class="hidden sm:flex items-center gap-2">
-                    <a href="{{ url('/profile') }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors">
-                        <span class="w-6 h-6 rounded-full bg-primary/20 text-primary dark:text-inverse-primary flex items-center justify-center text-xs font-bold">BS</span>
-                        <span>Profil</span>
-                    </a>
-                    <a href="{{ url('/auth?tab=signin') }}" class="px-3.5 py-2 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 rounded-lg transition-colors">
-                        Masuk
-                    </a>
-                    <a href="{{ url('/auth?tab=register') }}" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-primary hover:bg-primary-hover text-white shadow-sm shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0">
-                        Daftar
-                    </a>
+                    @auth
+                        <a href="{{ url('/profile') }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary transition-colors max-w-[200px]" title="Lihat Profil ({{ auth()->user()->name }})">
+                            <span class="w-6 h-6 rounded-full bg-primary/20 text-primary dark:text-inverse-primary flex items-center justify-center text-xs font-bold shrink-0">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                            </span>
+                            <span class="truncate">{{ auth()->user()->name }}</span>
+                        </a>
+
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-text-muted dark:text-text-muted-dark hover:text-red-600 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer" title="Keluar dari Akun">
+                                <span class="material-symbols-outlined text-[16px]">logout</span>
+                                <span>Keluar</span>
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="px-3.5 py-2 text-xs font-semibold text-on-surface-variant dark:text-on-surface-variant-dark hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container/60 dark:hover:bg-surface-container-dark/60 rounded-lg transition-colors">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-primary hover:bg-primary-hover text-white shadow-sm shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0">
+                            Daftar
+                        </a>
+                    @endauth
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -138,16 +151,48 @@
             <a href="{{ url('/admin/cars') }}" class="block px-3 py-2 rounded-lg text-base font-medium text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-dark transition-colors">
                 Panel Admin
             </a>
-            <div class="pt-3 border-t border-outline-variant/40 dark:border-outline-dark/40 flex flex-col gap-2">
-                <a href="{{ url('/auth?tab=signin') }}" class="w-full text-center py-2.5 text-sm font-semibold border border-slate-300 dark:border-slate-700 text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary rounded-lg transition-colors">
-                    Masuk
-                </a>
-                <a href="{{ url('/auth?tab=register') }}" class="w-full text-center py-2.5 text-sm font-semibold bg-primary hover:bg-primary-hover text-white rounded-lg shadow-sm">
-                    Daftar Akun Baru
-                </a>
-            </div>
+
+            @auth
+                <div class="pt-3 pb-1 border-t border-outline-variant/40 dark:border-outline-dark/40 space-y-2">
+                    <div class="flex items-center gap-3 px-3 py-2 bg-surface-container/60 dark:bg-surface-container-dark/60 rounded-lg">
+                        <div class="w-9 h-9 rounded-full bg-primary/20 text-primary dark:text-inverse-primary flex items-center justify-center text-xs font-bold shrink-0">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                            <span class="font-semibold text-sm text-on-surface dark:text-on-surface-dark truncate">{{ auth()->user()->name }}</span>
+                            <span class="text-xs text-text-muted dark:text-text-muted-dark truncate">{{ auth()->user()->email }}</span>
+                        </div>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" class="w-full">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-semibold border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-[18px]">logout</span>
+                            <span>Keluar Akun</span>
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="pt-3 border-t border-outline-variant/40 dark:border-outline-dark/40 flex flex-col gap-2">
+                    <a href="{{ route('login') }}" class="w-full text-center py-2.5 text-sm font-semibold border border-slate-300 dark:border-slate-700 text-on-surface dark:text-on-surface-dark hover:bg-surface-container dark:hover:bg-surface-container-dark hover:text-primary dark:hover:text-inverse-primary rounded-lg transition-colors">
+                        Masuk
+                    </a>
+                    <a href="{{ route('register') }}" class="w-full text-center py-2.5 text-sm font-semibold bg-primary hover:bg-primary-hover text-white rounded-lg shadow-sm">
+                        Daftar Akun Baru
+                    </a>
+                </div>
+            @endauth
         </div>
     </header>
+
+    <!-- Global Session Feedback Alert -->
+    @if(session('success') && !request()->is('auth*'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-2.5 shadow-xs">
+                <span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400 shrink-0">check_circle</span>
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
 
     <!-- Main Content Canvas -->
     <main class="flex-1">

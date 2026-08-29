@@ -124,11 +124,11 @@
         <div class="p-4 border-t border-outline-variant/50 dark:border-outline-dark/50 bg-surface dark:bg-surface-dark/50 transition-colors duration-300">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-[#1e2f47] flex items-center justify-center font-bold text-primary dark:text-inverse-primary">
-                    AD
+                    {{ strtoupper(substr(auth()->user()->name ?? 'AD', 0, 2)) }}
                 </div>
                 <div class="flex flex-col min-w-0">
-                    <span class="font-semibold text-sm truncate text-on-surface dark:text-on-surface-dark">Admin Indrasari</span>
-                    <span class="text-xs text-text-muted dark:text-text-muted-dark truncate">admin@indrasari.co.id</span>
+                    <span class="font-semibold text-sm truncate text-on-surface dark:text-on-surface-dark">{{ auth()->user()->name ?? 'Admin Indrasari' }}</span>
+                    <span class="text-xs text-text-muted dark:text-text-muted-dark truncate">{{ auth()->user()->email ?? 'admin@indrasari.co.id' }}</span>
                 </div>
             </div>
         </div>
@@ -157,9 +157,13 @@
                     </span>
                 </button>
 
-                <a href="{{ url('/auth') }}" class="px-3.5 py-1.5 text-xs font-semibold text-text-muted dark:text-text-muted-dark border border-slate-300 dark:border-slate-700 rounded-lg hover:border-red-500 hover:text-red-600 dark:hover:border-red-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors">
-                    Keluar
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="px-3.5 py-1.5 text-xs font-semibold text-text-muted dark:text-text-muted-dark border border-slate-300 dark:border-slate-700 rounded-lg hover:border-red-500 hover:text-red-600 dark:hover:border-red-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px]">logout</span>
+                        <span>Keluar</span>
+                    </button>
+                </form>
             </div>
         </header>
 

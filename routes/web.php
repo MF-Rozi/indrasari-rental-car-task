@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 // Public & Customer Routes
@@ -7,17 +8,16 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/auth', function () {
-    return view('auth.auth');
-})->name('auth');
+// Authentication Routes
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'auth'])->name('login.post');
 
-Route::get('/login', function () {
-    return redirect()->route('auth', ['tab' => 'signin']);
-})->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store'])->name('register.post');
 
-Route::get('/register', function () {
-    return redirect()->route('auth', ['tab' => 'register']);
-})->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/auth', [AuthController::class, 'login'])->name('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
