@@ -137,7 +137,7 @@ sequenceDiagram
 
     RentalCtrl->>RentalCtrl: Validasi status sewa in ('active', 'pending_return')
     RentalCtrl->>DB: DB::transaction()
-    RentalCtrl->>DB: Update $rental (status = 'completed', return_date = now(), penalty_price, notes)
+    RentalCtrl->>DB: Update $rental (status = 'completed', return_date = now(), penalty_price, admin_notes)
     RentalCtrl->>DB: Update $rental->fleet (availability = 'available')
     DB-->>RentalCtrl: Transaksi Sukses & Commit
 
@@ -149,7 +149,7 @@ sequenceDiagram
 
 ## 4. 🧾 Alur Kuitansi & Faktur Pelunasan Resmi (Settlement Invoice Flow)
 
-Diagram alur saat admin atau pelanggan mencetak kuitansi resmi setelah transaksi dinyatakan selesai (`completed`).
+Diagram alur saat admin atau pelanggan mencetak kuitansi resmi setelah transaksi dinyatakan selesai (`completed`), lengkap dengan rincian biaya pokok, denda keterlambatan/kerusakan, catatan keperluan sewa pelanggan, dan berita acara serah terima admin.
 
 ```mermaid
 sequenceDiagram
@@ -163,7 +163,9 @@ sequenceDiagram
     Browser->>DOM: Panggil openInvoiceModal(rentalPayload)
     DOM->>DOM: Injeksi Kop Surat Resmi RSUD Indrasari
     DOM->>DOM: Injeksi Kode Booking, Identitas Penyewa, Spek Kendaraan, & Plat
-    DOM->>DOM: Render Rincian Total Sewa + Denda Keterlambatan (Status: LUNAS)
+    DOM->>DOM: Render Rincian: Sewa Pokok + Denda Keterlambatan = Total Akhir
+    DOM->>DOM: Render Keperluan Sewa Pelanggan (#invoiceCustomerNotesContainer) jika ada
+    DOM->>DOM: Render Berita Acara Serah Terima Admin (#invoiceAdminNotesContainer) jika ada
     DOM-->>Actor: Modal Kuitansi Resmi Terbuka
 
     opt Cetak Dokumen

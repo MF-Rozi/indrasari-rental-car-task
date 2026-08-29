@@ -49,6 +49,7 @@ erDiagram
 
     RENTALS {
         bigint id PK "Auto Increment"
+        string rental_code UK "Kode Booking Transaksi (e.g. IND-BK-YYYYMM-XXXX)"
         bigint user_id FK "References USERS(id)"
         bigint fleet_id FK "References FLEETS(id)"
         date start_date "Tanggal Mulai Sewa"
@@ -56,10 +57,11 @@ erDiagram
         date return_date "Tanggal Pengembalian Aktual (Nullable)"
         string daily_rate "Tarif Sewa Harian saat Transaksi"
         int total_days "Jumlah Hari Kalender Sewa"
-        string total_price "Total Biaya Sewa"
-        string penalty_price "Denda Keterlambatan (Default: 0)"
+        string total_price "Total Biaya Sewa Pokok"
+        string penalty_price "Denda Keterlambatan / Kerusakan (Default: 0)"
         enum status "pending, active, pending_return, completed, cancelled"
-        text notes "Catatan Tambahan (Nullable)"
+        text notes "Keperluan Sewa / Catatan Pelanggan (Nullable)"
+        text admin_notes "Catatan Pemeriksaan Fisik & Serah Terima Admin (Nullable)"
         timestamp created_at
         timestamp updated_at
     }
@@ -124,8 +126,12 @@ Menyimpan data katalog armada mobil:
 
 Menyimpan data transaksi pemesanan (_booking_) dan pengembalian (_return_):
 
+- `rental_code`: Kode transaksi unik terstandarisasi (`IND-BK-YYYYMM-XXXX`, `UNIQUE`).
 - `user_id`: Foreign Key ke `users.id` (`onDelete: CASCADE`).
 - `fleet_id`: Foreign Key ke `fleets.id` (`onDelete: CASCADE`).
+- `penalty_price`: Nominal denda keterlambatan dan/atau biaya ganti rugi fisik yang diverifikasi admin saat serah terima.
+- `notes`: Catatan / keperluan perjalanan yang diinput oleh Pelanggan saat booking.
+- `admin_notes`: Berita acara hasil pemeriksaan fisik, kondisi bodi, bahan bakar, dan kelengkapan surat yang dicatat oleh Admin saat serah terima.
 - `status`:
     - `pending`: Menunggu konfirmasi pengambilan unit.
     - `active`: Unit sedang aktif digunakan pelanggan.

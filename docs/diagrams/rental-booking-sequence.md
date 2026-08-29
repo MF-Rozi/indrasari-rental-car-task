@@ -127,7 +127,9 @@ sequenceDiagram
     DOM->>DOM: Injeksi Identitas Penyewa (Nama, Email, No HP, No SIM A)
     DOM->>DOM: Injeksi Spesifikasi Mobil (Merek, Model, Plat, Transmisi, Warna)
     DOM->>DOM: Injeksi Rincian Jadwal (Mulai, Selesai, Total Hari Inklusif)
-    DOM->>DOM: Render Tabel Rincian Biaya (Tarif Harian x Hari, Asuransi, Total Bayar)
+    DOM->>DOM: Render Tabel Biaya (Sewa Pokok, Baris Denda Keterlambatan/Kerusakan, Grand Total)
+    DOM->>DOM: Render Catatan Keperluan Sewa Pelanggan (#invoiceCustomerNotesContainer)
+    DOM->>DOM: Render Catatan Berita Acara Serah Terima Admin (#invoiceAdminNotesContainer)
     DOM->>DOM: Tampilkan #rentalInvoiceModal dengan latar backdrop blur
     Browser-->>User: Modal Kuitansi & Faktur Digital terbuka di layar
 
