@@ -185,3 +185,28 @@ test('navbar displays user name and logout button when logged in, and guest butt
     $authResponse->assertSee('Keluar');
     $authResponse->assertDontSee('Masuk');
 });
+
+test('unauthenticated guests cannot access customer protected routes and are redirected to login', function () {
+    $this->get('/dashboard')->assertRedirect('/login');
+    $this->get('/rentals')->assertRedirect('/login');
+    $this->get('/returns')->assertRedirect('/login');
+    $this->get('/profile')->assertRedirect('/login');
+});
+
+test('regular customer cannot access admin routes and receives 403 forbidden', function () {
+    $customer = User::factory()->create(['role' => 'user']);
+
+    $this->actingAs($customer)->get('/admin/dashboard')->assertForbidden();
+    $this->actingAs($customer)->get('/admin/cars')->assertForbidden();
+    $this->actingAs($customer)->get('/admin/rentals')->assertForbidden();
+    $this->actingAs($customer)->get('/admin/users')->assertForbidden();
+});
+
+test('admin can access admin routes successfully', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $this->actingAs($admin)->get('/admin/dashboard')->assertStatus(200);
+    $this->actingAs($admin)->get('/admin/cars')->assertStatus(200);
+    $this->actingAs($admin)->get('/admin/rentals')->assertStatus(200);
+    $this->actingAs($admin)->get('/admin/users')->assertStatus(200);
+});
