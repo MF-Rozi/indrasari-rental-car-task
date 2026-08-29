@@ -1,58 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=300&q=80" width="120" style="border-radius: 24px;" alt="Indrasari Rental Car Logo" />
 </p>
 
-## About Laravel
+<h1 align="center">🚗 Indrasari Rental Car Platform</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <strong>Aplikasi Manajemen Persewaan Mobil Modern, Responsif & Terintegrasi</strong><br>
+  Dibangun dengan <strong>Laravel 13 (PHP 8.5)</strong>, <strong>Tailwind CSS v4</strong>, <strong>Blade Templating</strong>, dan <strong>MySQL</strong>.
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 13" />
+  <img src="https://img.shields.io/badge/PHP-8.5-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.5" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS v4" />
+  <img src="https://img.shields.io/badge/Pest_PHP-89_Passed_(100%25)-00D26A?style=for-the-badge&logo=pest&logoColor=white" alt="Pest Tests" />
+  <img src="https://img.shields.io/badge/Laravel_Pint-Passed-000000?style=for-the-badge" alt="Laravel Pint" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License MIT" />
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📖 Tentang Aplikasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Indrasari Rental Car Platform** adalah sistem persewaan mobil menyeluruh yang dirancang untuk kebutuhan operasional RSUD Indrasari dan masyarakat umum. Sistem ini menyediakan alur bisnis lengkap mulai dari eksplorasi armada publik, verifikasi dua tahap dokumen SIM A pelanggan, pemesanan anti-tabrakan jadwal sewa, sistem pengembalian mandiri dengan verifikasi plat instan, kalkulasi denda keterlambatan dinamis, hingga pusat kontrol eksekutif real-time bagi administrator.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## ✨ Fitur Utama Sistem
 
-## Agentic Development
+### 1. 🌐 Portal Publik & Tamu (*Guest*)
+- **Landing Page Interaktif**: Banner promosi utama, widget pencarian ketersediaan mobil berdasarkan tanggal & jenis transmisi, showcase armada unggulan, dan bento keunggulan layanan.
+- **Katalog Armada Lengkap (`/fleet`)**: Pencarian multi-kriteria (merek/model), filter transmisi (Manual/Matic), dan filter ketersediaan unit (*Ready / Disewa / Bengkel*).
+- **Detail Spesifikasi Mobil (`/fleet/{car}`)**: Galeri foto kendaraan, spesifikasi teknis (bahan bakar, kapasitas penumpang, bagasi, tahun), kalkulator estimasi tarif interaktif, dan tombol booking langsung.
+- **Autentikasi Aman (`/login` & `/register`)**: Validasi nomor SIM A dan email unik, hashing password standar `bcrypt`, dan sesi login terlindungi.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 2. 👤 Portal Pelanggan (*Customer*)
+- **Executive Customer Dashboard (`/dashboard`)**:
+  - Kartu Komando Sewa Aktif (*Active Booking Card*): Foto unit, nomor plat, kode booking, jadwal sewa, sisa hari, alert keterlambatan otomatis, dan tombol cepat *Kembalikan Mobil*.
+  - Status Legalitas SIM A (*Driver Terverifikasi* / *Menunggu Review* / *Ditolak*).
+  - Bento Metrik Personal (*Total Peminjaman, Unit Aktif, Sewa Selesai, Total Pengeluaran*).
+  - Tabel 4 riwayat transaksi sewa terakhir.
+- **Manajemen Profil & Legalitas (`/profile`)**: Update data kontak, upload foto fisik SIM A dan e-KTP, serta ubah password akun.
+- **Pemesanan Mobil Anti-Tabrakan (`POST /rentals`)**: Proteksi wajib SIM A terverifikasi (*Verified Driver*), pencegahan tabrakan tanggal sewa (*date collision guard*), dan penomoran kode booking unik `IND-BK-YYYYMM-XXXX`.
+- **Portal "Sewa Saya" (`/rentals`)**: Tab transaksi aktif vs selesai, rincian biaya sewa inklusif, kuitansi digital resmi RSUD Indrasari, dan tombol pembatalan pesanan sebelum masa sewa aktif.
+- **Pengembalian Mobil Mandiri (`/returns`)**: Form pencocokan plat nomor dengan kapitalisasi otomatis & *quick chips*, verifikasi AJAX live lookup kepemilikan sewa, rincian denda otomatis, dan pengajuan serah terima status `pending_return`.
+
+### 3. 🏢 Pusat Kontrol Administrator (*Admin*)
+- **Operational Central Dashboard (`/admin/dashboard`)**:
+  - Banner status operasional real-time dengan 3 tombol pintasan cepat berindikator badge antrean.
+  - Bento KPI Finansial & Operasional (*Total Pendapatan Selesai, Pendapatan Bulan Berjalan, Kesiapan Armada, Pengguna Terverifikasi*).
+  - **Fleet Status Composition Bar**: Visual progress bar proporsional (*Tersedia, Sedang Disewa, Perawatan Bengkel*) dengan persentase utilisasi.
+  - **Action Required Queues**: Antrean pengembalian fisik unit & antrean validasi dokumen SIM A pendaftar baru.
+  - Tabel 5 transaksi peminjaman terbaru di seluruh platform.
+- **Manajemen Armada Mobil (`/admin/cars`)**: CRUD lengkap data mobil, upload foto unit, dan quick switch status ketersediaan (`available`, `rented`, `maintenance`).
+- **Manajemen Pengguna & Verifikasi Dokumen (`/admin/users`)**: Review dokumen SIM A & e-KTP resolusi tinggi, aksi *Verifikasi SIM* (memberikan izin sewa) atau *Tolak Verifikasi* (dengan catatan perbaikan), serta promosi role admin/user.
+- **Manajemen Transaksi & Serah Terima Fisik (`/admin/rentals`)**: Filter transaksi multi-status, modal inspeksi kondisi fisik unit (`#returnVerifyModal`), penyesuaian denda/catatan petugas, dan konfirmasi pengembalian yang otomatis mereset mobil menjadi `available`.
+
+---
+
+## 🧮 Logika Bisnis & Formula Perhitungan
+
+Aplikasi menerapkan standar perhitungan finansial dan durasi yang adil dan transparan:
+
+1. **Durasi Sewa Hari Kalender Inklusif**:
+   $$\text{Durasi Sewa (Hari)} = (\text{Tanggal Selesai} - \text{Tanggal Mulai}) + 1 \text{ Hari}$$
+   *Contoh: Sewa mulai 28 Agustus s.d. 30 Agustus dihitung 3 hari penuh.*
+
+2. **Subtotal Sewa Pokok**:
+   $$\text{Subtotal Sewa Pokok} = \text{Tarif Harian Mobil} \times \text{Durasi Sewa (Hari)}$$
+
+3. **Denda Keterlambatan Dinamis**:
+   $$\text{Hari Terlambat} = \max(0, \, \text{Tanggal Pengembalian Aktual} - \text{Tanggal Selesai Sewa})$$
+   $$\text{Denda Keterlambatan} = \text{Hari Terlambat} \times \text{Tarif Harian Mobil}$$
+   *(Denda Rp 0 jika dikembalikan tepat waktu atau lebih awal).*
+
+4. **Total Pelunasan Akhir Transaksi**:
+   $$\text{Total Pelunasan} = \text{Subtotal Sewa Pokok} + \text{Denda Keterlambatan}$$
+
+---
+
+## 🗂️ Dokumentasi Arsitektur & Sequence Diagrams
+
+Diagram teknis berbasis **Mermaid** tersedia secara lengkap di direktori `docs/diagrams/`:
+
+- [📐 Diagram Relasi Database (ERD)](docs/diagrams/erd.md)
+- [🔐 Alur Autentikasi & Registrasi Pengguna](docs/diagrams/auth-sequence.md)
+- [🚗 Alur Katalog Publik & CRUD Armada Mobil](docs/diagrams/fleet-sequence.md)
+- [🪪 Alur Verifikasi SIM A & Manajemen Pengguna](docs/diagrams/user-management-sequence.md)
+- [📅 Alur Pemesanan Sewa & Portal "Sewa Saya"](docs/diagrams/rental-booking-sequence.md)
+- [🔄 Alur Pengembalian Mobil & Rekonsiliasi Denda](docs/diagrams/returns-sequence.md)
+- [📊 Alur Pusat Komando & Executive Dashboards](docs/diagrams/dashboard-sequence.md)
+
+---
+
+## 🚀 Panduan Instalasi & Menjalankan Proyek
+
+### Prasyarat Sistem:
+- PHP >= 8.2 (Disarankan PHP 8.5)
+- Composer
+- Node.js >= 18 & NPM
+- MySQL Database
+
+### Langkah-Langkah Instalasi:
+
+1. **Clone Repository**:
+   ```bash
+   git clone https://github.com/MF-Rozi/indrasari-rental-car-task.git
+   cd indrasari-rental-car-task
+   ```
+
+2. **Install Dependensi Backend & Frontend**:
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Konfigurasi Environment (`.env`)**:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   *Sesuaikan konfigurasi database `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` pada file `.env`.*
+
+4. **Migrasi Database & Seeding Data Dummy**:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+
+5. **Kompilasi Aset Frontend (Tailwind CSS v4 & Vite)**:
+   ```bash
+   npm run build
+   ```
+
+6. **Jalankan Web Server Lokal**:
+   ```bash
+   php artisan serve
+   ```
+   Buka browser di `http://127.0.0.1:8000`.
+
+---
+
+## 🔑 Kredensial Akun Bawaan (Default Seeders)
+
+| Role / Peran | Email | Password | Hak Akses & Status |
+|---|---|---|---|
+| **Super Admin** | `admin@rsudindrasari.com` | `password` | Akses penuh dashboard operasional admin (`/admin`) |
+| **Verified Driver** | `customer@example.com` | `password` | Pelanggan dengan SIM A terverifikasi sah (Dapat memesan mobil) |
+| **Pending Driver** | `pending@example.com` | `password` | Pelanggan baru yang sedang menunggu review SIM A oleh admin |
+
+---
+
+## 🧪 Pengujian & Standar Kualitas (*Quality Assurance*)
+
+Proyek ini dilengkapi dengan **89 Pest Feature Tests** dengan **395 assertions** mencakup seluruh boundary keamanan, otorisasi, dan validasi transaksi:
 
 ```bash
-composer require laravel/boost --dev
+# Menjalankan seluruh test suite Pest
+vendor/bin/pest
 
-php artisan boost:install
+# Menjalankan pemeriksaan format kode Laravel Pint
+vendor/bin/pint --format agent
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 📄 Lisensi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proyek ini dilisensikan di bawah lisensi terbuka [MIT License](LICENSE).
